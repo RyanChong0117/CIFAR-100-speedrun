@@ -75,7 +75,7 @@ def main() -> None:
                 original_epoch_images = module.epoch_images
                 module.epoch_images = wrap(original_epoch_images, "data augmentation")
                 state.sgd.step = wrap(state.sgd.step, "SGD step (head, biases)")
-                state.filter_opt.step = wrap(state.filter_opt.step, "filter optimizer step")
+                state.muon.step = wrap(state.muon.step, "Muon step (conv filters)")
             torch.cuda.synchronize()
             t = time.perf_counter()
             module.train(state)
