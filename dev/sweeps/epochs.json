@@ -1,0 +1,42 @@
+[
+  {
+    "mode": "harness",
+    "submission": "baseline_resnet9",
+    "n": 3,
+    "params": {
+      "epochs": 20,
+      "experiment_name": "baseline_20ep",
+      "hypothesis": "Shorter one-cycle schedule anneals earlier; find min epochs keeping mean acc >= 75%."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "baseline_resnet9",
+    "n": 3,
+    "params": {
+      "epochs": 25,
+      "experiment_name": "baseline_25ep",
+      "hypothesis": "Shorter one-cycle schedule anneals earlier; find min epochs keeping mean acc >= 75%."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "baseline_resnet9",
+    "n": 3,
+    "params": {
+      "epochs": 30,
+      "experiment_name": "baseline_30ep",
+      "hypothesis": "Shorter one-cycle schedule anneals earlier; find min epochs keeping mean acc >= 75%."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "baseline_resnet9",
+    "n": 3,
+    "params": {
+      "epochs": 35,
+      "experiment_name": "baseline_35ep",
+      "hypothesis": "Shorter one-cycle schedule anneals earlier; find min epochs keeping mean acc >= 75%."
+    }
+  }
+]

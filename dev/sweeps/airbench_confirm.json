@@ -1,0 +1,34 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "depth": 3,
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 12,
+      "experiment_name": "ab_depth3_w128-512-512_12ep_n10",
+      "hypothesis": "75.44% over 2 seeds; 10 seeds checks the 0.44pt margin holds."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "depth": 3,
+      "widths": [
+        128,
+        384,
+        512
+      ],
+      "epochs": 14,
+      "experiment_name": "ab_depth3_w128-384-512_14ep_n10",
+      "hypothesis": "Narrower net ~1s faster but 2-seed mean 75.05% with 0.7pt spread; 10 seeds tells if it's viable."
+    }
+  }
+]

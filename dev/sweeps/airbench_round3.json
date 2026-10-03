@@ -1,0 +1,114 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 24,
+      "depth": 3,
+      "experiment_name": "ab_depth3_w128-512-512_24ep",
+      "hypothesis": "Plateau at ~74% across epochs and width suggests the 6-conv, non-residual net is capacity/depth-limited for 100 classes; airbench96 depth (3 convs/group + residual) should lift it."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        384,
+        512
+      ],
+      "epochs": 24,
+      "depth": 3,
+      "experiment_name": "ab_depth3_w128-384-512_24ep",
+      "hypothesis": "Plateau at ~74% across epochs and width suggests the 6-conv, non-residual net is capacity/depth-limited for 100 classes; airbench96 depth (3 convs/group + residual) should lift it. (airbench96 widths)"
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 16,
+      "depth": 3,
+      "experiment_name": "ab_depth3_w128-512-512_16ep",
+      "hypothesis": "Plateau at ~74% across epochs and width suggests the 6-conv, non-residual net is capacity/depth-limited for 100 classes; airbench96 depth (3 convs/group + residual) should lift it. Shorter run to see time/acc tradeoff."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 24,
+      "label_smoothing": 0.1,
+      "experiment_name": "ab_ls0.1",
+      "hypothesis": "airbench's label smoothing (0.2) and Muon lr were tuned for 10 classes; 100 classes may want different regularisation / step size."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 24,
+      "muon_lr": 0.12,
+      "experiment_name": "ab_muonlr0.12",
+      "hypothesis": "airbench's label smoothing (0.2) and Muon lr were tuned for 10 classes; 100 classes may want different regularisation / step size."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 24,
+      "muon_lr": 0.48,
+      "experiment_name": "ab_muonlr0.48",
+      "hypothesis": "airbench's label smoothing (0.2) and Muon lr were tuned for 10 classes; 100 classes may want different regularisation / step size."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 24,
+      "batch_size": 1000,
+      "experiment_name": "ab_bs1000",
+      "hypothesis": "With 500 imgs/class, a 2000 batch averages few examples per class; batch 1000 doubles optimizer steps at similar compute."
+    }
+  }
+]

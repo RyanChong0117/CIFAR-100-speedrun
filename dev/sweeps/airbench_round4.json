@@ -1,0 +1,98 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "depth": 3,
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 10,
+      "experiment_name": "ab_depth3_w128-512-512_10ep",
+      "hypothesis": "Depth-3 hit 75.6% at 16 epochs; with ~0.6pt margin, 10-14 epochs may still clear 75% and save ~1s/epoch. 128-384-512 had best accuracy and narrower mid-layer, may be faster per epoch."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "depth": 3,
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 12,
+      "experiment_name": "ab_depth3_w128-512-512_12ep",
+      "hypothesis": "Depth-3 hit 75.6% at 16 epochs; with ~0.6pt margin, 10-14 epochs may still clear 75% and save ~1s/epoch. 128-384-512 had best accuracy and narrower mid-layer, may be faster per epoch."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "depth": 3,
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 14,
+      "experiment_name": "ab_depth3_w128-512-512_14ep",
+      "hypothesis": "Depth-3 hit 75.6% at 16 epochs; with ~0.6pt margin, 10-14 epochs may still clear 75% and save ~1s/epoch. 128-384-512 had best accuracy and narrower mid-layer, may be faster per epoch."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "depth": 3,
+      "widths": [
+        128,
+        384,
+        512
+      ],
+      "epochs": 10,
+      "experiment_name": "ab_depth3_w128-384-512_10ep",
+      "hypothesis": "Depth-3 hit 75.6% at 16 epochs; with ~0.6pt margin, 10-14 epochs may still clear 75% and save ~1s/epoch. 128-384-512 had best accuracy and narrower mid-layer, may be faster per epoch."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "depth": 3,
+      "widths": [
+        128,
+        384,
+        512
+      ],
+      "epochs": 12,
+      "experiment_name": "ab_depth3_w128-384-512_12ep",
+      "hypothesis": "Depth-3 hit 75.6% at 16 epochs; with ~0.6pt margin, 10-14 epochs may still clear 75% and save ~1s/epoch. 128-384-512 had best accuracy and narrower mid-layer, may be faster per epoch."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "depth": 3,
+      "widths": [
+        128,
+        384,
+        512
+      ],
+      "epochs": 14,
+      "experiment_name": "ab_depth3_w128-384-512_14ep",
+      "hypothesis": "Depth-3 hit 75.6% at 16 epochs; with ~0.6pt margin, 10-14 epochs may still clear 75% and save ~1s/epoch. 128-384-512 had best accuracy and narrower mid-layer, may be faster per epoch."
+    }
+  }
+]

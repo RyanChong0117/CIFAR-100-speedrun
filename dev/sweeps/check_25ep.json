@@ -1,0 +1,5 @@
+[
+  {"mode": "harness", "submission": "baseline_resnet9", "n": 10,
+   "params": {"epochs": 25, "experiment_name": "baseline_25ep_n10",
+              "hypothesis": "25 epochs cleared 75% by only 0.36pp over 3 seeds; 10 seeds tests whether the mean holds."}}
+]

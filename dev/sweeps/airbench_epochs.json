@@ -1,0 +1,77 @@
+[
+  {
+    "mode": "curve",
+    "submission": "airbench_muon",
+    "seed": 0,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 24,
+      "experiment_name": "airbench_w128-512-512_24ep_curve_fixwarmup",
+      "hypothesis": "Warmup through the real train path removes in-trial recompiles (epoch-1 spike)."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        384,
+        384
+      ],
+      "epochs": 28,
+      "experiment_name": "airbench_w128-384-384_28ep_v2",
+      "hypothesis": "Width 128-512-512 reached 74.1% at 24 epochs; ~0.8s/epoch suggests a few more epochs buys the last point cheaply."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        384,
+        384
+      ],
+      "epochs": 32,
+      "experiment_name": "airbench_w128-384-384_32ep_v2",
+      "hypothesis": "Width 128-512-512 reached 74.1% at 24 epochs; ~0.8s/epoch suggests a few more epochs buys the last point cheaply."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 28,
+      "experiment_name": "airbench_w128-512-512_28ep_v2",
+      "hypothesis": "Width 128-512-512 reached 74.1% at 24 epochs; ~0.8s/epoch suggests a few more epochs buys the last point cheaply."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 32,
+      "experiment_name": "airbench_w128-512-512_32ep_v2",
+      "hypothesis": "Width 128-512-512 reached 74.1% at 24 epochs; ~0.8s/epoch suggests a few more epochs buys the last point cheaply."
+    }
+  }
+]

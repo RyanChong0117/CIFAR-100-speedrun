@@ -1,0 +1,92 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        64,
+        256,
+        256
+      ],
+      "epochs": 16,
+      "experiment_name": "airbench_w64-256-256_16ep",
+      "hypothesis": "Airbench widths are tuned for 10 classes; 100 classes with 500 imgs/class likely need more capacity and epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        384,
+        384
+      ],
+      "epochs": 16,
+      "experiment_name": "airbench_w128-384-384_16ep",
+      "hypothesis": "Airbench widths are tuned for 10 classes; 100 classes with 500 imgs/class likely need more capacity and epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 16,
+      "experiment_name": "airbench_w128-512-512_16ep",
+      "hypothesis": "Airbench widths are tuned for 10 classes; 100 classes with 500 imgs/class likely need more capacity and epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 24,
+      "experiment_name": "airbench_w128-512-512_24ep",
+      "hypothesis": "Airbench widths are tuned for 10 classes; 100 classes with 500 imgs/class likely need more capacity and epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "widths": [
+        256,
+        512,
+        512
+      ],
+      "epochs": 24,
+      "experiment_name": "airbench_w256-512-512_24ep",
+      "hypothesis": "Airbench widths are tuned for 10 classes; 100 classes with 500 imgs/class likely need more capacity and epochs."
+    }
+  },
+  {
+    "mode": "curve",
+    "submission": "airbench_muon",
+    "seed": 0,
+    "params": {
+      "widths": [
+        128,
+        512,
+        512
+      ],
+      "epochs": 24,
+      "experiment_name": "airbench_w128-512-512_24ep_curve",
+      "hypothesis": "Airbench widths are tuned for 10 classes; 100 classes with 500 imgs/class likely need more capacity and epochs."
+    }
+  }
+]

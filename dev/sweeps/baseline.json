@@ -1,0 +1,8 @@
+[
+  {"mode": "harness", "submission": "baseline_resnet9", "n": 2,
+   "params": {"experiment_name": "baseline_40ep",
+              "hypothesis": "Reference ResNet9 recipe; should land near the organizers' 75% / 59 s on A100 PCIe."}},
+  {"mode": "curve", "submission": "baseline_resnet9", "seed": 0,
+   "params": {"experiment_name": "baseline_40ep_curve",
+              "hypothesis": "Accuracy-vs-time curve shows how early 75% is reached and how much epoch budget is spare."}}
+]
