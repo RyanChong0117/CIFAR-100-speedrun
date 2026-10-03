@@ -140,6 +140,17 @@ def curve(
     save_locally(training_curve.remote(submission, seed, json.loads(params), eval_every))
 
 
+@app.function(**{**GPU_FUNCTION, "timeout": 10800})
+def performance_study(stage: str, n: int, mode: str) -> dict:
+    return run_and_collect(["dev.airbench_perf", "--stage", stage,
+                            "--n", str(n), "--mode", mode])
+
+
+@app.local_entrypoint()
+def performance(stage: str = "profile", n: int = 3, mode: str = "default"):
+    save_locally(performance_study.remote(stage, n, mode))
+
+
 @app.local_entrypoint()
 def sweep(file: str):
     """Run every experiment in a JSON list in parallel, one A100 per experiment.

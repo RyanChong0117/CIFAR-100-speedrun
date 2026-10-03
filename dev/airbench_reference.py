@@ -36,7 +36,7 @@ DEFAULTS = {
     "whiten_bias_epochs": 3,
     "bn_momentum": 0.6,
     "compile": True,
-    "compile_mode": "max-autotune",  # "max-autotune" compiles much longer in build()
+    "compile_mode": "default",  # "max-autotune" compiles much longer in build()
 }
 
 CIFAR100_MEAN = (0.5071, 0.4865, 0.4409)
