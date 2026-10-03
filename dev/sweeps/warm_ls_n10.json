@@ -1,0 +1,57 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "lr_warmup_frac": 0.05,
+      "label_smoothing": 0.3,
+      "experiment_name": "c_warm_ls0.3_8ep",
+      "hypothesis": "Re-check after head_lr 3.0: warmup 0.05 (+0.29) and label smoothing 0.3 (+0.19) helped at 8 epochs (4 seeds). If they stack, 7 epochs may clear 75.5% and save ~1s."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "lr_warmup_frac": 0.05,
+      "label_smoothing": 0.3,
+      "epochs": 7,
+      "experiment_name": "c_warm_ls0.3_7ep",
+      "hypothesis": "Re-check after head_lr 3.0: warmup 0.05 (+0.29) and label smoothing 0.3 (+0.19) helped at 8 epochs (4 seeds). If they stack, 7 epochs may clear 75.5% and save ~1s."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "lr_warmup_frac": 0.05,
+      "epochs": 7,
+      "experiment_name": "c_warm_7ep",
+      "hypothesis": "Re-check after head_lr 3.0: warmup 0.05 (+0.29) and label smoothing 0.3 (+0.19) helped at 8 epochs (4 seeds). If they stack, 7 epochs may clear 75.5% and save ~1s."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "label_smoothing": 0.3,
+      "epochs": 7,
+      "experiment_name": "c_ls0.3_7ep",
+      "hypothesis": "Re-check after head_lr 3.0: warmup 0.05 (+0.29) and label smoothing 0.3 (+0.19) helped at 8 epochs (4 seeds). If they stack, 7 epochs may clear 75.5% and save ~1s."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "label_smoothing": 0.4,
+      "experiment_name": "c_ls0.4_8ep",
+      "hypothesis": "Re-check after head_lr 3.0: warmup 0.05 (+0.29) and label smoothing 0.3 (+0.19) helped at 8 epochs (4 seeds). If they stack, 7 epochs may clear 75.5% and save ~1s."
+    }
+  }
+]

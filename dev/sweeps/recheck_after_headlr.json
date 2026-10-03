@@ -1,0 +1,91 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "label_smoothing": 0.1,
+      "experiment_name": "re_ls0.1",
+      "hypothesis": "head_lr went 0.67 -> 3.0 (+~1pt); a stronger head may want different regularisation."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "label_smoothing": 0.3,
+      "experiment_name": "re_ls0.3",
+      "hypothesis": "head_lr went 0.67 -> 3.0 (+~1pt); a stronger head may want different regularisation."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "depth": [
+        3,
+        2,
+        3
+      ],
+      "experiment_name": "re_d323_8ep",
+      "hypothesis": "Depth [3,2,3] cut 19% of MACs for -0.34pt before the head_lr change; the new margin may now pay for it."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "depth": [
+        3,
+        2,
+        3
+      ],
+      "epochs": 9,
+      "experiment_name": "re_d323_9ep",
+      "hypothesis": "Depth [3,2,3] cut 19% of MACs for -0.34pt before the head_lr change; the new margin may now pay for it. 9 epochs of the cheaper net is still less compute than 8 of the current one."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_lr": 0.2,
+      "experiment_name": "re_muonlr0.2",
+      "hypothesis": "Muon lr 0.2 tied 0.24 before; recheck with the new head."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "bias_lr": 0.1,
+      "experiment_name": "re_biaslr0.1",
+      "hypothesis": "bias_lr 0.053 is airbench's CIFAR-10 value and was never tuned; its sibling head_lr turned out 4.5x too low."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "bias_lr": 0.2,
+      "experiment_name": "re_biaslr0.2",
+      "hypothesis": "bias_lr 0.053 is airbench's CIFAR-10 value and was never tuned; its sibling head_lr turned out 4.5x too low."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "lr_warmup_frac": 0.05,
+      "experiment_name": "re_warm0.05",
+      "hypothesis": "A 4.5x larger head LR may be unstable at the very start; a short warmup might now help."
+    }
+  }
+]
