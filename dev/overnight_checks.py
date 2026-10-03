@@ -152,7 +152,9 @@ def check_install_and_resets(submission):
     data_copy = data.images.clone()
     rows = []
     baseline = None
-    configurations = [dict(), dict(ns_steps=3), dict(fast_reset=True),
+    configurations = [dict(), dict(ns_steps=3), dict(stage_depths=[3, 3, 3]),
+                      dict(stage_depths=[3, 2, 3]), dict(stage_depths=[2, 3, 3]),
+                      dict(stage_depths=[3, 3, 2]), dict(fast_reset=True),
                       dict(crop_impl="vectorized"), dict(ns_steps=2), dict(ns_steps=1),
                       dict(batched_muon=True), dict(fast_reset=True, crop_impl="vectorized",
                                                    batched_muon=True, ns_steps=2)]
@@ -163,6 +165,8 @@ def check_install_and_resets(submission):
         parameters = dict(compile=False, widths=[8, 16, 16], batch_size=8,
                           epochs=1.2, whiten_bias_epochs=0.6, **extras)
         state = recipe.build(BuildContext(torch.device("cpu"), parameters))
+        actual_depths = [1 + len(state.model.layers[i].convs) for i in (1, 2, 3)]
+        assert actual_depths == extras.get("stage_depths", [3, 3, 3])
         gradient = torch.randn(8, 72)
         assert torch.equal(state.zeropower(gradient),
                            original_ns(gradient, steps=extras.get("ns_steps", 3)))
@@ -182,11 +186,13 @@ def check_install_and_resets(submission):
         if baseline is None:
             baseline = first
         exact_control = not extras or extras in (
-            dict(ns_steps=3), dict(fast_reset=True), dict(crop_impl="vectorized"))
+            dict(ns_steps=3), dict(stage_depths=[3, 3, 3]),
+            dict(fast_reset=True), dict(crop_impl="vectorized"))
         if exact_control:
             assert equal_states(first, baseline), extras
         rows.append(dict(parameters=extras, reset_exact=True, input_unchanged=True,
-                         steps=state.steps, identical_to_control=equal_states(first, baseline)))
+                         steps=state.steps, stage_depths=actual_depths,
+                         identical_to_control=equal_states(first, baseline)))
     return rows
 
 

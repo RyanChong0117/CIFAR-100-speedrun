@@ -105,7 +105,7 @@ class BatchedMuon(torch.optim.Optimizer):
 
 
 def install(namespace):
-    """Select ns_steps, fast_reset, crop_impl, batched_muon via BuildContext.
+    """Select NS, reset, cropping, batched Muon and optional per-stage depth.
 
     With defaults this delegates to the untouched RC3 implementation. Existing
     batch_size, epoch, width, and learning-rate parameters work without changes.
@@ -116,6 +116,7 @@ def install(namespace):
     original_muon = namespace["Muon"]
     original_crop = namespace["batch_crop"]
     original_reset = namespace["Conv"].reset_parameters
+    original_group = namespace["ConvGroup"]
 
     def build(context):
         parameters = context.parameters
@@ -126,6 +127,27 @@ def install(namespace):
         if crop_impl not in ("reference", "vectorized", "compiled"):
             raise ValueError("crop_impl must be reference, vectorized, or compiled")
         compile_enabled = context.device.type == "cuda" and parameters.get("compile", True)
+        stage_depths = parameters.get("stage_depths")
+        namespace["ConvGroup"] = original_group
+        if stage_depths is not None:
+            if (not isinstance(stage_depths, list) or len(stage_depths) != 3
+                    or any(type(depth) is not int or depth not in (2, 3)
+                           for depth in stage_depths)):
+                raise ValueError("stage_depths must contain three integers, each 2 or 3")
+            stage_index = 0
+
+            def selected_group(channels_in, channels_out, bn_momentum, depth=2):
+                nonlocal stage_index
+                if stage_index >= 3:
+                    raise RuntimeError("Unexpected extra convolution group during construction")
+                group = original_group(channels_in, channels_out, bn_momentum,
+                                       depth=stage_depths[stage_index])
+                stage_index += 1
+                return group
+
+            # CifarNet constructs exactly three groups in stage order. The factory
+            # constructs each once, so [3,3,3] retains every original RNG draw.
+            namespace["ConvGroup"] = selected_group
 
         def selected_ns(gradient, steps=ns_steps, eps=1e-7):
             return original_ns(gradient, steps=steps, eps=eps)

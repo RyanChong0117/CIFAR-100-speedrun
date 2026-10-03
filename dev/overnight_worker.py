@@ -128,7 +128,7 @@ def run(request):
             name = candidate["id"]
             recipe = root / "recipes" / name
             experimental = any(key in candidate.get("params", {}) for key in (
-                "ns_steps", "fast_reset", "crop_impl", "batched_muon"))
+                "ns_steps", "fast_reset", "crop_impl", "batched_muon", "stage_depths"))
             hashes = freeze(recipe, experimental)
             params = {**candidate.get("params", {}), "experiment_name": name,
                       "hypothesis": candidate["hypothesis"]}
@@ -136,7 +136,9 @@ def run(request):
                         "ns_steps": params.get("ns_steps", 3),
                         "fast_reset": params.get("fast_reset", False),
                         "crop_impl": params.get("crop_impl", "reference"),
-                        "batched_muon": params.get("batched_muon", False)}
+                        "batched_muon": params.get("batched_muon", False),
+                        "stage_depths": params.get("stage_depths", [params.get(
+                            "depth", source_defaults(base_path)["depth"])] * 3)}
             metadata = {**candidate, "experiment_id": name, "parameters": resolved,
                         "complete_parameters": resolved,
                         "parameters_complete": True, "campaign": request["session_id"],
