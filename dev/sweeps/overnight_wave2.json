@@ -1,0 +1,277 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "f3d322cdda2c6b20e308a51d68fffe7c9b37d7e9",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w2-step-validation",
+    "experiments": [
+      {
+        "id": "w2_a_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 10,
+        "seed": 2000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_epochs_6_2_10",
+        "params": {
+          "epochs": 6.2
+        },
+        "hypothesis": "Fresh 10-seed validation of 155-update screen",
+        "n": 10,
+        "seed": 2000,
+        "parent_experiment": "w1_epochs_6_2",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w2_epochs_6_3_10",
+        "params": {
+          "epochs": 6.3
+        },
+        "hypothesis": "Fresh 10-seed validation of 158-update screen",
+        "n": 10,
+        "seed": 2000,
+        "parent_experiment": "w1_epochs_6_3",
+        "stage": 2,
+        "fresh_seed_validation": true
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "f3d322cdda2c6b20e308a51d68fffe7c9b37d7e9",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w2-reset-combinations",
+    "experiments": [
+      {
+        "id": "w2_b_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 10,
+        "seed": 2100,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_fast_reset_10",
+        "params": {
+          "fast_reset": true
+        },
+        "hypothesis": "Fresh accuracy validation of exact reset implementation",
+        "n": 10,
+        "seed": 2100,
+        "parent_experiment": "w1_fast_reset",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w2_epochs_6_2_reset",
+        "params": {
+          "epochs": 6.2,
+          "fast_reset": true
+        },
+        "hypothesis": "Combine screened shorter training with exact reset",
+        "n": 3,
+        "seed": 1100,
+        "parent_experiment": "w1_epochs_6_2",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_epochs_6_3_reset",
+        "params": {
+          "epochs": 6.3,
+          "fast_reset": true
+        },
+        "hypothesis": "Combine 158 updates with exact reset",
+        "n": 3,
+        "seed": 1100,
+        "parent_experiment": "w1_epochs_6_3",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_epochs_6_1_lr",
+        "params": {
+          "epochs": 6.1,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "hypothesis": "Small head/Muon LR compensation for 153 updates",
+        "n": 3,
+        "seed": 1100,
+        "parent_experiment": "w1_epochs_6_1",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_epochs_6_0_lr",
+        "params": {
+          "epochs": 6.0,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "lr_hold_frac": 0.45
+        },
+        "hypothesis": "Limited LR/hold compensation for 150 updates",
+        "n": 3,
+        "seed": 1100,
+        "parent_experiment": "w1_epochs_6_0",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "f3d322cdda2c6b20e308a51d68fffe7c9b37d7e9",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w2-larger-batches",
+    "experiments": [
+      {
+        "id": "w2_c_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 3,
+        "seed": 1000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_bs2250",
+        "params": {
+          "batch_size": 2250
+        },
+        "hypothesis": "143 updates with unchanged RC3 rates",
+        "n": 3,
+        "seed": 1000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_bs2750_tuned",
+        "params": {
+          "batch_size": 2750,
+          "muon_lr": 0.33,
+          "head_lr": 3.0,
+          "lr_hold_frac": 0.45,
+          "label_smoothing": 0.28
+        },
+        "hypothesis": "117 updates: scale Muon and modestly extend hold, preserve sum-loss SGD rate",
+        "n": 3,
+        "seed": 1000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_bs3125_tuned",
+        "params": {
+          "batch_size": 3125,
+          "muon_lr": 0.375,
+          "head_lr": 3.0,
+          "lr_hold_frac": 0.45,
+          "label_smoothing": 0.28
+        },
+        "hypothesis": "104 updates with limited Muon/schedule/smoothing retuning",
+        "n": 3,
+        "seed": 1000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_bs2500_schedule",
+        "params": {
+          "batch_size": 2500,
+          "muon_lr": 0.3,
+          "head_lr": 3.3,
+          "lr_hold_frac": 0.5,
+          "label_smoothing": 0.28
+        },
+        "hypothesis": "Limited compensating head/schedule/smoothing after weak batch2500 results",
+        "n": 3,
+        "seed": 1100,
+        "parent_experiment": "w1_bs2500_muon030",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "f3d322cdda2c6b20e308a51d68fffe7c9b37d7e9",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w2-middle-width",
+    "experiments": [
+      {
+        "id": "w2_d_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 3,
+        "seed": 1000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_width480",
+        "params": {
+          "widths": [
+            128,
+            480,
+            512
+          ]
+        },
+        "hypothesis": "Target middle-stage compute after profile shows forward/backward dominance",
+        "n": 3,
+        "seed": 1000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_width448",
+        "params": {
+          "widths": [
+            128,
+            448,
+            512
+          ]
+        },
+        "hypothesis": "Larger targeted middle-stage reduction at the same 163 updates",
+        "n": 3,
+        "seed": 1000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w2_width120_480",
+        "params": {
+          "widths": [
+            120,
+            480,
+            512
+          ]
+        },
+        "hypothesis": "Nearby first/middle width reduction; measure actual A100 runtime",
+        "n": 3,
+        "seed": 1000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  }
+]

@@ -233,7 +233,8 @@ def normalize_run(run_dir: Path | str, metadata: dict | None = None) -> dict:
         steps = math.ceil(params["epochs"] * (50000 // params["batch_size"]))
         step_basis = "source formula ceil(epochs * floor(50000 / batch_size)); inferred"
     gpu_models = _gpu_names(config, summary, trials)
-    nvidia_smi = meta.get("nvidia_smi", meta.get("nvidia_smi_name"))
+    nvidia_smi = meta.get("nvidia_smi", meta.get("nvidia_smi_gpu_name",
+                                             meta.get("nvidia_smi_name")))
     if not gpu_models and isinstance(nvidia_smi, str):
         gpu_models = sorted(set(nvidia_smi.strip().splitlines()))
     variant = config.get("variant", summary.get("variant", {}))
@@ -268,6 +269,8 @@ def normalize_run(run_dir: Path | str, metadata: dict | None = None) -> dict:
         "gpu_models": gpu_models,
         "gpu_model": gpu_models[0] if len(gpu_models) == 1 else "; ".join(gpu_models) or "unknown",
         "nvidia_smi": nvidia_smi,
+        "nvidia_smi_command": "nvidia-smi --query-gpu=name --format=csv,noheader"
+                              if nvidia_smi else None,
         "gpu_uuids": sorted({t["uuid"] for trial in trials
                              for t in trial.get("telemetry", []) if t.get("uuid")}),
         "official": bool(config.get("official", summary.get("official", False))),
