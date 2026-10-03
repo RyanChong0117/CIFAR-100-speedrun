@@ -1,0 +1,35 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 40,
+    "params": {
+      "epochs": 6.5,
+      "lr_hold_frac": 0.3,
+      "experiment_name": "h30_6.5ep_n40",
+      "hypothesis": "Shorter LR hold keeps helping as epochs drop (6.5 ep: hold 0.3 75.45% vs 0.4 75.22%, 6 seeds). Confirm, and test whether it pays for 6.25 or 6 epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 40,
+    "params": {
+      "epochs": 6.25,
+      "lr_hold_frac": 0.3,
+      "experiment_name": "h30_6.25ep_n40",
+      "hypothesis": "Shorter LR hold keeps helping as epochs drop (6.5 ep: hold 0.3 75.45% vs 0.4 75.22%, 6 seeds). Confirm, and test whether it pays for 6.25 or 6 epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "epochs": 6,
+      "lr_hold_frac": 0.3,
+      "experiment_name": "h30_6ep_n10",
+      "hypothesis": "Shorter LR hold keeps helping as epochs drop (6.5 ep: hold 0.3 75.45% vs 0.4 75.22%, 6 seeds). Confirm, and test whether it pays for 6.25 or 6 epochs."
+    }
+  }
+]

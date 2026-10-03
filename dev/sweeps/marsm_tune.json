@@ -1,0 +1,99 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.025,
+      "experiment_name": "mm_g0.025_m0.6",
+      "hypothesis": "MARS-M tied plain Muon at momentum 0.6 (gamma 0.05: 75.65%). MARS's correction is designed for high momentum (reference 0.95), so test it with higher momentum and retune around it. Smaller correction at current momentum."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.05,
+      "muon_momentum": 0.8,
+      "experiment_name": "mm_g0.05_m0.8",
+      "hypothesis": "MARS-M tied plain Muon at momentum 0.6 (gamma 0.05: 75.65%). MARS's correction is designed for high momentum (reference 0.95), so test it with higher momentum and retune around it. Factor 0.2."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.025,
+      "muon_momentum": 0.9,
+      "experiment_name": "mm_g0.025_m0.9",
+      "hypothesis": "MARS-M tied plain Muon at momentum 0.6 (gamma 0.05: 75.65%). MARS's correction is designed for high momentum (reference 0.95), so test it with higher momentum and retune around it. Factor 0.225."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.05,
+      "muon_momentum": 0.9,
+      "experiment_name": "mm_g0.05_m0.9",
+      "hypothesis": "MARS-M tied plain Muon at momentum 0.6 (gamma 0.05: 75.65%). MARS's correction is designed for high momentum (reference 0.95), so test it with higher momentum and retune around it. Factor 0.45 (reference-like)."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_momentum": 0.8,
+      "experiment_name": "mm_plain_m0.8",
+      "hypothesis": "MARS-M tied plain Muon at momentum 0.6 (gamma 0.05: 75.65%). MARS's correction is designed for high momentum (reference 0.95), so test it with higher momentum and retune around it. Control: momentum 0.8 without MARS."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.05,
+      "muon_lr": 0.3,
+      "experiment_name": "mm_g0.05_lr0.3",
+      "hypothesis": "MARS-M tied plain Muon at momentum 0.6 (gamma 0.05: 75.65%). MARS's correction is designed for high momentum (reference 0.95), so test it with higher momentum and retune around it. Variance reduction may tolerate a larger step."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.05,
+      "muon_lr": 0.2,
+      "experiment_name": "mm_g0.05_lr0.2",
+      "hypothesis": "MARS-M tied plain Muon at momentum 0.6 (gamma 0.05: 75.65%). MARS's correction is designed for high momentum (reference 0.95), so test it with higher momentum and retune around it. ...or prefer a smaller one."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.05,
+      "lr_hold_frac": 0.5,
+      "experiment_name": "mm_g0.05_hold0.5",
+      "hypothesis": "MARS-M tied plain Muon at momentum 0.6 (gamma 0.05: 75.65%). MARS's correction is designed for high momentum (reference 0.95), so test it with higher momentum and retune around it. Longer time at peak LR."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.05,
+      "epochs": 6.5,
+      "experiment_name": "mm_g0.05_6.5ep",
+      "hypothesis": "MARS-M tied plain Muon at momentum 0.6 (gamma 0.05: 75.65%). MARS's correction is designed for high momentum (reference 0.95), so test it with higher momentum and retune around it. Fewer epochs with MARS-M."
+    }
+  }
+]

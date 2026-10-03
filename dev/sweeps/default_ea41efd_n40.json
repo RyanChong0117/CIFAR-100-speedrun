@@ -1,0 +1,5 @@
+[
+  {"mode": "harness", "submission": "airbench_muon", "n": 40,
+   "params": {"experiment_name": "default_ea41efd_n40",
+              "hypothesis": "40-seed check of the cleaned default (ea41efd): 7 epochs, max pool, max-autotune. 10 seeds gave 75.82%, 7.74 s (SXM4)."}}
+]

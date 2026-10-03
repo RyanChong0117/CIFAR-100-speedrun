@@ -1,0 +1,82 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "weight_decay": 1e-06,
+      "experiment_name": "t_wd0.5x",
+      "hypothesis": "Untuned airbench CIFAR-10 value; its sibling head_lr turned out 4.5x off for 100 classes."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "weight_decay": 4e-06,
+      "experiment_name": "t_wd2x",
+      "hypothesis": "Untuned airbench CIFAR-10 value; its sibling head_lr turned out 4.5x off for 100 classes."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "sgd_momentum": 0.8,
+      "experiment_name": "t_sgdmom0.8",
+      "hypothesis": "Untuned airbench CIFAR-10 value; its sibling head_lr turned out 4.5x off for 100 classes."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "sgd_momentum": 0.9,
+      "experiment_name": "t_sgdmom0.9",
+      "hypothesis": "Untuned airbench CIFAR-10 value; its sibling head_lr turned out 4.5x off for 100 classes."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "bn_momentum": 0.5,
+      "experiment_name": "t_bnmom0.5",
+      "hypothesis": "Untuned airbench CIFAR-10 value; its sibling head_lr turned out 4.5x off for 100 classes. Mostly affects eval running stats."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "bn_momentum": 0.7,
+      "experiment_name": "t_bnmom0.7",
+      "hypothesis": "Untuned airbench CIFAR-10 value; its sibling head_lr turned out 4.5x off for 100 classes. Mostly affects eval running stats."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 6.5,
+      "experiment_name": "t_6.5ep",
+      "hypothesis": "Spend part of the ~0.7pt margin: 6.5 epochs saves ~0.6s."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "batch_size": 1500,
+      "experiment_name": "t_bs1500",
+      "hypothesis": "More, smaller steps; bs 1000 tied under the old schedule, which has changed a lot."
+    }
+  }
+]

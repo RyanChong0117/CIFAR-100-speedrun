@@ -1,0 +1,76 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "layer_drop": 0.1,
+      "experiment_name": "ld_0.1_all",
+      "hypothesis": "Layer dropout: skipping a residual branch for a whole batch saves its compute (group 2's branch is 38% of MACs) and may regularise; the question is whether accuracy per second improves. About -5.5% compute."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "layer_drop": 0.2,
+      "experiment_name": "ld_0.2_all",
+      "hypothesis": "Layer dropout: skipping a residual branch for a whole batch saves its compute (group 2's branch is 38% of MACs) and may regularise; the question is whether accuracy per second improves. About -11% compute."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "layer_drop": [
+        0,
+        0.2,
+        0.2
+      ],
+      "experiment_name": "ld_g23_0.2",
+      "hypothesis": "Layer dropout: skipping a residual branch for a whole batch saves its compute (group 2's branch is 38% of MACs) and may regularise; the question is whether accuracy per second improves. Groups 2-3 only, about -9% compute."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "layer_drop": [
+        0,
+        0.3,
+        0.3
+      ],
+      "experiment_name": "ld_g23_0.3",
+      "hypothesis": "Layer dropout: skipping a residual branch for a whole batch saves its compute (group 2's branch is 38% of MACs) and may regularise; the question is whether accuracy per second improves. Groups 2-3 only, about -13% compute."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "layer_drop": [
+        0,
+        0.2,
+        0.2
+      ],
+      "epochs": 7.5,
+      "experiment_name": "ld_g23_0.2_7.5ep",
+      "hypothesis": "Layer dropout: skipping a residual branch for a whole batch saves its compute (group 2's branch is 38% of MACs) and may regularise; the question is whether accuracy per second improves. Spend the saving on more epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "layer_drop": 0.1,
+      "epochs": 7.5,
+      "experiment_name": "ld_0.1_all_7.5ep",
+      "hypothesis": "Layer dropout: skipping a residual branch for a whole batch saves its compute (group 2's branch is 38% of MACs) and may regularise; the question is whether accuracy per second improves. Spend the saving on more epochs."
+    }
+  }
+]

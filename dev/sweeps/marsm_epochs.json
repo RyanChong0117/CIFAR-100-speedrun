@@ -1,0 +1,59 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "muon_mars_gamma": 0.05,
+      "epochs": 6.5,
+      "experiment_name": "mm2_6.5ep_n10",
+      "hypothesis": "MARS-M (gamma 0.05) scored 75.56% at 6.5 epochs vs 75.31% for plain Muon on the same 4 seeds; confirm and push epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "muon_mars_gamma": 0.05,
+      "epochs": 6.5,
+      "muon_lr": 0.2,
+      "experiment_name": "mm2_6.5ep_lr0.2_n10",
+      "hypothesis": "MARS-M (gamma 0.05) scored 75.56% at 6.5 epochs vs 75.31% for plain Muon on the same 4 seeds; confirm and push epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.05,
+      "epochs": 6,
+      "experiment_name": "mm2_6ep",
+      "hypothesis": "MARS-M (gamma 0.05) scored 75.56% at 6.5 epochs vs 75.31% for plain Muon on the same 4 seeds; confirm and push epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.05,
+      "epochs": 6,
+      "muon_lr": 0.2,
+      "experiment_name": "mm2_6ep_lr0.2",
+      "hypothesis": "MARS-M (gamma 0.05) scored 75.56% at 6.5 epochs vs 75.31% for plain Muon on the same 4 seeds; confirm and push epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.1,
+      "epochs": 6.5,
+      "experiment_name": "mm2_6.5ep_g0.1",
+      "hypothesis": "MARS-M (gamma 0.05) scored 75.56% at 6.5 epochs vs 75.31% for plain Muon on the same 4 seeds; confirm and push epochs."
+    }
+  }
+]

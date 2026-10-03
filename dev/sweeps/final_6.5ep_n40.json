@@ -1,0 +1,24 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 40,
+    "params": {
+      "epochs": 6.5,
+      "experiment_name": "final_6.5ep_plain_n40",
+      "hypothesis": "40-seed check at 6.5 epochs: plain Muon (10 seeds 75.30%) vs MARS-M gamma 0.05 + muon_lr 0.2 (10 seeds 75.38%)."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 40,
+    "params": {
+      "epochs": 6.5,
+      "muon_mars_gamma": 0.05,
+      "muon_lr": 0.2,
+      "experiment_name": "final_6.5ep_marsm_lr0.2_n40",
+      "hypothesis": "40-seed check at 6.5 epochs: plain Muon (10 seeds 75.30%) vs MARS-M gamma 0.05 + muon_lr 0.2 (10 seeds 75.38%)."
+    }
+  }
+]

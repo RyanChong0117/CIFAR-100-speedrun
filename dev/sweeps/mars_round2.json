@@ -1,0 +1,79 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.05,
+      "experiment_name": "marsm_g0.05",
+      "hypothesis": "MARS-M: feed Muon a variance-reduced gradient. Our Muon momentum is 0.6, so gamma is scaled up to reach correction factors (gamma*m/(1-m)) comparable to the reference's 0.475. Factor 0.075."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.15,
+      "experiment_name": "marsm_g0.15",
+      "hypothesis": "MARS-M: feed Muon a variance-reduced gradient. Our Muon momentum is 0.6, so gamma is scaled up to reach correction factors (gamma*m/(1-m)) comparable to the reference's 0.475. Factor 0.225."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.3,
+      "experiment_name": "marsm_g0.3",
+      "hypothesis": "MARS-M: feed Muon a variance-reduced gradient. Our Muon momentum is 0.6, so gamma is scaled up to reach correction factors (gamma*m/(1-m)) comparable to the reference's 0.475. Factor 0.45."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_mars_gamma": 0.15,
+      "muon_mars_clip": false,
+      "experiment_name": "marsm_g0.15_noclip",
+      "hypothesis": "MARS-M: feed Muon a variance-reduced gradient. Our Muon momentum is 0.6, so gamma is scaled up to reach correction factors (gamma*m/(1-m)) comparable to the reference's 0.475. Without unit-norm clipping."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "optimizer": "mars",
+      "mars_lr": 0.001,
+      "lr_warmup_frac": 0.1,
+      "lr_hold_frac": 0.35,
+      "experiment_name": "marsadamw_wn_lr1e-3",
+      "hypothesis": "Fair last try of MARS-AdamW: Muon-style per-step weight renormalisation (BN makes filter scale irrelevant) plus 10% warmup; earlier best was 69.65% without these."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "optimizer": "mars",
+      "mars_lr": 0.003,
+      "lr_warmup_frac": 0.1,
+      "lr_hold_frac": 0.35,
+      "experiment_name": "marsadamw_wn_lr3e-3",
+      "hypothesis": "Fair last try of MARS-AdamW: Muon-style per-step weight renormalisation (BN makes filter scale irrelevant) plus 10% warmup; earlier best was 69.65% without these."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "epochs": 6.5,
+      "experiment_name": "e6.5_n10",
+      "hypothesis": "6.5 epochs scored 75.32% on 4 seeds; 10 seeds before spending margin."
+    }
+  }
+]

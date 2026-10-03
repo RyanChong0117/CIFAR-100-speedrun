@@ -5,8 +5,8 @@ measured on CIFAR-100 (development results in the repository's dev/ tooling):
 - Depth 3 per conv group with a residual connection (airbench96-style) and widths
   128-512-512: airbench94's 2-conv groups plateau around 74%.
 - Output-layer (head) LR 3.0 instead of 0.67: the 100-class head needs a much larger step.
-- LR schedule: 5% warmup, hold at peak for 40% of training, then linear decay to zero.
-- Label smoothing 0.3, ±1 px translation, 7 epochs.
+- LR schedule: 5% warmup, hold at peak for 30% of training, then linear decay to zero.
+- Label smoothing 0.3, ±1 px translation, 6.5 epochs (163 steps).
 - No test-time augmentation (prohibited here): plain single-view inference.
 - Model takes float32 [0, 1] inputs and normalises/casts internally; logits are float32.
 - Global max via flatten + max (same as AdaptiveMaxPool2d(1), faster backward).
@@ -25,7 +25,7 @@ from torch import nn
 from benchmark.api import BuildContext, TrainingData
 
 DEFAULTS = {
-    "epochs": 7,
+    "epochs": 6.5,  # 40 seeds (A100 SXM4): 75.45% ± 0.23 with lr_hold_frac 0.3
     "batch_size": 2000,
     "widths": [128, 512, 512],  # airbench94 used [64, 256, 256] for CIFAR-10
     "depth": 3,  # convs per group; 3 adds a residual third conv (airbench96)
@@ -42,7 +42,7 @@ DEFAULTS = {
     # LR for conv filters / head / BN biases: linear warmup, hold at peak, then linear decay
     # to 0, as fractions of total steps.
     "lr_warmup_frac": 0.05,
-    "lr_hold_frac": 0.4,
+    "lr_hold_frac": 0.3,  # shorter runs want less time at peak LR (0.3 > 0.35 > 0.4 at 6.5 ep)
     "bn_momentum": 0.6,
     "compile": True,
     "compile_mode": "max-autotune",  # build ~190 s (untimed, limit 600 s)
@@ -115,8 +115,13 @@ class Conv(nn.Conv2d):
 
     def reset_parameters(self):
         super().reset_parameters()
+        # Identity init on the first in_channels filters. Same result as nn.init.dirac_, whose
+        # per-channel Python loop cost ~54 ms per trial across all convs (timed in prepare).
         w = self.weight.data
-        torch.nn.init.dirac_(w[: w.size(1)])
+        n = min(w.size(0), w.size(1))
+        w[:n].zero_()
+        idx = torch.arange(n, device=w.device)
+        w[idx, idx, w.size(2) // 2, w.size(3) // 2] = 1
 
 
 class ConvGroup(nn.Module):

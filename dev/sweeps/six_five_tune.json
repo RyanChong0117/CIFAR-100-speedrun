@@ -1,0 +1,99 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 6,
+    "params": {
+      "epochs": 6.5,
+      "experiment_name": "e65_control",
+      "hypothesis": "6.5 epochs = 75.30-75.36% (40 seeds). Every setting was tuned at >=7 epochs; shorter runs have wanted gentler training, so retune at 6.5 to bank margin or reach 6.25 epochs. Same-batch control (vectorized dirac init, bit-identical)."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 6,
+    "params": {
+      "epochs": 6.5,
+      "lr_hold_frac": 0.3,
+      "experiment_name": "e65_hold0.3",
+      "hypothesis": "6.5 epochs = 75.30-75.36% (40 seeds). Every setting was tuned at >=7 epochs; shorter runs have wanted gentler training, so retune at 6.5 to bank margin or reach 6.25 epochs. Shorter hold: at 6 epochs 0.4 beat 0.5."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 6,
+    "params": {
+      "epochs": 6.5,
+      "lr_hold_frac": 0.35,
+      "experiment_name": "e65_hold0.35",
+      "hypothesis": "6.5 epochs = 75.30-75.36% (40 seeds). Every setting was tuned at >=7 epochs; shorter runs have wanted gentler training, so retune at 6.5 to bank margin or reach 6.25 epochs. Shorter hold."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 6,
+    "params": {
+      "epochs": 6.5,
+      "label_smoothing": 0.25,
+      "experiment_name": "e65_ls0.25",
+      "hypothesis": "6.5 epochs = 75.30-75.36% (40 seeds). Every setting was tuned at >=7 epochs; shorter runs have wanted gentler training, so retune at 6.5 to bank margin or reach 6.25 epochs. Less label smoothing for a shorter run."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 6,
+    "params": {
+      "epochs": 6.5,
+      "label_smoothing": 0.35,
+      "experiment_name": "e65_ls0.35",
+      "hypothesis": "6.5 epochs = 75.30-75.36% (40 seeds). Every setting was tuned at >=7 epochs; shorter runs have wanted gentler training, so retune at 6.5 to bank margin or reach 6.25 epochs. Or more: the trend was rising at 0.3."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 6,
+    "params": {
+      "epochs": 6.5,
+      "head_lr": 4.0,
+      "experiment_name": "e65_headlr4",
+      "hypothesis": "6.5 epochs = 75.30-75.36% (40 seeds). Every setting was tuned at >=7 epochs; shorter runs have wanted gentler training, so retune at 6.5 to bank margin or reach 6.25 epochs. Top of the head-LR plateau; slightly favoured at 6 epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 6,
+    "params": {
+      "epochs": 6.5,
+      "lr_warmup_frac": 0.03,
+      "experiment_name": "e65_warm0.03",
+      "hypothesis": "6.5 epochs = 75.30-75.36% (40 seeds). Every setting was tuned at >=7 epochs; shorter runs have wanted gentler training, so retune at 6.5 to bank margin or reach 6.25 epochs. Shorter warmup leaves more steps at peak LR."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 6,
+    "params": {
+      "epochs": 6.5,
+      "whiten_bias_epochs": 2,
+      "experiment_name": "e65_wb2",
+      "hypothesis": "6.5 epochs = 75.30-75.36% (40 seeds). Every setting was tuned at >=7 epochs; shorter runs have wanted gentler training, so retune at 6.5 to bank margin or reach 6.25 epochs. Whitening bias for 2 of 6.5 epochs (+0.22 at 6 epochs)."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 6,
+    "params": {
+      "epochs": 6.25,
+      "experiment_name": "e625_control",
+      "hypothesis": "6.5 epochs = 75.30-75.36% (40 seeds). Every setting was tuned at >=7 epochs; shorter runs have wanted gentler training, so retune at 6.5 to bank margin or reach 6.25 epochs. Speed probe: 6.25 epochs (157 steps) as-is."
+    }
+  }
+]
