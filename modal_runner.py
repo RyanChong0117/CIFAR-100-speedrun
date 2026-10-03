@@ -1,10 +1,9 @@
 from pathlib import Path
-
+import subprocess
 import modal
 
 ROOT = Path(__file__).parent
 
-# Use the hackathon's existing Dockerfile.
 image = modal.Image.from_dockerfile(
     ROOT / "Dockerfile",
     context_dir=ROOT,
@@ -12,37 +11,47 @@ image = modal.Image.from_dockerfile(
 
 app = modal.App("cifar100-speedrun")
 
+# Persistent storage for CIFAR-100
+data_volume = modal.Volume.from_name(
+    "cifar100-data",
+    create_if_missing=True,
+)
+
+
+@app.function(
+    image=image,
+    volumes={"/app/data": data_volume},
+    cpu=2,
+    timeout=600,
+)
+def download_data():
+    subprocess.run(
+        [
+            "uv",
+            "run",
+            "python",
+            "-m",
+            "benchmark.data",
+            "--root",
+            "data",
+        ],
+        cwd="/app",
+        check=True,
+    )
+
+    # Persist the downloaded dataset
+    data_volume.commit()
+
+    print("CIFAR-100 download complete.")
 
 @app.function(
     image=image,
     gpu="A100-80GB",
     cpu=4,
-    timeout=600,
+    volumes={"/app/data": data_volume},
+    timeout=1200,
 )
-def check_environment():
-    import os
-    import torch
-
-    print("Repo mounted:", os.path.exists("/app/benchmark/run.py"))
-    print("PyTorch:", torch.__version__)
-    print("CUDA available:", torch.cuda.is_available())
-
-    if torch.cuda.is_available():
-        print("GPU:", torch.cuda.get_device_name(0))
-        print(
-            "GPU memory:",
-            round(torch.cuda.get_device_properties(0).total_memory / 1024**3, 1),
-            "GB",
-        )
-
-@app.function(
-    image=image,
-    cpu=4,
-    timeout=600,
-)
-def smoke_test():
-    import subprocess
-
+def benchmark():
     subprocess.run(
         [
             "uv",
@@ -50,19 +59,12 @@ def smoke_test():
             "python",
             "-m",
             "benchmark.run",
-            "--submission-path",
-            "submission_template",
-            "--device",
-            "cpu",
-            "--synthetic",
+            "--submission",
+            "it_compiles",
             "--n",
-            "2",
+            "1",
+            "--no-accuracy-target",
         ],
         cwd="/app",
         check=True,
     )
-
-
-@app.local_entrypoint()
-def main():
-    check_environment.remote()
