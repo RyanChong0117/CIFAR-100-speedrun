@@ -1,0 +1,5 @@
+[
+  {"mode": "harness", "submission": "airbench_muon", "n": 40,
+   "params": {"experiment_name": "default_8ep_headlr3_n40",
+              "hypothesis": "Official-size check (40 seeds) of new defaults: 8 epochs, head_lr 3.0, 50% LR hold. 10 seeds gave 75.52% ± 0.32."}}
+]

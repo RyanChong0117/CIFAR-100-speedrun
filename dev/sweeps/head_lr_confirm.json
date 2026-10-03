@@ -1,0 +1,35 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "head_lr": 3.0,
+      "epochs": 8,
+      "experiment_name": "headlr3.0_8ep_n10",
+      "hypothesis": "head_lr 2-4 plateau; 8 epochs scored ~75.7% over 4 seeds. 10 seeds check the margin before a 40-seed run."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "head_lr": 2.0,
+      "epochs": 8,
+      "experiment_name": "headlr2.0_8ep_n10",
+      "hypothesis": "head_lr 2-4 plateau; 8 epochs scored ~75.7% over 4 seeds. 10 seeds check the margin before a 40-seed run."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "head_lr": 3.0,
+      "epochs": 7,
+      "experiment_name": "headlr3.0_7ep",
+      "hypothesis": "8 epochs had ~0.6pt margin; 7 epochs may still clear 75.2% and save ~1.2s."
+    }
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "select_keep": 0.8,
+      "select_start_frac": 0.5,
+      "experiment_name": "sel_hard_k0.8_s0.5",
+      "hypothesis": "Late in training many images are already fit; spending steps only on the highest-loss ones should keep accuracy with fewer steps. Must beat plain fewer-epochs at equal step count."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "select_keep": 0.7,
+      "select_start_frac": 0.5,
+      "experiment_name": "sel_hard_k0.7_s0.5",
+      "hypothesis": "Late in training many images are already fit; spending steps only on the highest-loss ones should keep accuracy with fewer steps. Must beat plain fewer-epochs at equal step count."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "select_keep": 0.8,
+      "select_start_frac": 0.3,
+      "experiment_name": "sel_hard_k0.8_s0.3",
+      "hypothesis": "Late in training many images are already fit; spending steps only on the highest-loss ones should keep accuracy with fewer steps. Must beat plain fewer-epochs at equal step count."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "select_keep": 0.8,
+      "select_start_frac": 0.5,
+      "select_mode": "random",
+      "experiment_name": "sel_random_k0.8_s0.5",
+      "hypothesis": "Ablation: same 225 steps, random subset instead of hardest."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 9,
+      "experiment_name": "sel_ctrl_9ep",
+      "hypothesis": "Equal-step control: 225 steps by just training 9 epochs."
+    }
+  }
+]

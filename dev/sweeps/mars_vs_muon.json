@@ -1,0 +1,104 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "experiment_name": "opt_control_muon",
+      "hypothesis": "Same-batch control: current defaults with Muon."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "optimizer": "mars",
+      "mars_lr": 0.001,
+      "experiment_name": "opt_mars_lr1e-3",
+      "hypothesis": "MARS-AdamW's variance reduction may give more progress per step than Muon in a 250-step run; Adam-family LRs don't transfer from Muon, so sweep lr. gamma=0 isolates the variance-reduction term."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "optimizer": "mars",
+      "mars_lr": 0.003,
+      "experiment_name": "opt_mars_lr3e-3",
+      "hypothesis": "MARS-AdamW's variance reduction may give more progress per step than Muon in a 250-step run; Adam-family LRs don't transfer from Muon, so sweep lr. gamma=0 isolates the variance-reduction term."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "optimizer": "mars",
+      "mars_lr": 0.01,
+      "experiment_name": "opt_mars_lr1e-2",
+      "hypothesis": "MARS-AdamW's variance reduction may give more progress per step than Muon in a 250-step run; Adam-family LRs don't transfer from Muon, so sweep lr. gamma=0 isolates the variance-reduction term."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "optimizer": "mars",
+      "mars_lr": 0.03,
+      "experiment_name": "opt_mars_lr3e-2",
+      "hypothesis": "MARS-AdamW's variance reduction may give more progress per step than Muon in a 250-step run; Adam-family LRs don't transfer from Muon, so sweep lr. gamma=0 isolates the variance-reduction term."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "optimizer": "mars",
+      "mars_lr": 0.003,
+      "mars_gamma": 0.0,
+      "experiment_name": "opt_adamw_lr3e-3",
+      "hypothesis": "MARS-AdamW's variance reduction may give more progress per step than Muon in a 250-step run; Adam-family LRs don't transfer from Muon, so sweep lr. gamma=0 isolates the variance-reduction term."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "optimizer": "mars",
+      "mars_lr": 0.01,
+      "mars_gamma": 0.0,
+      "experiment_name": "opt_adamw_lr1e-2",
+      "hypothesis": "MARS-AdamW's variance reduction may give more progress per step than Muon in a 250-step run; Adam-family LRs don't transfer from Muon, so sweep lr. gamma=0 isolates the variance-reduction term."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "optimizer": "mars",
+      "mars_lr": 0.01,
+      "mars_weight_decay": 0.1,
+      "experiment_name": "opt_mars_lr1e-2_wd0.1",
+      "hypothesis": "MARS-AdamW's variance reduction may give more progress per step than Muon in a 250-step run; Adam-family LRs don't transfer from Muon, so sweep lr. gamma=0 isolates the variance-reduction term."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 2,
+    "params": {
+      "optimizer": "mars",
+      "mars_lr": 0.003,
+      "lr_warmup_frac": 0.1,
+      "lr_hold_frac": 0.4,
+      "experiment_name": "opt_mars_lr3e-3_warm0.1",
+      "hypothesis": "MARS-AdamW's variance reduction may give more progress per step than Muon in a 250-step run; Adam-family LRs don't transfer from Muon, so sweep lr. gamma=0 isolates the variance-reduction term. Adam usually wants warmup."
+    }
+  }
+]

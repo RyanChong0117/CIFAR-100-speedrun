@@ -20,21 +20,28 @@ from torch import nn
 from benchmark.api import BuildContext, TrainingData
 
 DEFAULTS = {
-    "epochs": 10,  # with lr_hold_frac 0.5, 40 seeds: 75.22% ± 0.23, 12.26 s on A100 PCIe
+    "epochs": 8,  # with head_lr 3.0 + lr_hold_frac 0.5, 10 seeds: 75.52% ± 0.32, 9.86 s (PCIe)
     "batch_size": 2000,
     "widths": [128, 512, 512],  # airbench94 used [64, 256, 256] for CIFAR-10
-    "depth": 3,  # convs per group; 3 adds a residual third conv (airbench96); 2 plateaus ~74%
+    "depth": 3,  # convs per group (int, or list per group); 3 adds a residual third conv
+    "optimizer": "muon",  # optimizer for conv filters: "muon" or "mars" (MARS-AdamW)
     "muon_lr": 0.24,
     "muon_momentum": 0.6,
+    # MARS-AdamW (Yuan et al. 2024, github.com/AGI-Arena/MARS); defaults from the reference.
+    "mars_lr": 3e-3,
+    "mars_betas": [0.95, 0.99],
+    "mars_gamma": 0.025,  # 0 = plain AdamW (with unit-norm gradient clipping)
+    "mars_weight_decay": 0.0,
     "bias_lr": 0.053,
-    "head_lr": 0.67,
+    "head_lr": 3.0,  # airbench used 0.67 for 10 classes; 100 classes want ~3-6x (2-4 plateau)
     "sgd_momentum": 0.85,
     "weight_decay": 2e-6,  # multiplied by batch_size, as in airbench
     "label_smoothing": 0.2,
     "translate": 2,
+    "translate_off_epochs": 0,  # final epochs trained without translation (augmentation annealing)
     "flip": True,
     "whiten_bias_epochs": 3,
-    # LR shape for Muon / head / BN biases: linear warmup, hold at peak, then linear decay
+    # LR shape for conv filters / head / BN biases: linear warmup, hold at peak, then linear decay
     # to 0, as fractions of total steps. 0 / 0 is airbench's plain linear decay.
     "lr_warmup_frac": 0.0,
     "lr_hold_frac": 0.5,  # +0.9 pt vs plain decay at 12 epochs; lets us drop to 10
@@ -43,6 +50,13 @@ DEFAULTS = {
     "ema_frac": 0.0,
     "ema_decay": 0.9,
     "ema_bn_batches": 5,
+    # Hard-example selection: from select_start_frac of the epochs onward, each epoch trains
+    # only on the select_keep fraction of images with the highest most-recent training loss
+    # (recorded for free during training). Batch size is unchanged, so epochs just have fewer
+    # steps. select_mode "random" keeps the same count at random (ablation). 1.0 = off.
+    "select_keep": 1.0,
+    "select_start_frac": 0.5,
+    "select_mode": "hard",
     "bn_momentum": 0.6,
     "compile": True,
     "compile_mode": "default",  # "max-autotune" compiles much longer in build()
@@ -98,6 +112,52 @@ class Muon(torch.optim.Optimizer):
                 p.add_(update, alpha=-lr)
 
 
+class MARSAdamW(torch.optim.Optimizer):
+    """MARS-AdamW, approximate variant: variance-reduced gradient from the previous step's
+    gradient, clipped to unit norm, then a bias-corrected AdamW step.
+
+    Follows the reference update_fn (mars_type="mars-adamw"), with three changes for this
+    recipe: applied to 4-D conv filters (the reference only takes this path for 2-D
+    weights, so its CNNs actually run plain AdamW); fp32 master weights and state because
+    the model's parameters are fp16; and branch-free clipping (no host sync per tensor).
+    """
+
+    def __init__(self, params, lr, betas, gamma, weight_decay, eps=1e-8):
+        super().__init__(params, dict(lr=lr, betas=tuple(betas), gamma=gamma,
+                                      weight_decay=weight_decay, eps=eps))
+
+    @torch.no_grad()
+    def step(self):
+        for group in self.param_groups:
+            lr, (beta1, beta2), gamma = group["lr"], group["betas"], group["gamma"]
+            wd, eps = group["weight_decay"], group["eps"]
+            for p in group["params"]:
+                if p.grad is None:
+                    continue
+                grad = p.grad.float()
+                state = self.state[p]
+                if not state:
+                    state["step"] = 0
+                    state["master"] = p.detach().float().clone()
+                    state["exp_avg"] = torch.zeros_like(grad)
+                    state["exp_avg_sq"] = torch.zeros_like(grad)
+                    state["last_grad"] = torch.zeros_like(grad)
+                state["step"] += 1
+                step = state["step"]
+                master, exp_avg, exp_avg_sq = state["master"], state["exp_avg"], state["exp_avg_sq"]
+                c = (grad - state["last_grad"]).mul_(gamma * beta1 / (1 - beta1)).add_(grad)
+                c.div_(torch.linalg.vector_norm(c).clamp_(min=1.0))
+                exp_avg.mul_(beta1).add_(c, alpha=1 - beta1)
+                exp_avg_sq.mul_(beta2).addcmul_(c, c, value=1 - beta2)
+                bias_correction1 = 1 - beta1**step
+                bias_correction2 = 1 - beta2**step
+                denom = exp_avg_sq.sqrt().div_(bias_correction2**0.5).add_(eps)
+                denom.mul_(bias_correction1)
+                master.add_(master * wd + exp_avg / denom, alpha=-lr)
+                p.copy_(master)
+                state["last_grad"] = grad
+
+
 #############################################
 #            Network Definition             #
 #############################################
@@ -147,6 +207,7 @@ class ConvGroup(nn.Module):
 class CifarNet(nn.Module):
     def __init__(self, widths, num_classes, bn_momentum, dtype, depth=2):
         super().__init__()
+        depths = depth if isinstance(depth, list) else [depth] * 3
         self.dtype = dtype
         whiten_kernel_size = 2
         whiten_width = 2 * 3 * whiten_kernel_size**2
@@ -154,9 +215,9 @@ class CifarNet(nn.Module):
         self.whiten.weight.requires_grad = False
         self.layers = nn.Sequential(
             nn.GELU(),
-            ConvGroup(whiten_width, widths[0], bn_momentum, depth),
-            ConvGroup(widths[0], widths[1], bn_momentum, depth),
-            ConvGroup(widths[1], widths[2], bn_momentum, depth),
+            ConvGroup(whiten_width, widths[0], bn_momentum, depths[0]),
+            ConvGroup(widths[0], widths[1], bn_momentum, depths[1]),
+            ConvGroup(widths[1], widths[2], bn_momentum, depths[2]),
             nn.AdaptiveMaxPool2d(1),
         )
         self.head = nn.Linear(widths[2], num_classes, bias=False)
@@ -243,10 +304,12 @@ def epoch_images(state, epoch):
     """Airbench loader: pre-flipped, pre-padded images; fresh crops each epoch, and all
     images flipped together every other epoch (more diverse than independent flips)."""
     cfg = state.cfg
-    if cfg["translate"] > 0:
+    translate = cfg["translate"] > 0 and epoch < cfg["epochs"] - cfg["translate_off_epochs"]
+    if translate:
         images = batch_crop(state.padded_images, state.images.shape[-2])
     else:
-        images = state.images
+        # Match batch_crop's (contiguous NCHW) layout so torch.compile doesn't recompile.
+        images = state.images.contiguous()
     if cfg["flip"] and epoch % 2 == 1:
         images = images.flip(-1)
     return images
@@ -270,12 +333,16 @@ def make_optimizers(state):
     ]
     fused = state.device.type == "cuda"
     sgd = torch.optim.SGD(param_configs, momentum=cfg["sgd_momentum"], nesterov=True, fused=fused)
-    muon = Muon(filter_params, lr=cfg["muon_lr"], momentum=cfg["muon_momentum"],
-                zeropower=state.zeropower)
-    for opt in (sgd, muon):
+    if cfg["optimizer"] == "mars":
+        filter_opt = MARSAdamW(filter_params, lr=cfg["mars_lr"], betas=cfg["mars_betas"],
+                               gamma=cfg["mars_gamma"], weight_decay=cfg["mars_weight_decay"])
+    else:
+        filter_opt = Muon(filter_params, lr=cfg["muon_lr"], momentum=cfg["muon_momentum"],
+                          zeropower=state.zeropower)
+    for opt in (sgd, filter_opt):
         for group in opt.param_groups:
             group["initial_lr"] = group["lr"]
-    return sgd, muon
+    return sgd, filter_opt
 
 
 def build(context: BuildContext):
@@ -332,7 +399,7 @@ def prepare(state, data: TrainingData, seed: int) -> None:
     cfg, model, device = state.cfg, state.model, state.device
     model.reset()  # weights and BatchNorm running stats
     model.train()
-    state.sgd, state.muon = make_optimizers(state)
+    state.sgd, state.filter_opt = make_optimizers(state)
 
     images = data.images.to(device, non_blocking=True).float().div_(255)
     images = model.normalize(images)
@@ -358,32 +425,56 @@ def lr_factor(cfg, step, total_steps):
 
 def train(state) -> nn.Module:
     cfg, model = state.cfg, state.model
-    sgd, muon = state.sgd, state.muon
+    sgd, filter_opt = state.sgd, state.filter_opt
     n, bs = len(state.labels), cfg["batch_size"]
     steps_per_epoch = n // bs
-    total_steps = ceil(cfg["epochs"] * steps_per_epoch)
+    selecting = cfg["select_keep"] < 1.0
+    keep_steps = max(1, int(cfg["select_keep"] * n) // bs)
+    select_start = cfg["select_start_frac"] * cfg["epochs"]
+    # Steps per epoch, planned up front so the LR schedule spans the real step count.
+    plan = []
+    for e in range(ceil(cfg["epochs"])):
+        epoch_steps = keep_steps if selecting and e >= select_start else steps_per_epoch
+        if e + 1 > cfg["epochs"]:  # fractional final epoch
+            epoch_steps = ceil((cfg["epochs"] - e) * epoch_steps)
+        plan.append(epoch_steps)
+    total_steps = sum(plan)
+    sample_loss = torch.full((n,), float("inf"), device=state.labels.device) if selecting else None
     whiten_bias_steps = ceil(cfg["whiten_bias_epochs"] * steps_per_epoch)
     ema_start = total_steps - ceil(cfg["ema_frac"] * total_steps) if cfg["ema_frac"] else None
     params = [p for p in model.parameters() if p.requires_grad]
     ema = None
 
     step = 0
-    epoch = 0
-    while step < total_steps:
+    for epoch, epoch_steps in enumerate(plan):
         model.train()
         images = epoch_images(state, epoch)
-        indices = torch.randperm(n, device=images.device)
-        for i in range(steps_per_epoch):
+        if selecting and epoch >= select_start:
+            k = keep_steps * bs
+            if cfg["select_mode"] == "hard":
+                pool = torch.topk(sample_loss, k, sorted=False).indices
+            else:
+                pool = torch.randperm(n, device=images.device)[:k]
+            indices = pool[torch.randperm(k, device=images.device)]
+        else:
+            indices = torch.randperm(n, device=images.device)
+        for i in range(epoch_steps):
             idxs = indices[i * bs : (i + 1) * bs]
             outputs = model(images[idxs], step < whiten_bias_steps, True)
-            F.cross_entropy(outputs, state.labels[idxs], label_smoothing=cfg["label_smoothing"],
-                            reduction="sum").backward()
+            if sample_loss is None:
+                F.cross_entropy(outputs, state.labels[idxs],
+                                label_smoothing=cfg["label_smoothing"], reduction="sum").backward()
+            else:
+                loss = F.cross_entropy(outputs, state.labels[idxs],
+                                       label_smoothing=cfg["label_smoothing"], reduction="none")
+                sample_loss[idxs] = loss.detach().float()
+                loss.sum().backward()
             for group in sgd.param_groups[:1]:
                 group["lr"] = group["initial_lr"] * max(0.0, 1 - step / whiten_bias_steps)
-            for group in sgd.param_groups[1:] + muon.param_groups:
+            for group in sgd.param_groups[1:] + filter_opt.param_groups:
                 group["lr"] = group["initial_lr"] * lr_factor(cfg, step, total_steps)
             sgd.step()
-            muon.step()
+            filter_opt.step()
             model.zero_grad(set_to_none=True)
             step += 1
             if ema_start is not None and step >= ema_start:
@@ -393,12 +484,9 @@ def train(state) -> nn.Module:
                         ema = current
                     else:
                         torch._foreach_lerp_(ema, current, 1 - cfg["ema_decay"])
-            if step >= total_steps:
-                break
-        epoch += 1
         # Dev-only hook (dev/curve.py); always None under the harness.
         if state.epoch_callback is not None:
-            state.epoch_callback(epoch, step)
+            state.epoch_callback(epoch + 1, step)
     if ema is not None:
         with torch.no_grad():
             for p, e in zip(params, ema, strict=True):

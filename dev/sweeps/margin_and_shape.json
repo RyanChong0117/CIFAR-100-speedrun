@@ -1,0 +1,112 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "experiment_name": "p2_control",
+      "hypothesis": "Same-batch control: current defaults (10ep, hold 0.5)."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "lr_hold_frac": 0.6,
+      "experiment_name": "margin_hold0.6",
+      "hypothesis": "Hold 0.5 lifted 12ep accuracy +0.9pt; a longer hold or higher peak Muon LR may add margin at 10 epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "lr_hold_frac": 0.7,
+      "experiment_name": "margin_hold0.7",
+      "hypothesis": "Hold 0.5 lifted 12ep accuracy +0.9pt; a longer hold or higher peak Muon LR may add margin at 10 epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_lr": 0.3,
+      "experiment_name": "margin_muonlr0.3",
+      "hypothesis": "Hold 0.5 lifted 12ep accuracy +0.9pt; a longer hold or higher peak Muon LR may add margin at 10 epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_lr": 0.2,
+      "experiment_name": "margin_muonlr0.2",
+      "hypothesis": "Hold 0.5 lifted 12ep accuracy +0.9pt; a longer hold or higher peak Muon LR may add margin at 10 epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "depth": [
+        3,
+        2,
+        3
+      ],
+      "experiment_name": "shape_d323",
+      "hypothesis": "Group 2 (15x15/7x7 at 512ch) is ~59% of MACs; trimming it or moving capacity to cheap group 3 may keep accuracy for less compute. -19% MACs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "depth": [
+        2,
+        3,
+        3
+      ],
+      "experiment_name": "shape_d233",
+      "hypothesis": "Group 2 (15x15/7x7 at 512ch) is ~59% of MACs; trimming it or moving capacity to cheap group 3 may keep accuracy for less compute. -5% MACs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "widths": [
+        128,
+        448,
+        512
+      ],
+      "experiment_name": "shape_w128-448-512",
+      "hypothesis": "Group 2 (15x15/7x7 at 512ch) is ~59% of MACs; trimming it or moving capacity to cheap group 3 may keep accuracy for less compute. -14% MACs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "depth": [
+        3,
+        2,
+        3
+      ],
+      "widths": [
+        128,
+        512,
+        640
+      ],
+      "experiment_name": "shape_d323_w128-512-640",
+      "hypothesis": "Group 2 (15x15/7x7 at 512ch) is ~59% of MACs; trimming it or moving capacity to cheap group 3 may keep accuracy for less compute. -10% MACs; capacity moved to group 3."
+    }
+  }
+]

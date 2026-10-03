@@ -1,0 +1,82 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "translate_off_epochs": 1,
+      "experiment_name": "cheap_augoff1",
+      "hypothesis": "Training the final epoch(s) on un-translated images lets the net fit clean inputs (the eval distribution); zero cost."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "translate_off_epochs": 2,
+      "experiment_name": "cheap_augoff2",
+      "hypothesis": "Training the final epoch(s) on un-translated images lets the net fit clean inputs (the eval distribution); zero cost."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "head_lr": 0.4,
+      "experiment_name": "cheap_headlr0.4",
+      "hypothesis": "head_lr 0.67 was tuned for a 10-class head; a 100-class head (10x params) may want a different step size."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "head_lr": 1.0,
+      "experiment_name": "cheap_headlr1.0",
+      "hypothesis": "head_lr 0.67 was tuned for a 10-class head; a 100-class head (10x params) may want a different step size."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_momentum": 0.5,
+      "experiment_name": "cheap_mom0.5",
+      "hypothesis": "Muon momentum 0.6 came from CIFAR-10 and was never tuned here."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "muon_momentum": 0.7,
+      "experiment_name": "cheap_mom0.7",
+      "hypothesis": "Muon momentum 0.6 came from CIFAR-10 and was never tuned here."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "label_smoothing": 0.15,
+      "experiment_name": "cheap_ls0.15",
+      "hypothesis": "Label smoothing 0.2 was tuned under the old schedule; the hold schedule may shift the optimum."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "label_smoothing": 0.25,
+      "experiment_name": "cheap_ls0.25",
+      "hypothesis": "Label smoothing 0.2 was tuned under the old schedule; the hold schedule may shift the optimum."
+    }
+  }
+]

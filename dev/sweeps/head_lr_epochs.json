@@ -1,0 +1,66 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "head_lr": 3.0,
+      "experiment_name": "headlr3.0_10ep",
+      "hypothesis": "head_lr still rising at 2.0 (76.30% at 10 ep); find the peak."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "head_lr": 4.0,
+      "experiment_name": "headlr4.0_10ep",
+      "hypothesis": "head_lr still rising at 2.0 (76.30% at 10 ep); find the peak."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "head_lr": 2.0,
+      "epochs": 9,
+      "experiment_name": "headlr2.0_9ep",
+      "hypothesis": "head_lr 2.0 gave ~+1pt margin at 10 epochs; spend it on fewer epochs (~1.1-1.2 s each on PCIe)."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "head_lr": 2.0,
+      "epochs": 8,
+      "experiment_name": "headlr2.0_8ep",
+      "hypothesis": "head_lr 2.0 gave ~+1pt margin at 10 epochs; spend it on fewer epochs (~1.1-1.2 s each on PCIe)."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "head_lr": 3.0,
+      "epochs": 9,
+      "experiment_name": "headlr3.0_9ep",
+      "hypothesis": "head_lr 2.0 gave ~+1pt margin at 10 epochs; spend it on fewer epochs (~1.1-1.2 s each on PCIe)."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "head_lr": 3.0,
+      "epochs": 8,
+      "experiment_name": "headlr3.0_8ep",
+      "hypothesis": "head_lr 2.0 gave ~+1pt margin at 10 epochs; spend it on fewer epochs (~1.1-1.2 s each on PCIe)."
+    }
+  }
+]

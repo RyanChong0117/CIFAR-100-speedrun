@@ -1,0 +1,32 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "head_lr": 1.0,
+      "experiment_name": "headlr1.0_n10",
+      "hypothesis": "head_lr 0.4 -> 74.32, 0.67 -> 75.33, 1.0 -> 75.77 (4 seeds): the 100-class head wants a larger step; find the peak. 10-seed confirmation."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "head_lr": 1.5,
+      "experiment_name": "headlr1.5",
+      "hypothesis": "head_lr 0.4 -> 74.32, 0.67 -> 75.33, 1.0 -> 75.77 (4 seeds): the 100-class head wants a larger step; find the peak."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "head_lr": 2.0,
+      "experiment_name": "headlr2.0",
+      "hypothesis": "head_lr 0.4 -> 74.32, 0.67 -> 75.33, 1.0 -> 75.77 (4 seeds): the 100-class head wants a larger step; find the peak."
+    }
+  }
+]
