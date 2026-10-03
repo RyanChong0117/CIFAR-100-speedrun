@@ -113,13 +113,28 @@ def training_curve(submission: str, seed: int, params: dict, eval_every: int = 1
     )
 
 
+@app.function(**GPU_FUNCTION)
+def profile_run(submission: str, params: dict, variants: str = "") -> dict:
+    command = ["dev.profile", "--submission", submission, "--params", json.dumps(params)]
+    if variants:
+        command += ["--variants", variants]
+    return run_and_collect(command)
+
+
+@app.function(**GPU_FUNCTION)
+def finite_check_run(submission: str, variants: str) -> dict:
+    return run_and_collect(
+        ["dev.check_finite", "--submission", submission, "--variants", variants]
+    )
+
+
 def save_locally(output: dict) -> None:
     for relpath, text in output["files"].items():
         path = ROOT / "results" / relpath
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text)
     summary = next((k for k in output["files"] if k.endswith("summary.json")), None)
-    curve = next((k for k in output["files"] if k.startswith("curves/")), None)
+    curve = next((k for k in output["files"] if k.startswith(("curves/", "profiles/"))), None)
     saved = summary or curve
     print(f"exit {output['returncode']}; saved results/{Path(saved).parent if summary else saved}"
           if saved else f"exit {output['returncode']}; no result files")
@@ -143,6 +158,17 @@ def curve(
     submission: str = "baseline_resnet9", seed: int = 0, params: str = "{}", eval_every: int = 1
 ):
     save_locally(training_curve.remote(submission, seed, json.loads(params), eval_every))
+
+
+@app.local_entrypoint()
+def profile(submission: str = "airbench_muon", params: str = "{}", variants_file: str = ""):
+    variants = Path(variants_file).read_text() if variants_file else ""
+    save_locally(profile_run.remote(submission, json.loads(params), variants))
+
+
+@app.local_entrypoint()
+def check_finite(variants_file: str, submission: str = "airbench_muon"):
+    save_locally(finite_check_run.remote(submission, Path(variants_file).read_text()))
 
 
 @app.local_entrypoint()

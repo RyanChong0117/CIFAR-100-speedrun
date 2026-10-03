@@ -1,0 +1,66 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "downsample": [
+        "conv_pool",
+        "pool_conv",
+        "pool_conv"
+      ],
+      "experiment_name": "ds_poolconv23_7ep",
+      "hypothesis": "Each group's first conv runs before the max-pool at ~4x the pixels: 45% of MACs. Pooling first cuts total MACs 32-36%; does accuracy survive, and does time follow MACs? Groups 2-3 only (-32% MACs)."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "downsample": "pool_conv",
+      "experiment_name": "ds_poolconv_all_7ep",
+      "hypothesis": "Each group's first conv runs before the max-pool at ~4x the pixels: 45% of MACs. Pooling first cuts total MACs 32-36%; does accuracy survive, and does time follow MACs? All groups (-36% MACs)."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "downsample": [
+        "conv_pool",
+        "pool_conv",
+        "pool_conv"
+      ],
+      "epochs": 8,
+      "experiment_name": "ds_poolconv23_8ep",
+      "hypothesis": "Each group's first conv runs before the max-pool at ~4x the pixels: 45% of MACs. Pooling first cuts total MACs 32-36%; does accuracy survive, and does time follow MACs? Spend part of the saving on an 8th epoch."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "downsample": "pool_conv",
+      "epochs": 8,
+      "experiment_name": "ds_poolconv_all_8ep",
+      "hypothesis": "Each group's first conv runs before the max-pool at ~4x the pixels: 45% of MACs. Pooling first cuts total MACs 32-36%; does accuracy survive, and does time follow MACs? Spend part of the saving on an 8th epoch."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "downsample": [
+        "conv_pool",
+        "stride",
+        "stride"
+      ],
+      "experiment_name": "ds_stride23_7ep",
+      "hypothesis": "Each group's first conv runs before the max-pool at ~4x the pixels: 45% of MACs. Pooling first cuts total MACs 32-36%; does accuracy survive, and does time follow MACs? Learned stride-2 downsampling, groups 2-3 (-11% MACs)."
+    }
+  }
+]

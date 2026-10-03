@@ -1,0 +1,5 @@
+[
+  {"mode": "harness", "submission": "airbench_muon", "n": 40,
+   "params": {"experiment_name": "default_7ep_hold0.4_tr1_n40",
+              "hypothesis": "40-seed check of defaults: 7 epochs, hold 0.4, translate 1, warmup 0.05, ls 0.3, head_lr 3.0. 10 seeds gave 75.81%."}}
+]

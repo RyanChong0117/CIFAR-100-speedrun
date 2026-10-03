@@ -1,0 +1,6 @@
+[
+  {"mode": "harness", "submission": "airbench_muon", "n": 10,
+   "params": {"global_pool": "max", "compile_mode": "max-autotune",
+              "experiment_name": "maxpool_autotune_n10",
+              "hypothesis": "Same-math speedups (max global pool -1.2%, max-autotune -0.9% on the same GPU) should leave accuracy unchanged vs the default (seeds 0-9: 75.61%)."}}
+]

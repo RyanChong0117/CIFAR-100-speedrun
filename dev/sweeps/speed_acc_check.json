@@ -1,0 +1,13 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "global_pool": "amax",
+      "channels_last_batches": true,
+      "experiment_name": "speed_amax_cl_acc",
+      "hypothesis": "Same-math kernel changes (amax global pool, channels_last batches) should not change accuracy."
+    }
+  }
+]

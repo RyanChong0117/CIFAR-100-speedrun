@@ -1,0 +1,24 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 1,
+    "no_accuracy_target": true,
+    "params": {
+      "global_pool": "amax",
+      "experiment_name": "nan_amax_only",
+      "hypothesis": "amax + channels_last together diverged (nonfinite logits); isolate which change causes it."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 1,
+    "no_accuracy_target": true,
+    "params": {
+      "channels_last_batches": true,
+      "experiment_name": "nan_cl_only",
+      "hypothesis": "amax + channels_last together diverged (nonfinite logits); isolate which change causes it."
+    }
+  }
+]

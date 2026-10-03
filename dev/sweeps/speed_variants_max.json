@@ -1,0 +1,27 @@
+[
+  {
+    "name": "baseline",
+    "params": {}
+  },
+  {
+    "name": "max+cl+max-autotune",
+    "params": {
+      "global_pool": "max",
+      "channels_last_batches": true,
+      "compile_mode": "max-autotune"
+    }
+  },
+  {
+    "name": "max",
+    "params": {
+      "global_pool": "max"
+    }
+  },
+  {
+    "name": "max+channels_last",
+    "params": {
+      "global_pool": "max",
+      "channels_last_batches": true
+    }
+  }
+]

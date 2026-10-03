@@ -20,9 +20,11 @@ from torch import nn
 from benchmark.api import BuildContext, TrainingData
 
 DEFAULTS = {
-    "epochs": 7,  # 10 seeds (SXM4): 75.81% ± 0.30, 7.84 s
+    "epochs": 7,  # 40 seeds (SXM4): 75.68% ± 0.28, 7.94 s; + max pool/autotune: 7.74 s
     "batch_size": 2000,
     "widths": [128, 512, 512],  # airbench94 used [64, 256, 256] for CIFAR-10
+    # Per-group (or one for all): "conv_pool" (airbench), "pool_conv", or "stride".
+    "downsample": "conv_pool",
     "depth": 3,  # convs per group (int, or list per group); 3 adds a residual third conv
     "optimizer": "muon",  # optimizer for conv filters: "muon" or "mars" (MARS-AdamW)
     "muon_lr": 0.24,
@@ -58,8 +60,10 @@ DEFAULTS = {
     "select_start_frac": 0.5,
     "select_mode": "hard",
     "bn_momentum": 0.6,
+    "global_pool": "max",  # "max": same as "adaptive" (AdaptiveMaxPool2d), faster backward
     "compile": True,
-    "compile_mode": "default",  # "max-autotune" compiles much longer in build()
+    # max-autotune: -0.9% train time on the same GPU; build ~190 s (untimed, limit 600 s).
+    "compile_mode": "max-autotune",
 }
 
 CIFAR100_MEAN = (0.5071, 0.4865, 0.4409)
@@ -170,8 +174,10 @@ class BatchNorm(nn.BatchNorm2d):
 
 
 class Conv(nn.Conv2d):
-    def __init__(self, in_channels, out_channels):
-        super().__init__(in_channels, out_channels, kernel_size=3, padding="same", bias=False)
+    def __init__(self, in_channels, out_channels, stride=1):
+        padding = "same" if stride == 1 else 1
+        super().__init__(in_channels, out_channels, kernel_size=3, stride=stride,
+                         padding=padding, bias=False)
 
     def reset_parameters(self):
         super().reset_parameters()
@@ -186,9 +192,13 @@ class ConvGroup(nn.Module):
     the last two, as in airbench96.
     """
 
-    def __init__(self, channels_in, channels_out, bn_momentum, depth=2):
+    def __init__(self, channels_in, channels_out, bn_momentum, depth=2, downsample="conv_pool"):
         super().__init__()
-        self.conv1 = Conv(channels_in, channels_out)
+        # conv_pool: conv at full res, then max-pool (airbench). pool_conv: max-pool first, so
+        # the channel-expanding conv runs on 4x fewer pixels. stride: stride-2 conv, no pool.
+        assert downsample in ("conv_pool", "pool_conv", "stride")
+        self.downsample = downsample
+        self.conv1 = Conv(channels_in, channels_out, stride=2 if downsample == "stride" else 1)
         self.pool = nn.MaxPool2d(2)
         self.norm1 = BatchNorm(channels_out, bn_momentum)
         self.convs = nn.ModuleList(Conv(channels_out, channels_out) for _ in range(depth - 1))
@@ -197,17 +207,34 @@ class ConvGroup(nn.Module):
         self.activ = nn.GELU()
 
     def forward(self, x):
-        x = self.activ(self.norm1(self.pool(self.conv1(x))))
+        if self.downsample == "conv_pool":
+            x = self.pool(self.conv1(x))
+        elif self.downsample == "pool_conv":
+            x = self.conv1(self.pool(x))
+        else:
+            x = self.conv1(x)
+        x = self.activ(self.norm1(x))
         x0 = x
         for conv, norm in zip(self.convs, self.norms, strict=True):
             x = self.activ(norm(conv(x)))
         return x + x0 if self.residual else x
 
 
+class GlobalMaxPool(nn.Module):
+    """Global max over H, W. Same forward and gradient as AdaptiveMaxPool2d(1) + flatten, but
+    its backward avoids that op's slow atomic-scatter kernel (-1.2% train time). (x.amax was
+    tried too: it splits gradients between ties, and training diverged.)"""
+
+    def forward(self, x):
+        return x.flatten(2).max(dim=2).values
+
+
 class CifarNet(nn.Module):
-    def __init__(self, widths, num_classes, bn_momentum, dtype, depth=2):
+    def __init__(self, widths, num_classes, bn_momentum, dtype, depth=2, downsample="conv_pool",
+                 global_pool="adaptive"):
         super().__init__()
         depths = depth if isinstance(depth, list) else [depth] * 3
+        downs = downsample if isinstance(downsample, list) else [downsample] * 3
         self.dtype = dtype
         whiten_kernel_size = 2
         whiten_width = 2 * 3 * whiten_kernel_size**2
@@ -215,10 +242,10 @@ class CifarNet(nn.Module):
         self.whiten.weight.requires_grad = False
         self.layers = nn.Sequential(
             nn.GELU(),
-            ConvGroup(whiten_width, widths[0], bn_momentum, depths[0]),
-            ConvGroup(widths[0], widths[1], bn_momentum, depths[1]),
-            ConvGroup(widths[1], widths[2], bn_momentum, depths[2]),
-            nn.AdaptiveMaxPool2d(1),
+            ConvGroup(whiten_width, widths[0], bn_momentum, depths[0], downs[0]),
+            ConvGroup(widths[0], widths[1], bn_momentum, depths[1], downs[1]),
+            ConvGroup(widths[1], widths[2], bn_momentum, depths[2], downs[2]),
+            GlobalMaxPool() if global_pool == "max" else nn.AdaptiveMaxPool2d(1),
         )
         self.head = nn.Linear(widths[2], num_classes, bias=False)
         self.register_buffer("mean", torch.tensor(CIFAR100_MEAN).view(1, 3, 1, 1))
@@ -352,7 +379,8 @@ def build(context: BuildContext):
     torch.backends.cudnn.benchmark = True
     dtype = torch.float16 if cuda else torch.float32
     model = CifarNet(
-        cfg["widths"], context.num_classes, cfg["bn_momentum"], dtype, cfg["depth"]
+        cfg["widths"], context.num_classes, cfg["bn_momentum"], dtype, cfg["depth"],
+        cfg["downsample"], cfg["global_pool"],
     )
     model = model.to(device, memory_format=torch.channels_last)
     zeropower = zeropower_via_newtonschulz5

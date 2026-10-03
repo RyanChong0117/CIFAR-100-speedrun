@@ -1,0 +1,27 @@
+[
+  {
+    "name": "baseline",
+    "params": {}
+  },
+  {
+    "name": "amax",
+    "params": {
+      "global_pool": "amax"
+    }
+  },
+  {
+    "name": "amax+cl+max-autotune",
+    "params": {
+      "global_pool": "amax",
+      "channels_last_batches": true,
+      "compile_mode": "max-autotune"
+    }
+  },
+  {
+    "name": "amax+channels_last",
+    "params": {
+      "global_pool": "amax",
+      "channels_last_batches": true
+    }
+  }
+]
