@@ -1,0 +1,5 @@
+[
+  {"mode": "harness", "submission": "airbench_muon", "n": 40,
+   "params": {"experiment_name": "default_7ep_warm_ls0.3_n40",
+              "hypothesis": "Official-size check (40 seeds) of defaults at 13d18af: 7 epochs, warmup 0.05, label smoothing 0.3, head_lr 3.0. 10 seeds gave 75.55% ± 0.24."}}
+]

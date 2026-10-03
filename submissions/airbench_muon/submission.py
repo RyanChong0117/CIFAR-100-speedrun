@@ -20,7 +20,7 @@ from torch import nn
 from benchmark.api import BuildContext, TrainingData
 
 DEFAULTS = {
-    "epochs": 7,  # 10 seeds (SXM4): 75.55% ± 0.24, 7.86 s; no 40-seed check yet
+    "epochs": 7,  # 10 seeds (SXM4): 75.81% ± 0.30, 7.84 s
     "batch_size": 2000,
     "widths": [128, 512, 512],  # airbench94 used [64, 256, 256] for CIFAR-10
     "depth": 3,  # convs per group (int, or list per group); 3 adds a residual third conv
@@ -37,14 +37,14 @@ DEFAULTS = {
     "sgd_momentum": 0.85,
     "weight_decay": 2e-6,  # multiplied by batch_size, as in airbench
     "label_smoothing": 0.3,  # 0.2 was best before head_lr 3.0; 0.3 now (+~0.2 pt)
-    "translate": 2,
+    "translate": 1,  # ±1 px; ±2 (airbench) is too strong for a 7-epoch run
     "translate_off_epochs": 0,  # final epochs trained without translation (augmentation annealing)
     "flip": True,
     "whiten_bias_epochs": 3,
     # LR shape for conv filters / head / BN biases: linear warmup, hold at peak, then linear decay
     # to 0, as fractions of total steps. 0 / 0 is airbench's plain linear decay.
     "lr_warmup_frac": 0.05,  # helps only with the large head_lr; with ls 0.3 allows 7 epochs
-    "lr_hold_frac": 0.5,  # +0.9 pt vs plain decay at 12 epochs; lets us drop to 10
+    "lr_hold_frac": 0.4,  # hold-then-decay: +0.9 pt vs plain decay; 0.4 best at 6-7 epochs
     # Weight EMA over the final fraction of training (0 = off), copied into the model at the
     # end; then BatchNorm stats are refreshed with this many no-grad training batches.
     "ema_frac": 0.0,

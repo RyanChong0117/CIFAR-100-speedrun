@@ -1,0 +1,100 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 6,
+      "experiment_name": "e6_base",
+      "hypothesis": "7 epochs = 75.55% (10 seeds); 6 epochs saves ~1.1 s if a setting tuned for the shorter run recovers ~0.3 pt. Baseline at 6 epochs."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 6,
+      "lr_hold_frac": 0.4,
+      "experiment_name": "e6_hold0.4",
+      "hypothesis": "7 epochs = 75.55% (10 seeds); 6 epochs saves ~1.1 s if a setting tuned for the shorter run recovers ~0.3 pt. Shorter runs may want less time at peak LR."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 6,
+      "lr_hold_frac": 0.6,
+      "experiment_name": "e6_hold0.6",
+      "hypothesis": "7 epochs = 75.55% (10 seeds); 6 epochs saves ~1.1 s if a setting tuned for the shorter run recovers ~0.3 pt. ...or more time at peak LR."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 6,
+      "head_lr": 4.0,
+      "experiment_name": "e6_headlr4",
+      "hypothesis": "7 epochs = 75.55% (10 seeds); 6 epochs saves ~1.1 s if a setting tuned for the shorter run recovers ~0.3 pt. Head LR plateau 2-4; a short run may prefer the top end."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 6,
+      "muon_lr": 0.3,
+      "experiment_name": "e6_muonlr0.3",
+      "hypothesis": "7 epochs = 75.55% (10 seeds); 6 epochs saves ~1.1 s if a setting tuned for the shorter run recovers ~0.3 pt. Fewer steps may tolerate a higher filter LR."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 6,
+      "lr_warmup_frac": 0.1,
+      "experiment_name": "e6_warm0.1",
+      "hypothesis": "7 epochs = 75.55% (10 seeds); 6 epochs saves ~1.1 s if a setting tuned for the shorter run recovers ~0.3 pt. Warmup is a larger share of steps in a short run."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 6,
+      "label_smoothing": 0.2,
+      "experiment_name": "e6_ls0.2",
+      "hypothesis": "7 epochs = 75.55% (10 seeds); 6 epochs saves ~1.1 s if a setting tuned for the shorter run recovers ~0.3 pt. Less regularisation may suit a shorter run."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 6,
+      "whiten_bias_epochs": 2,
+      "experiment_name": "e6_wb2",
+      "hypothesis": "7 epochs = 75.55% (10 seeds); 6 epochs saves ~1.1 s if a setting tuned for the shorter run recovers ~0.3 pt. 3 whitening-bias epochs is half of a 6-epoch run."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 6,
+      "translate": 1,
+      "experiment_name": "e6_translate1",
+      "hypothesis": "7 epochs = 75.55% (10 seeds); 6 epochs saves ~1.1 s if a setting tuned for the shorter run recovers ~0.3 pt. Weaker augmentation may suit a shorter run."
+    }
+  }
+]
