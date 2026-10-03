@@ -29,7 +29,7 @@ image = (
         ignore=[
             ".git", ".venv", ".local", ".env*", "seeds.json", "**/__pycache__",
             ".pytest_cache", ".ruff_cache", "data", "results", "tests",
-            "submissions", "dev", "modal_runner.py",
+            "submissions", "dev", "modal_runner.py", "overnight_modal.py",
         ],
     )
     .add_local_dir(ROOT / "submissions", "/app/submissions", ignore=["**/__pycache__"])
@@ -44,9 +44,9 @@ data_volume = modal.Volume.from_name("cifar100-data", create_if_missing=True)
 # Persistent storage for benchmark results (summary.json, trials.jsonl, curves, ...)
 results_volume = modal.Volume.from_name("cifar100-results", create_if_missing=True)
 
-# Account limit: at most 10 GPUs at once. sweep() launches in waves of this size, and each
+# Overnight limit: at most four GPUs at once. sweep() launches in waves of this size, and each
 # GPU function is also capped as a backstop.
-MAX_GPUS = 10
+MAX_GPUS = 4
 
 GPU_FUNCTION = dict(
     image=image,

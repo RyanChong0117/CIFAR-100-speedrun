@@ -1,0 +1,227 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "edca55e7f0fb19eaca0c3521ac622cf9e37490d8",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w1-profile-implementation",
+    "validate": true,
+    "profile": true,
+    "experiments": [
+      {
+        "id": "w1_c_control",
+        "params": {},
+        "hypothesis": "Paired RC3 control on the same allocated GPU",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_fast_reset",
+        "params": {
+          "fast_reset": true
+        },
+        "hypothesis": "Exact reset removes thousands of scalar Dirac launches",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_crop_vectorized",
+        "params": {
+          "crop_impl": "vectorized"
+        },
+        "hypothesis": "Same crop distribution via vectorized gather",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_crop_compiled",
+        "params": {
+          "crop_impl": "compiled"
+        },
+        "hypothesis": "Same crop distribution via warmed compiled gather",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "edca55e7f0fb19eaca0c3521ac622cf9e37490d8",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w1-steps",
+    "experiments": [
+      {
+        "id": "w1_a_control",
+        "params": {},
+        "hypothesis": "Paired RC3 control on the same allocated GPU",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_epochs_6_4",
+        "params": {
+          "epochs": 6.4
+        },
+        "hypothesis": "Remove a few optimizer updates while keeping RC3 hyperparameters",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_epochs_6_3",
+        "params": {
+          "epochs": 6.3
+        },
+        "hypothesis": "Remove a few optimizer updates while keeping RC3 hyperparameters",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_epochs_6_2",
+        "params": {
+          "epochs": 6.2
+        },
+        "hypothesis": "Remove a few optimizer updates while keeping RC3 hyperparameters",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "edca55e7f0fb19eaca0c3521ac622cf9e37490d8",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w1-muon-batch",
+    "validate": true,
+    "experiments": [
+      {
+        "id": "w1_b_control",
+        "params": {},
+        "hypothesis": "Paired RC3 control on the same allocated GPU",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_ns2",
+        "params": {
+          "ns_steps": 2
+        },
+        "hypothesis": "Reduce NS iterations from 3 to 2 with unchanged learning rates",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_bs2500",
+        "params": {
+          "batch_size": 2500
+        },
+        "hypothesis": "130 larger updates instead of 163; unchanged rates",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_bs2500_muon030",
+        "params": {
+          "batch_size": 2500,
+          "muon_lr": 0.3
+        },
+        "hypothesis": "Larger-batch Muon update retuning; sum-loss SGD rates unchanged",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "edca55e7f0fb19eaca0c3521ac622cf9e37490d8",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w1-shorter-schedule",
+    "experiments": [
+      {
+        "id": "w1_d_control",
+        "params": {},
+        "hypothesis": "Paired RC3 control on the same allocated GPU",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_epochs_6_1",
+        "params": {
+          "epochs": 6.1
+        },
+        "hypothesis": "153 updates with unchanged hyperparameters",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_epochs_6_0",
+        "params": {
+          "epochs": 6.0
+        },
+        "hypothesis": "150 updates with unchanged hyperparameters",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w1_epochs_6_2_hold045",
+        "params": {
+          "epochs": 6.2,
+          "lr_hold_frac": 0.45
+        },
+        "hypothesis": "155 updates with slightly longer LR hold to recover accuracy",
+        "n": 3,
+        "seed": 1000,
+        "stage": 1,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "fresh_seed_validation": true
+      }
+    ]
+  }
+]

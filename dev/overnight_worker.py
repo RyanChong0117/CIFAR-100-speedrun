@@ -1,0 +1,175 @@
+"""Bounded experiment batches; only the trusted harness evaluates test data."""
+
+import argparse
+import ast
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+
+def write_json(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+
+
+def source_defaults(path):
+    tree = ast.parse(path.read_text(encoding="utf-8"))
+    assignment = next(node for node in tree.body if isinstance(node, ast.Assign)
+                      and any(isinstance(t, ast.Name) and t.id == "DEFAULTS"
+                              for t in node.targets))
+    return ast.literal_eval(assignment.value)
+
+
+def freeze(directory, experimental):
+    directory.mkdir(parents=True, exist_ok=False)
+    source = Path("submissions/airbench_muon/submission.py").read_bytes()
+    (directory / "submission.py").write_bytes(source)
+    if experimental:
+        for name in ("overnight_variants.py",):
+            shutil.copyfile(Path("dev") / name, directory / name)
+        with (directory / "submission.py").open("a", encoding="utf-8") as file:
+            file.write("\nfrom .overnight_variants import install as _install_overnight\n"
+                       "_install_overnight(globals())\n")
+    return {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in directory.glob("*.py")}
+
+
+def command_run(command, path, environment, timeout):
+    """Keep all compiler diagnostics, stream only progress and benchmark output."""
+    with path.open("w", encoding="utf-8") as log:
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                   text=True, env=environment, start_new_session=True)
+        started = time.monotonic()
+        # Harness deadlines bound normal runs. A watchdog also bounds compilation
+        # and validation commands that do not use the harness.
+        import signal
+        import threading
+
+        expired = threading.Event()
+
+        def terminate():
+            expired.set()
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+
+        timer = threading.Timer(timeout, terminate)
+        timer.start()
+        try:
+            for line in process.stdout:
+                log.write(line)
+                log.flush()
+                if line.startswith(("trial ", "Results: ", "Profile", "error:", "Traceback")):
+                    print(line, end="", flush=True)
+            status = process.wait()
+        finally:
+            timer.cancel()
+        return dict(returncode=status, elapsed_seconds=time.monotonic() - started,
+                    timeout=expired.is_set())
+
+
+def run(request):
+    root = Path("results/overnight") / request["session_id"] / "batches" / request["batch_id"]
+    root.mkdir(parents=True, exist_ok=False)
+    write_json(root / "request.json", request)
+    gpu = subprocess.check_output(
+        ["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"], text=True
+    ).strip()
+    write_json(root / "hardware.json", {"nvidia_smi_gpu_name": gpu})
+    print(f"Batch {request['batch_id']} GPU: {gpu}", flush=True)
+    print(f"Checkpoint: {root.resolve()}", flush=True)
+    base_path = Path("submissions/airbench_muon/submission.py")
+    base_hash = hashlib.sha256(base_path.read_bytes()).hexdigest()
+    if base_hash != request["protected_source_sha256"]:
+        raise RuntimeError("Protected RC3 source changed before launch")
+    environment = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1",
+                   "TORCHINDUCTOR_CACHE_DIR": f"/tmp/{request['session_id']}-{request['batch_id']}",
+                   "TORCH_LOGS": "recompiles"}
+    records = []
+    try:
+        if request.get("require_pcie") and gpu != "NVIDIA A100 80GB PCIe":
+            write_json(root / "hardware_mismatch.json", dict(
+                status="hardware_mismatch", actual=gpu, required="NVIDIA A100 80GB PCIe",
+                conclusion="No finalist trials launched on incompatible hardware."))
+            return
+        if request.get("validate") or request.get("profile"):
+            control = root / "recipes" / "rc3"
+            freeze(control, False)
+            for stage in ("validate", "profile"):
+                if not request.get(stage):
+                    continue
+                remaining = request["deadline_unix"] - time.time()
+                if remaining < 900:
+                    raise RuntimeError("Session deadline too near to start profiling/validation")
+                if stage == "validate":
+                    command = [sys.executable, "-m", "dev.overnight_checks", "--submission",
+                               str(control), "--output", str(root / "validation.json"), "--cuda"]
+                else:
+                    command = [sys.executable, "-m", "dev.rc3_profile", "--submission-path",
+                               str(control), "--output", str(root / "profile.json"),
+                               "--params", "{}", "--seed", "50", "--n", "3"]
+                outcome = command_run(command, root / f"{stage}.log", environment,
+                                      min(1200, remaining))
+                write_json(root / f"{stage}_status.json", outcome)
+                print(f"Checkpoint: {root.resolve()}", flush=True)
+                if outcome["returncode"]:
+                    raise RuntimeError(f"{stage} failed; see retained diagnostics")
+        for candidate in request.get("experiments", []):
+            remaining = request["deadline_unix"] - time.time()
+            if remaining < 600 + 15 * candidate["n"]:
+                records.append(dict(experiment_id=candidate["id"], status="not_started_deadline"))
+                write_json(root / "batch_status.json", records)
+                break
+            name = candidate["id"]
+            recipe = root / "recipes" / name
+            experimental = any(key in candidate.get("params", {}) for key in (
+                "ns_steps", "fast_reset", "crop_impl", "batched_muon"))
+            hashes = freeze(recipe, experimental)
+            params = {**candidate.get("params", {}), "experiment_name": name,
+                      "hypothesis": candidate["hypothesis"]}
+            resolved = {**source_defaults(base_path), **params,
+                        "ns_steps": params.get("ns_steps", 3),
+                        "fast_reset": params.get("fast_reset", False),
+                        "crop_impl": params.get("crop_impl", "reference"),
+                        "batched_muon": params.get("batched_muon", False)}
+            metadata = {**candidate, "experiment_id": name, "parameters": resolved,
+                        "complete_parameters": resolved,
+                        "parameters_complete": True, "campaign": request["session_id"],
+                        "source_commit": request["source_commit"], "source_sha256": hashes,
+                        "protected_source_sha256": base_hash, "gpu": gpu,
+                        "nvidia_smi_gpu_name": gpu, "batch_id": request["batch_id"],
+                        "session_id": request["session_id"]}
+            write_json(root / f"{name}.json", metadata)
+            command = [sys.executable, "-m", "benchmark.run", "--submission-path", str(recipe),
+                       "--n", str(candidate["n"]), "--seed", str(candidate["seed"]),
+                       "--params", json.dumps(params), "--results-root", str(root / "runs")]
+            print(f"Starting {name}: n={candidate['n']} seed={candidate['seed']} params={params}",
+                  flush=True)
+            outcome = command_run(command, root / f"{name}.log", environment,
+                                  min(remaining, 900 + 40 * candidate["n"]))
+            directories = list((root / "runs" / name).glob("*"))
+            complete = False
+            if len(directories) == 1:
+                write_json(directories[0] / "experiment.json", {**metadata, **outcome})
+                summary = directories[0] / "summary.json"
+                if summary.exists():
+                    complete = json.loads(summary.read_text())["complete"]
+            records.append({**metadata, **outcome})
+            write_json(root / "batch_status.json", records)
+            print(f"Checkpoint: {root.resolve()}", flush=True)
+            if outcome["returncode"] not in (0, 1) or outcome["timeout"] or not complete:
+                raise RuntimeError(f"Infrastructure failure in {name}; stopping batch")
+    finally:
+        print(f"Results: {root.resolve()}", flush=True)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--request", type=Path, required=True)
+    args = parser.parse_args()
+    run(json.loads(args.request.read_text(encoding="utf-8")))
