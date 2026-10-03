@@ -1,0 +1,73 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "experiment_name": "acc_control",
+      "hypothesis": "Same-batch control for the accuracy-per-epoch screen."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "ema_frac": 0.25,
+      "ema_decay": 0.9,
+      "experiment_name": "acc_ema0.25_d0.9",
+      "hypothesis": "LR already anneals to 0, but averaging the last weights may still smooth Muon's noisy late updates; BN stats refreshed after."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "ema_frac": 0.5,
+      "ema_decay": 0.95,
+      "experiment_name": "acc_ema0.5_d0.95",
+      "hypothesis": "LR already anneals to 0, but averaging the last weights may still smooth Muon's noisy late updates; BN stats refreshed after."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "lr_hold_frac": 0.25,
+      "experiment_name": "acc_hold0.25",
+      "hypothesis": "Airbench's plain linear decay was tuned for CIFAR-10; more time at peak LR (or a gentle start) may help 100 classes learn more per epoch."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "lr_warmup_frac": 0.05,
+      "experiment_name": "acc_warm0.05",
+      "hypothesis": "Airbench's plain linear decay was tuned for CIFAR-10; more time at peak LR (or a gentle start) may help 100 classes learn more per epoch."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "whiten_bias_epochs": 1,
+      "experiment_name": "acc_wb1",
+      "hypothesis": "Whitening bias trains only early; freeing those steps sooner may not cost accuracy and changes nothing else."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "whiten_bias_epochs": 2,
+      "experiment_name": "acc_wb2",
+      "hypothesis": "Whitening bias trains only early; freeing those steps sooner may not cost accuracy and changes nothing else."
+    }
+  }
+]

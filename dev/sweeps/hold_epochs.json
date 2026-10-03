@@ -1,0 +1,146 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 10,
+      "lr_hold_frac": 0.25,
+      "lr_warmup_frac": 0.0,
+      "experiment_name": "hold0.25_warm0.0_10ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 10,
+      "lr_hold_frac": 0.25,
+      "lr_warmup_frac": 0.05,
+      "experiment_name": "hold0.25_warm0.05_10ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 10,
+      "lr_hold_frac": 0.4,
+      "lr_warmup_frac": 0.0,
+      "experiment_name": "hold0.4_warm0.0_10ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 10,
+      "lr_hold_frac": 0.4,
+      "lr_warmup_frac": 0.05,
+      "experiment_name": "hold0.4_warm0.05_10ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 10,
+      "lr_hold_frac": 0.5,
+      "lr_warmup_frac": 0.0,
+      "experiment_name": "hold0.5_warm0.0_10ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 10,
+      "lr_hold_frac": 0.5,
+      "lr_warmup_frac": 0.05,
+      "experiment_name": "hold0.5_warm0.05_10ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 11,
+      "lr_hold_frac": 0.25,
+      "lr_warmup_frac": 0.0,
+      "experiment_name": "hold0.25_warm0.0_11ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 11,
+      "lr_hold_frac": 0.25,
+      "lr_warmup_frac": 0.05,
+      "experiment_name": "hold0.25_warm0.05_11ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 11,
+      "lr_hold_frac": 0.4,
+      "lr_warmup_frac": 0.0,
+      "experiment_name": "hold0.4_warm0.0_11ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 11,
+      "lr_hold_frac": 0.4,
+      "lr_warmup_frac": 0.05,
+      "experiment_name": "hold0.4_warm0.05_11ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 11,
+      "lr_hold_frac": 0.5,
+      "lr_warmup_frac": 0.0,
+      "experiment_name": "hold0.5_warm0.0_11ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 4,
+    "params": {
+      "epochs": 11,
+      "lr_hold_frac": 0.5,
+      "lr_warmup_frac": 0.05,
+      "experiment_name": "hold0.5_warm0.05_11ep",
+      "hypothesis": "Holding peak LR for 25% gave +0.9pt at 12 epochs; the margin may let 10-11 epochs clear 75.2%. Longer holds / short warmup may add more."
+    }
+  }
+]

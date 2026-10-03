@@ -1,0 +1,23 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "compile_mode": "max-autotune",
+      "experiment_name": "ca_max-autotune_12ep_n10",
+      "hypothesis": "max-autotune was 1.6% faster and +0.4pt over 3 seeds; 10 seeds confirms both."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "compile_mode": "max-autotune",
+      "epochs": 11,
+      "experiment_name": "ca_max-autotune_11ep_n10",
+      "hypothesis": "If max-autotune's accuracy gain is real, 11 epochs may still clear 75.2% and save ~1.1s."
+    }
+  }
+]

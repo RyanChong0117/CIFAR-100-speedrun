@@ -20,7 +20,7 @@ from torch import nn
 from benchmark.api import BuildContext, TrainingData
 
 DEFAULTS = {
-    "epochs": 12,  # 10 seeds: 75.31% ± 0.20, 14.45 s on A100 PCIe
+    "epochs": 10,  # with lr_hold_frac 0.5, 40 seeds: 75.22% ± 0.23, 12.26 s on A100 PCIe
     "batch_size": 2000,
     "widths": [128, 512, 512],  # airbench94 used [64, 256, 256] for CIFAR-10
     "depth": 3,  # convs per group; 3 adds a residual third conv (airbench96); 2 plateaus ~74%
@@ -34,6 +34,15 @@ DEFAULTS = {
     "translate": 2,
     "flip": True,
     "whiten_bias_epochs": 3,
+    # LR shape for Muon / head / BN biases: linear warmup, hold at peak, then linear decay
+    # to 0, as fractions of total steps. 0 / 0 is airbench's plain linear decay.
+    "lr_warmup_frac": 0.0,
+    "lr_hold_frac": 0.5,  # +0.9 pt vs plain decay at 12 epochs; lets us drop to 10
+    # Weight EMA over the final fraction of training (0 = off), copied into the model at the
+    # end; then BatchNorm stats are refreshed with this many no-grad training batches.
+    "ema_frac": 0.0,
+    "ema_decay": 0.9,
+    "ema_bn_batches": 5,
     "bn_momentum": 0.6,
     "compile": True,
     "compile_mode": "default",  # "max-autotune" compiles much longer in build()
@@ -337,6 +346,16 @@ def prepare(state, data: TrainingData, seed: int) -> None:
         state.padded_images = F.pad(images, (pad,) * 4, "reflect")
 
 
+def lr_factor(cfg, step, total_steps):
+    warm = cfg["lr_warmup_frac"] * total_steps
+    hold_end = warm + cfg["lr_hold_frac"] * total_steps
+    if step < warm:
+        return (step + 1) / warm
+    if step < hold_end:
+        return 1.0
+    return (total_steps - step) / (total_steps - hold_end)
+
+
 def train(state) -> nn.Module:
     cfg, model = state.cfg, state.model
     sgd, muon = state.sgd, state.muon
@@ -344,6 +363,9 @@ def train(state) -> nn.Module:
     steps_per_epoch = n // bs
     total_steps = ceil(cfg["epochs"] * steps_per_epoch)
     whiten_bias_steps = ceil(cfg["whiten_bias_epochs"] * steps_per_epoch)
+    ema_start = total_steps - ceil(cfg["ema_frac"] * total_steps) if cfg["ema_frac"] else None
+    params = [p for p in model.parameters() if p.requires_grad]
+    ema = None
 
     step = 0
     epoch = 0
@@ -359,16 +381,33 @@ def train(state) -> nn.Module:
             for group in sgd.param_groups[:1]:
                 group["lr"] = group["initial_lr"] * max(0.0, 1 - step / whiten_bias_steps)
             for group in sgd.param_groups[1:] + muon.param_groups:
-                group["lr"] = group["initial_lr"] * (1 - step / total_steps)
+                group["lr"] = group["initial_lr"] * lr_factor(cfg, step, total_steps)
             sgd.step()
             muon.step()
             model.zero_grad(set_to_none=True)
             step += 1
+            if ema_start is not None and step >= ema_start:
+                with torch.no_grad():
+                    current = [p.float() for p in params]
+                    if ema is None:
+                        ema = current
+                    else:
+                        torch._foreach_lerp_(ema, current, 1 - cfg["ema_decay"])
             if step >= total_steps:
                 break
         epoch += 1
         # Dev-only hook (dev/curve.py); always None under the harness.
         if state.epoch_callback is not None:
             state.epoch_callback(epoch, step)
+    if ema is not None:
+        with torch.no_grad():
+            for p, e in zip(params, ema, strict=True):
+                p.copy_(e)
+            # Averaged weights don't match the running BN stats; refresh them.
+            model.train()
+            indices = torch.randperm(n, device=images.device)
+            for i in range(min(cfg["ema_bn_batches"], steps_per_epoch)):
+                idxs = indices[i * bs : (i + 1) * bs]
+                model(images[idxs], False, True)
     state.steps = step
     return model

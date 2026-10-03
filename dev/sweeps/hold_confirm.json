@@ -1,0 +1,35 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "epochs": 10,
+      "lr_hold_frac": 0.5,
+      "experiment_name": "hold0.5_10ep_n10",
+      "hypothesis": "4-seed screen cleared 75.2%; 10 seeds checks the margin before changing defaults."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "epochs": 10,
+      "lr_hold_frac": 0.4,
+      "experiment_name": "hold0.4_10ep_n10",
+      "hypothesis": "4-seed screen cleared 75.2%; 10 seeds checks the margin before changing defaults."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "epochs": 11,
+      "lr_hold_frac": 0.4,
+      "experiment_name": "hold0.4_11ep_n10",
+      "hypothesis": "4-seed screen cleared 75.2%; 10 seeds checks the margin before changing defaults."
+    }
+  }
+]

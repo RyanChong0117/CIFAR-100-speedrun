@@ -44,9 +44,14 @@ data_volume = modal.Volume.from_name("cifar100-data", create_if_missing=True)
 # Persistent storage for benchmark results (summary.json, trials.jsonl, curves, ...)
 results_volume = modal.Volume.from_name("cifar100-results", create_if_missing=True)
 
+# Account limit: at most 10 GPUs at once. sweep() launches in waves of this size, and each
+# GPU function is also capped as a backstop.
+MAX_GPUS = 10
+
 GPU_FUNCTION = dict(
     image=image,
     gpu="A100-80GB",
+    max_containers=MAX_GPUS,
     cpu=4,
     volumes={"/app/data": data_volume, "/app/results": results_volume},
     timeout=3600,
@@ -148,6 +153,14 @@ def sweep(file: str):
                  "n": 1, "seed": 0, "eval_every": 1, "no_accuracy_target": false}
     """
     experiments = json.loads(Path(file).read_text())
+    for start in range(0, len(experiments), MAX_GPUS):
+        wave = experiments[start : start + MAX_GPUS]
+        if len(experiments) > MAX_GPUS:
+            print(f"Wave {start // MAX_GPUS + 1}: experiments {start + 1}-{start + len(wave)}")
+        run_wave(wave)
+
+
+def run_wave(experiments: list[dict]) -> None:
     calls = []
     for e in experiments:
         if e.get("mode", "harness") == "curve":

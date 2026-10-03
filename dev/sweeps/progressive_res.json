@@ -1,0 +1,171 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "params": {
+      "epochs": 12,
+      "experiment_name": "pr_control_32_12ep",
+      "hypothesis": "Control: best config on the new code path; should match 75.3% / ~14.5s."
+    },
+    "n": 2
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "params": {
+      "epochs": 12,
+      "experiment_name": "pr_28-32_12ep",
+      "hypothesis": "Early low-res epochs cost ~(r/32)^2 of the compute; if the final 32px epochs recover the fine detail CIFAR-100 needs, total time drops at equal accuracy.",
+      "resolution_schedule": [
+        [
+          28,
+          0.5
+        ],
+        [
+          32,
+          0.5
+        ]
+      ]
+    },
+    "n": 2
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "params": {
+      "epochs": 12,
+      "experiment_name": "pr_24-32_12ep",
+      "hypothesis": "Early low-res epochs cost ~(r/32)^2 of the compute; if the final 32px epochs recover the fine detail CIFAR-100 needs, total time drops at equal accuracy.",
+      "resolution_schedule": [
+        [
+          24,
+          0.5
+        ],
+        [
+          32,
+          0.5
+        ]
+      ]
+    },
+    "n": 2
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "params": {
+      "epochs": 12,
+      "experiment_name": "pr_24-28-32_12ep",
+      "hypothesis": "Early low-res epochs cost ~(r/32)^2 of the compute; if the final 32px epochs recover the fine detail CIFAR-100 needs, total time drops at equal accuracy.",
+      "resolution_schedule": [
+        [
+          24,
+          0.33
+        ],
+        [
+          28,
+          0.33
+        ],
+        [
+          32,
+          0.34
+        ]
+      ]
+    },
+    "n": 2
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "params": {
+      "epochs": 12,
+      "experiment_name": "pr_20-24-28-32_12ep",
+      "hypothesis": "Early low-res epochs cost ~(r/32)^2 of the compute; if the final 32px epochs recover the fine detail CIFAR-100 needs, total time drops at equal accuracy.",
+      "resolution_schedule": [
+        [
+          20,
+          0.25
+        ],
+        [
+          24,
+          0.25
+        ],
+        [
+          28,
+          0.25
+        ],
+        [
+          32,
+          0.25
+        ]
+      ]
+    },
+    "n": 2
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "params": {
+      "epochs": 14,
+      "experiment_name": "pr_24-32_14ep",
+      "hypothesis": "Early low-res epochs cost ~(r/32)^2 of the compute; if the final 32px epochs recover the fine detail CIFAR-100 needs, total time drops at equal accuracy. Extra epochs to buy back accuracy.",
+      "resolution_schedule": [
+        [
+          24,
+          0.5
+        ],
+        [
+          32,
+          0.5
+        ]
+      ]
+    },
+    "n": 2
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "params": {
+      "epochs": 14,
+      "experiment_name": "pr_24-28-32_14ep",
+      "hypothesis": "Early low-res epochs cost ~(r/32)^2 of the compute; if the final 32px epochs recover the fine detail CIFAR-100 needs, total time drops at equal accuracy. Extra epochs to buy back accuracy.",
+      "resolution_schedule": [
+        [
+          24,
+          0.33
+        ],
+        [
+          28,
+          0.33
+        ],
+        [
+          32,
+          0.34
+        ]
+      ]
+    },
+    "n": 2
+  },
+  {
+    "mode": "curve",
+    "submission": "airbench_muon",
+    "params": {
+      "epochs": 12,
+      "experiment_name": "pr_24-28-32_12ep_curve",
+      "hypothesis": "Per-epoch timing by resolution; checks no in-trial recompiles.",
+      "resolution_schedule": [
+        [
+          24,
+          0.33
+        ],
+        [
+          28,
+          0.33
+        ],
+        [
+          32,
+          0.34
+        ]
+      ]
+    }
+  }
+]

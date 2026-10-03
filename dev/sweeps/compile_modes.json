@@ -1,0 +1,41 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 10,
+    "params": {
+      "experiment_name": "ca_control_default_n10",
+      "hypothesis": "Control on the reverted committed code; should reproduce 75.31% / 14.45 s."
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 3,
+    "params": {
+      "experiment_name": "ca_max-autotune-no-cudagraphs",
+      "hypothesis": "Compute-bound (~50% of peak): autotuned conv/matmul kernels may raise throughput; compile cost lands in untimed build(), which has a 600 s limit.",
+      "compile_mode": "max-autotune-no-cudagraphs"
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 3,
+    "params": {
+      "experiment_name": "ca_max-autotune",
+      "hypothesis": "Compute-bound (~50% of peak): autotuned conv/matmul kernels may raise throughput; compile cost lands in untimed build(), which has a 600 s limit. Adds CUDA graphs (less launch overhead).",
+      "compile_mode": "max-autotune"
+    }
+  },
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 3,
+    "params": {
+      "experiment_name": "ca_reduce-overhead",
+      "hypothesis": "CUDA graphs only: isolates launch-overhead savings from autotuning.",
+      "compile_mode": "reduce-overhead"
+    }
+  }
+]
