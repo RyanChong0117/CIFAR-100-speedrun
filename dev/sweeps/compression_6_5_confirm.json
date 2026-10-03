@@ -1,0 +1,13 @@
+[
+  {
+    "mode": "harness",
+    "submission": "airbench_muon",
+    "n": 40,
+    "seed": 10,
+    "params": {
+      "epochs": 6.5,
+      "experiment_name": "compression_6_5_confirm_seeds10_49",
+      "hypothesis": "Confirm the 6.5-epoch candidate on 40 new seeds, disjoint from screening seeds 0-9. Screening on one A100 80GB PCIe gave 75.374% accuracy and 8.091955 s over 10 seeds."
+    }
+  }
+]

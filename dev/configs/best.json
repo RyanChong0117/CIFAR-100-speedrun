@@ -1,7 +1,7 @@
 {
   "depth": 3,
   "widths": [128, 512, 512],
-  "epochs": 12,
-  "experiment_name": "ab_best_defaults",
-  "hypothesis": "Best config confirmed 2026-10-03: 75.31% ± 0.20 over 10 seeds, 14.45 s (A100 PCIe). Same as DEFAULTS."
+  "epochs": 6.5,
+  "experiment_name": "ab_6_5ep_confirmed_defaults",
+  "hypothesis": "Confirmed on fresh seeds 10-49: 40/40 successful trials, mean accuracy 75.2955% (SD 0.2286 percentage points), mean prepare+train 7.066516 s on A100 SXM4 80GB. Development run 20261003T223840Z-034593f6. Same training parameters as DEFAULTS; not an official PCIe score."
 }

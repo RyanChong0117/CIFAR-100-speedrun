@@ -97,9 +97,11 @@ def run_and_collect(command: list[str]) -> dict:
 
 
 @app.function(**GPU_FUNCTION)
-def benchmark(submission: str, n: int, params: dict, accuracy_target: bool = True) -> dict:
+def benchmark(
+    submission: str, n: int, params: dict, accuracy_target: bool = True, seed: int = 0
+) -> dict:
     command = ["benchmark.run", "--submission", submission, "--n", str(n),
-               "--params", json.dumps(params)]
+               "--params", json.dumps(params), "--seed", str(seed)]
     if not accuracy_target:
         command.append("--no-accuracy-target")
     return run_and_collect(command)
@@ -128,11 +130,17 @@ def finite_check_run(submission: str, variants: str) -> dict:
     )
 
 
+@app.function(**GPU_FUNCTION)
+def compression_run() -> dict:
+    """Five isolated variants, 10 seeds each, sequentially on one allocated A100."""
+    return run_and_collect(["dev.compression_study"])
+
+
 def save_locally(output: dict) -> None:
     for relpath, text in output["files"].items():
         path = ROOT / "results" / relpath
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(text)
+        path.write_text(text, encoding="utf-8")
     summary = next((k for k in output["files"] if k.endswith("summary.json")), None)
     curve = next((k for k in output["files"] if k.startswith(("curves/", "profiles/"))), None)
     saved = summary or curve
@@ -147,10 +155,11 @@ def main(
     no_accuracy_target: bool = False,
     params: str = "{}",
     download: bool = False,
+    seed: int = 0,
 ):
     if download:
         download_data.remote()
-    save_locally(benchmark.remote(submission, n, json.loads(params), not no_accuracy_target))
+    save_locally(benchmark.remote(submission, n, json.loads(params), not no_accuracy_target, seed))
 
 
 @app.local_entrypoint()
@@ -169,6 +178,12 @@ def profile(submission: str = "airbench_muon", params: str = "{}", variants_file
 @app.local_entrypoint()
 def check_finite(variants_file: str, submission: str = "airbench_muon"):
     save_locally(finite_check_run.remote(submission, Path(variants_file).read_text()))
+
+
+@app.local_entrypoint()
+def compression():
+    """Profile current defaults and run the approved 50-trial compression comparison."""
+    save_locally(compression_run.remote())
 
 
 @app.local_entrypoint()
@@ -196,7 +211,7 @@ def run_wave(experiments: list[dict]) -> None:
         else:
             call = benchmark.spawn(
                 e["submission"], e.get("n", 1), e.get("params", {}),
-                not e.get("no_accuracy_target", False),
+                not e.get("no_accuracy_target", False), e.get("seed", 0),
             )
         calls.append((e, call))
     print(f"Launched {len(calls)} experiments in parallel")

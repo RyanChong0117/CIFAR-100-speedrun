@@ -6,7 +6,7 @@ measured on CIFAR-100 (development results in the repository's dev/ tooling):
   128-512-512: airbench94's 2-conv groups plateau around 74%.
 - Output-layer (head) LR 3.0 instead of 0.67: the 100-class head needs a much larger step.
 - LR schedule: 5% warmup, hold at peak for 40% of training, then linear decay to zero.
-- Label smoothing 0.3, ±1 px translation, 7 epochs.
+- Label smoothing 0.3, ±1 px translation, 6.5 epochs (163 steps).
 - No test-time augmentation (prohibited here): plain single-view inference.
 - Model takes float32 [0, 1] inputs and normalises/casts internally; logits are float32.
 - Global max via flatten + max (same as AdaptiveMaxPool2d(1), faster backward).
@@ -25,7 +25,7 @@ from torch import nn
 from benchmark.api import BuildContext, TrainingData
 
 DEFAULTS = {
-    "epochs": 7,
+    "epochs": 6.5,
     "batch_size": 2000,
     "widths": [128, 512, 512],  # airbench94 used [64, 256, 256] for CIFAR-10
     "depth": 3,  # convs per group; 3 adds a residual third conv (airbench96)
