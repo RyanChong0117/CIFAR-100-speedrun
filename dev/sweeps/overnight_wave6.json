@@ -1,0 +1,298 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "89975f7855aeeeccd7b473099854e9815cf90693",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w6-first-depth-validation",
+    "experiments": [
+      {
+        "id": "w6_a_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 3600,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 runtime and accuracy control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w6_depth_2_3_3_20",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ]
+        },
+        "n": 20,
+        "seed": 3600,
+        "parent_experiment": "w4_depth_2_3_3_10",
+        "hypothesis": "Fresh 20-seed promotion; prior stage3 launch never reached training",
+        "stage": 3,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w6_firstdepth_6_3_tuned_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "epochs": 6.3,
+          "fast_reset": true,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "n": 10,
+        "seed": 2600,
+        "parent_experiment": "w4_firstdepth_6_3_tuned",
+        "hypothesis": "Fresh 10-seed validation of shorter first-depth compensation; distinct attempt after preemption",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w6_a_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 3600,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 runtime and accuracy control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "89975f7855aeeeccd7b473099854e9815cf90693",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w6-middle-finalist",
+    "experiments": [
+      {
+        "id": "w6_b_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 3500,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 runtime and accuracy control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w6_middle_7_lr_20",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 7.0,
+          "head_lr": 3.3,
+          "muon_lr": 0.255
+        },
+        "n": 20,
+        "seed": 3500,
+        "parent_experiment": "w5_middle_7_lr_10",
+        "hypothesis": "Fresh 20-seed finalist for 75.277% 10-seed smaller middle model",
+        "stage": 3,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w6_middle_7_reset_10",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 7.0,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "fast_reset": true
+        },
+        "n": 10,
+        "seed": 2600,
+        "parent_experiment": "w5_middle_7_lr_10",
+        "hypothesis": "Exact reset implementation adds measured prepare savings to finalist",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w6_b_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 3500,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 runtime and accuracy control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "89975f7855aeeeccd7b473099854e9815cf90693",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w6-middle-runtime-margin",
+    "experiments": [
+      {
+        "id": "w6_c_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 2600,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 runtime and accuracy control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w6_middle_6_9_reset_10",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 6.9,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "fast_reset": true
+        },
+        "n": 10,
+        "seed": 2600,
+        "parent_experiment": "w5_middle_6_9_reset",
+        "hypothesis": "Validate promising 173-step screen on ten fresh seeds",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w6_middle_6_9_lr",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 6.9,
+          "head_lr": 3.4,
+          "muon_lr": 0.26,
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1500,
+        "parent_experiment": "w5_middle_6_9_reset",
+        "hypothesis": "One local LR compensation for slightly shorter training",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w6_middle_7_1_reset",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 7.1,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1500,
+        "parent_experiment": "w5_middle_7_lr_10",
+        "hypothesis": "Three extra updates may increase accuracy safety while smaller model remains faster",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w6_c_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 2600,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 runtime and accuracy control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "89975f7855aeeeccd7b473099854e9815cf90693",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w6-first-width-interaction",
+    "experiments": [
+      {
+        "id": "w6_d_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 2600,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 runtime and accuracy control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w6_firstdepth_width480_reset_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "widths": [
+            128,
+            480,
+            512
+          ],
+          "fast_reset": true
+        },
+        "n": 10,
+        "seed": 2600,
+        "parent_experiment": "w5_firstdepth_width480_reset",
+        "hypothesis": "Promote 75.29% screen; mild width/depth interaction with exact reset",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w6_firstdepth_width480_6_6_reset",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "widths": [
+            128,
+            480,
+            512
+          ],
+          "fast_reset": true,
+          "epochs": 6.6
+        },
+        "n": 3,
+        "seed": 1500,
+        "parent_experiment": "w5_firstdepth_width480_reset",
+        "hypothesis": "Small additional training budget may protect accuracy while retaining speed",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w6_d_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 2600,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 runtime and accuracy control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  }
+]
