@@ -1,0 +1,271 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "93a1d1cb241893a42e658bed7058cf481b43be86",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w3-step-finalists",
+    "experiments": [
+      {
+        "id": "w3_a_control_before",
+        "params": {},
+        "hypothesis": "Matched RC3 control including phase-order drift",
+        "n": 10,
+        "seed": 3000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w3_epochs_6_2_20",
+        "params": {
+          "epochs": 6.2
+        },
+        "hypothesis": "20 fresh seeds for 155-update finalist",
+        "n": 20,
+        "seed": 3000,
+        "parent_experiment": "w2_epochs_6_2_10",
+        "stage": 3,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w3_epochs_6_3_20",
+        "params": {
+          "epochs": 6.3
+        },
+        "hypothesis": "20 fresh seeds for 158-update finalist",
+        "n": 20,
+        "seed": 3000,
+        "parent_experiment": "w2_epochs_6_3_10",
+        "stage": 3,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w3_a_control_after",
+        "params": {},
+        "hypothesis": "Matched RC3 control including phase-order drift",
+        "n": 5,
+        "seed": 3000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "93a1d1cb241893a42e658bed7058cf481b43be86",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w3-combination-validation",
+    "experiments": [
+      {
+        "id": "w3_b_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control including phase-order drift",
+        "n": 10,
+        "seed": 2200,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w3_epochs_6_2_reset_10",
+        "params": {
+          "epochs": 6.2,
+          "fast_reset": true
+        },
+        "hypothesis": "Fresh 10-seed combination validation",
+        "n": 10,
+        "seed": 2200,
+        "parent_experiment": "w2_epochs_6_2_reset",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w3_epochs_6_3_reset_10",
+        "params": {
+          "epochs": 6.3,
+          "fast_reset": true
+        },
+        "hypothesis": "Fresh 10-seed combination validation with more accuracy margin",
+        "n": 10,
+        "seed": 2200,
+        "parent_experiment": "w2_epochs_6_3_reset",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w3_epochs_6_1_lr_10",
+        "params": {
+          "epochs": 6.1,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "hypothesis": "Fresh validation of retuned 153 updates",
+        "n": 10,
+        "seed": 2200,
+        "parent_experiment": "w2_epochs_6_1_lr",
+        "stage": 2,
+        "fresh_seed_validation": true
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "93a1d1cb241893a42e658bed7058cf481b43be86",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w3-width-compensation",
+    "experiments": [
+      {
+        "id": "w3_c_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control including phase-order drift",
+        "n": 3,
+        "seed": 1200,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w3_width448_lr",
+        "params": {
+          "widths": [
+            128,
+            448,
+            512
+          ],
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "lr_hold_frac": 0.45
+        },
+        "hypothesis": "Limited learning-rate compensation for smaller middle stage",
+        "n": 3,
+        "seed": 1200,
+        "parent_experiment": "w2_width448",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w3_width448_6_8",
+        "params": {
+          "widths": [
+            128,
+            448,
+            512
+          ],
+          "epochs": 6.8
+        },
+        "hypothesis": "Recover capacity accuracy with 170 smaller-model updates",
+        "n": 3,
+        "seed": 1200,
+        "parent_experiment": "w2_width448",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w3_width480_6_2_reset",
+        "params": {
+          "widths": [
+            128,
+            480,
+            512
+          ],
+          "epochs": 6.2,
+          "fast_reset": true
+        },
+        "hypothesis": "Combine identified compute and reset savings with shorter training",
+        "n": 3,
+        "seed": 1200,
+        "parent_experiment": "w2_width480",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w3_bs2500_scaled_sgd",
+        "params": {
+          "batch_size": 2500,
+          "muon_lr": 0.3,
+          "head_lr": 2.4,
+          "bias_lr": 0.0424,
+          "lr_hold_frac": 0.45
+        },
+        "hypothesis": "Final limited larger-batch test: scale sum-loss SGD rates down while scaling Muon up",
+        "n": 3,
+        "seed": 1200,
+        "parent_experiment": "w1_bs2500",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "93a1d1cb241893a42e658bed7058cf481b43be86",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w3-stage-depth",
+    "validate": true,
+    "experiments": [
+      {
+        "id": "w3_d_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control including phase-order drift",
+        "n": 3,
+        "seed": 1200,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w3_depth_3_2_3",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ]
+        },
+        "hypothesis": "Remove one expensive middle-stage convolution while preserving other stages",
+        "n": 3,
+        "seed": 1200,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w3_depth_2_3_3",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ]
+        },
+        "hypothesis": "Remove one first-stage convolution",
+        "n": 3,
+        "seed": 1200,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w3_depth_3_3_2",
+        "params": {
+          "stage_depths": [
+            3,
+            3,
+            2
+          ]
+        },
+        "hypothesis": "Remove one final-stage convolution",
+        "n": 3,
+        "seed": 1200,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  }
+]
