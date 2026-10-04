@@ -1,0 +1,289 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "87a4f5751455cd4455ffbcdd74d8a5db649eb859",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w9-firstshort-pcie-retry",
+    "require_pcie": true,
+    "experiments": [
+      {
+        "id": "w9_final_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 5000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "materialize_defaults": false
+      },
+      {
+        "id": "w9_firstdepth_6_3_tuned_40_pcie",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.3,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "n": 40,
+        "seed": 5000,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "hypothesis": "One bounded repeat of official-variant allocation; previous40neverstarted. Exactfrozendefaultsandfreshseeds",
+        "stage": 4,
+        "fresh_seed_validation": true,
+        "materialize_defaults": true
+      },
+      {
+        "id": "w9_final_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 5000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "materialize_defaults": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "87a4f5751455cd4455ffbcdd74d8a5db649eb859",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w9-first-budget-stage3",
+    "experiments": [
+      {
+        "id": "w9_a_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 4100,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "materialize_defaults": false
+      },
+      {
+        "id": "w9_firstdepth_6_4_reset_20",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.4
+        },
+        "n": 20,
+        "seed": 4100,
+        "parent_experiment": "w8_firstdepth_6_4_reset_10",
+        "hypothesis": "Fresh20 promotion of75.317% strong10 withoriginalRC3LR",
+        "stage": 3,
+        "fresh_seed_validation": true,
+        "materialize_defaults": false
+      },
+      {
+        "id": "w9_firstdepth_6_3_midlr_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.3,
+          "head_lr": 3.15,
+          "muon_lr": 0.245
+        },
+        "n": 10,
+        "seed": 2900,
+        "parent_experiment": "w8_firstdepth_6_3_midlr_reset",
+        "hypothesis": "Fresh10 forintermediateLRshortbudget, low-variance3seed screen",
+        "stage": 2,
+        "fresh_seed_validation": true,
+        "materialize_defaults": false
+      },
+      {
+        "id": "w9_a_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 4100,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "materialize_defaults": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "87a4f5751455cd4455ffbcdd74d8a5db649eb859",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w9-smaller-batch-margin",
+    "experiments": [
+      {
+        "id": "w9_bs_control_before",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1800,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "Matchedfirstdepth163-updatecontrol",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "materialize_defaults": false
+      },
+      {
+        "id": "w9_firstdepth_bs1750_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575
+        },
+        "n": 10,
+        "seed": 2900,
+        "parent_experiment": "w8_firstdepth_bs1750",
+        "hypothesis": "Fresh10 for5.956s,75.0167% screen; exceptional8%speedgainjustifieslimitedvalidation",
+        "stage": 2,
+        "fresh_seed_validation": true,
+        "materialize_defaults": false
+      },
+      {
+        "id": "w9_firstdepth_bs1750_6_1",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.1,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575
+        },
+        "n": 3,
+        "seed": 1800,
+        "parent_experiment": "w8_firstdepth_bs1750",
+        "hypothesis": "Threemore1750updates mayrecovermarginwhileretainingsample-work savings",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "materialize_defaults": false
+      },
+      {
+        "id": "w9_firstdepth_bs1750_6_2",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.2,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575
+        },
+        "n": 3,
+        "seed": 1800,
+        "parent_experiment": "w8_firstdepth_bs1750",
+        "hypothesis": "Sixadditional1750updates; localbudgetcompensationwithoutbroadgrid",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "materialize_defaults": false
+      },
+      {
+        "id": "w9_bs_control_after",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1800,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "Aftercontrolforfirstdepthsmaller-batchscreens",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "materialize_defaults": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "87a4f5751455cd4455ffbcdd74d8a5db649eb859",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w9-firstshort-accuracy40",
+    "experiments": [
+      {
+        "id": "w9_accuracy_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 6000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "materialize_defaults": false
+      },
+      {
+        "id": "w9_firstdepth_6_3_tuned_40_any_a100",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.3,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "n": 40,
+        "seed": 6000,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "hypothesis": "FortyfreshaccuracyconfirmationonavailableA10080GB;SXMresultcannotreplaceRC3withoutPCIevalidation",
+        "stage": 4,
+        "fresh_seed_validation": true,
+        "materialize_defaults": true
+      },
+      {
+        "id": "w9_accuracy_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 6000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "materialize_defaults": false
+      }
+    ]
+  }
+]
