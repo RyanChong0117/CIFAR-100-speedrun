@@ -272,7 +272,7 @@ def normalize_run(run_dir: Path | str, metadata: dict | None = None) -> dict:
                                 else resolution,
         "architecture": {k: parameters[k] for k in ARCH_KEYS if k in parameters},
         "optimizer": {k: parameters[k] for k in OPT_KEYS if k in parameters},
-        "total_epochs": params.get("epochs"), "total_optimizer_steps": steps,
+        "total_epochs": parameters.get("epochs"), "total_optimizer_steps": steps,
         "step_count_basis": step_basis, "observed_step_counts": observed_steps,
         "training_examples": 50000, "seeds": [t.get("seed") for t in trials],
         "requested_seeds": config.get("seeds", []),
