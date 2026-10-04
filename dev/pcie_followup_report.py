@@ -71,8 +71,8 @@ def main():
         ledger.annotate(
             segment["experiment_id"], promotion_status="pcie_validation_only",
             conclusion=conclusion + " RC3 remains unchanged.",
-            validation_cohort=result["experiment_id"],
-            validation_notes="Derived preplanned cohort includes all 37 preserved results plus "
+            validation_notes=result["experiment_id"] + ": Derived preplanned cohort "
+            "includes all 37 preserved results plus "
             "the three missing seeds recovered from fresh state. Original harness run remains "
             "incomplete; no completed seed replay; no duplicate aggregate ledger trial count.",
         )
