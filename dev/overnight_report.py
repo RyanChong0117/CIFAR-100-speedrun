@@ -6,7 +6,7 @@ from collections import defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
 
-from dev.experiment_ledger import RC3_RUN, Ledger, finite
+from dev.experiment_ledger import RC3_RUN, Ledger, finite, summarize_trials
 from dev.overnight_gate import evaluate
 
 
@@ -37,6 +37,21 @@ def write_report(reason, finished=False):
     finalists = [r for r in candidates if r['trial_count'] == 40
                  and r.get('fresh_seed_validation')]
     gates = [evaluate(r, records) for r in finalists]
+    cohorts = defaultdict(list)
+    for r in finalists:
+        cohorts[json.dumps([r['parameters'], r['gpu_models']], sort_keys=True)].append(r)
+    pooled = []
+    for rows in cohorts.values():
+        if len(rows) < 2:
+            continue
+        trials = [t for r in rows for t in r['trials']]
+        seeds = [t['seed'] for t in trials]
+        if len(seeds) != len(set(seeds)):
+            raise ValueError('Replicate cohort has overlapping seeds; do not pool')
+        pooled.append(dict(experiment_ids=[r['experiment_id'] for r in rows],
+                           parameters=rows[0]['parameters'], gpu_models=rows[0]['gpu_models'],
+                           statistics=summarize_trials(trials, len(trials)),
+                           kind='descriptive_posthoc_pool_not_a_new_experiment'))
     rc3 = next(r for r in records if r['run_id'] == RC3_RUN)
     def fastest(rows):
         return min(rows, key=lambda r: r['mean_prepare_train_time']) if rows else None
@@ -53,6 +68,7 @@ def write_report(reason, finished=False):
                    protected_control=rc3, fastest_tested=best,
                    fastest_appears_accuracy_safe=best_safe,
                    fresh40=best40, all_fresh40=finalists, replacement_gates=gates,
+                   all_replication_cohorts=pooled,
                    strongest_accuracy20=max((r for r in candidates if r['trial_count'] >= 20),
                                             key=lambda r: r['mean_accuracy'], default=None),
                    leaderboard=reports,
@@ -80,6 +96,13 @@ def write_report(reason, finished=False):
         failures = [name for name, passed in gate['checks'].items() if not passed]
         lines += [f"- {describe(r)} Replacement eligible: {gate['promotable']}; "
                   f"failed checks: {', '.join(failures) or 'none'}."]
+    for cohort in pooled:
+        stats = cohort['statistics']
+        lines += [f"- Descriptive pool of {len(cohort['experiment_ids'])} same-configuration "
+                  f"replications: {stats['trial_count']} distinct fresh seeds, mean "
+                  f"{100*stats['mean_accuracy']:.4f}%, SD {100*stats['accuracy_std']:.4f} pp, "
+                  f"worst {100*stats['min_accuracy']:.2f}%, total "
+                  f"{stats['mean_prepare_train_time']:.6f} s. This is not a new experiment."]
     lines += ["", "All replications of a configuration must be reviewed together. "
               "Neither a fast host nor a higher-accuracy replication can be selected alone.", "",
               f"6. **Complete Pareto frontier.** Immutable leaderboard `{reports['markdown']}` "
