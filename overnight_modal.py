@@ -13,16 +13,37 @@ image = None
 if modal.is_local():
     # Only the local launcher needs the Docker context and local result writer.
     # Remote hydration mounts this entrypoint, not its sibling runner module.
-    from modal_runner import image, save_locally
+    from modal_runner import image
 
 app = modal.App("cifar100-rc3-overnight")
 
 
 def collect_files(result_path):
     root = Path("/app/results").resolve()
-    return {str(file.relative_to(root)): file.read_text(encoding="utf-8")
-            for file in result_path.rglob("*")
-            if file.is_file() and "__pycache__" not in file.parts}
+    files = {}
+    for file in result_path.rglob('*'):
+        if file.is_file() and '__pycache__' not in file.parts:
+            with file.open(encoding='utf-8', newline='') as stream:
+                files[str(file.relative_to(root))] = stream.read()
+    return files
+
+
+def save_evidence(output):
+    """Preserve source bytes/line endings and refuse conflicting historical copies."""
+    root = (Path(__file__).resolve().parent / 'results').resolve()
+    for relative, content in output['files'].items():
+        path = (root / relative).resolve()
+        if not path.is_relative_to(root):
+            raise ValueError('Evidence path must remain inside local results')
+        expected = content.encode('utf-8')
+        if path.exists():
+            if path.read_bytes() != expected:
+                raise ValueError(f'Existing evidence differs; preserve and inspect: {path}')
+            continue
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open('x', encoding='utf-8', newline='') as stream:
+            stream.write(content)
+    print(f"exit {output['returncode']}; retained {len(output['files'])} evidence files")
 
 
 @app.function(image=image, cpu=1, volumes={"/app/results": results_volume}, timeout=60)
@@ -38,7 +59,7 @@ def collect_interrupted(relative_path: str) -> dict:
 @app.local_entrypoint()
 def recover(path: str):
     output = collect_interrupted.remote(path)
-    save_locally(output)
+    save_evidence(output)
     print(f"Recovered {len(output['files'])} persisted files; incomplete runs remain incomplete.")
 
 
@@ -140,7 +161,7 @@ def wave(file: str):
     for request, call in calls:
         try:
             output = call.get()
-            save_locally(output)
+            save_evidence(output)
             receipt = Path("results/overnight") / request["session_id"] / "receipts"
             receipt.mkdir(parents=True, exist_ok=True)
             (receipt / f"{request['batch_id']}.json").write_text(
