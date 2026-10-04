@@ -59,6 +59,30 @@ def check_watchdog():
     print(json.dumps(result, indent=2))
 
 
+@app.function(image=image, cpu=4, timeout=120)
+def packaging_probe() -> str:
+    import torch
+
+    from dev.overnight_checks import check_install_and_resets
+
+    torch.set_num_threads(4)
+    torch.set_num_interop_threads(1)
+    rows = check_install_and_resets(Path('/app/submissions/airbench_muon'))
+    assert any(row.get('packaged_defaults_exact') is True for row in rows)
+    # TorchVersion is a str subclass whose pickle imports torch on the client.
+    # Keep the transport plain JSON; the local Modal CLI need not import torch.
+    return json.dumps(dict(torch_version=str(torch.__version__), synthetic_only=True, rows=rows))
+
+
+@app.local_entrypoint()
+def check_packaging():
+    result = json.loads(packaging_probe.remote())
+    path = Path('results/overnight/rc3-20261004/diagnostics/pinned-packaging.json')
+    with path.open('x', encoding='utf-8') as file:
+        file.write(json.dumps(result, indent=2) + '\n')
+    print(dict(torch_version=result['torch_version'], packaged_defaults_exact=True))
+
+
 @app.function(image=image, gpu="A100-80GB", cpu=4, max_containers=4,
               volumes={"/app/data": data_volume, "/app/results": results_volume}, timeout=7200)
 def batch(request: dict) -> dict:
