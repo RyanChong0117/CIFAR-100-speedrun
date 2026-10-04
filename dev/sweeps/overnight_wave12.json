@@ -1,0 +1,316 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "856d52880f432eb7e14fd3179189ba5b48da8a68",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w12-bn65-validation",
+    "experiments": [
+      {
+        "id": "w12_bn65_control_before",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.6
+        },
+        "parent_experiment": "w11_1750_bn_bn65",
+        "n": 3,
+        "seed": 2200,
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired screen"
+      },
+      {
+        "id": "w12_1750_bn65_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.65
+        },
+        "parent_experiment": "w11_1750_bn_bn65",
+        "n": 10,
+        "seed": 7200,
+        "stage": 2,
+        "fresh_seed_validation": true,
+        "hypothesis": "Fresh10 validate fast averaging screen; no lucky-seed promotion"
+      },
+      {
+        "id": "w12_bn65_control_after",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.6
+        },
+        "parent_experiment": "w11_1750_bn_bn65",
+        "n": 3,
+        "seed": 2200,
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired screen"
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "856d52880f432eb7e14fd3179189ba5b48da8a68",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w12-bn75-validation",
+    "experiments": [
+      {
+        "id": "w12_bn75_control_before",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.6
+        },
+        "parent_experiment": "w11_1750_bn_bn75",
+        "n": 3,
+        "seed": 2200,
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired screen"
+      },
+      {
+        "id": "w12_1750_bn75_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.75
+        },
+        "parent_experiment": "w11_1750_bn_bn75",
+        "n": 10,
+        "seed": 7200,
+        "stage": 2,
+        "fresh_seed_validation": true,
+        "hypothesis": "Fresh10 validate fast averaging screen; no lucky-seed promotion"
+      },
+      {
+        "id": "w12_bn75_control_after",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.6
+        },
+        "parent_experiment": "w11_1750_bn_bn75",
+        "n": 3,
+        "seed": 2200,
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired screen"
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "856d52880f432eb7e14fd3179189ba5b48da8a68",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w12-smoothing-screen",
+    "experiments": [
+      {
+        "id": "w12_smooth_control",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.65
+        },
+        "parent_experiment": "w11_1750_bn_bn65",
+        "n": 3,
+        "seed": 2200,
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired screen"
+      },
+      {
+        "id": "w12_1750_bn65_smooth25",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.65,
+          "label_smoothing": 0.25
+        },
+        "parent_experiment": "w11_1750_bn_bn65",
+        "n": 3,
+        "seed": 2200,
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Limited smoothing compensation for shorter sample budget"
+      },
+      {
+        "id": "w12_1750_bn65_smooth35",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.65,
+          "label_smoothing": 0.35
+        },
+        "parent_experiment": "w11_1750_bn_bn65",
+        "n": 3,
+        "seed": 2200,
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Limited smoothing compensation for shorter sample budget"
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "856d52880f432eb7e14fd3179189ba5b48da8a68",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w12-averaging-screen",
+    "experiments": [
+      {
+        "id": "w12_avg_control",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.75
+        },
+        "parent_experiment": "w11_1750_bn_bn75",
+        "n": 3,
+        "seed": 2200,
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired screen"
+      },
+      {
+        "id": "w12_1750_bn80",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.8
+        },
+        "parent_experiment": "w11_1750_bn_bn75",
+        "n": 3,
+        "seed": 2200,
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Test nearby longer running-statistics window"
+      },
+      {
+        "id": "w12_1750_bn85",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.85
+        },
+        "parent_experiment": "w11_1750_bn_bn75",
+        "n": 3,
+        "seed": 2200,
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Test nearby longer running-statistics window"
+      }
+    ]
+  }
+]
