@@ -1,0 +1,349 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "dbebc047a64ea505ef7df0ea9361a772c200d419",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w10-1750-retune",
+    "experiments": [
+      {
+        "id": "w10_a_control_before",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "Matchedfirst-depth163-updatecontrol",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_bs1750_6_0_aligned",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.2,
+          "bias_lr": 0.0555,
+          "muon_lr": 0.225,
+          "lr_hold_frac": 0.45
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w9_firstdepth_bs1750_10",
+        "hypothesis": "Alignholdendwithwhitenbiascutoff; approximate original integratedNS/SGD sizes despite moreupdates",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_bs1750_6_2_area",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.2,
+          "head_lr": 3.2,
+          "bias_lr": 0.0567,
+          "muon_lr": 0.225
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w9_firstdepth_bs1750_6_2",
+        "hypothesis": "174updates: preserveapproxRC3integrated updatearea toreducepossible overshoot",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_bs1750_6_0_scaled_muon",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w9_firstdepth_bs1750_10",
+        "hypothesis": "ScaleNSratebybatchratio1750/2000, retainingSGD batchcompensation",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_a_control_after",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "Matchedfirst-depth163-updatecontrol",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "dbebc047a64ea505ef7df0ea9361a772c200d419",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w10-1750-budget-validation",
+    "experiments": [
+      {
+        "id": "w10_b_control_before",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 3000,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "Matchedfirst-depth163-updatecontrol",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_bs1750_6_1_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.1,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575
+        },
+        "n": 10,
+        "seed": 3000,
+        "parent_experiment": "w9_firstdepth_bs1750_6_1",
+        "hypothesis": "Limitedfresh10ofnear75screen, exceptional measuredspeed; noaggressivepromotionwithoutmargin",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w10_b_control_after",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 3000,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "Matchedfirst-depth163-updatecontrol",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "dbebc047a64ea505ef7df0ea9361a772c200d419",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w10-batched-muon-rc3",
+    "experiments": [
+      {
+        "id": "w10_muon_control",
+        "params": {
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w2_fast_reset_10",
+        "hypothesis": "Matchedexact-resetRC3controlforvectorizedNS",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_batched_muon_rc3",
+        "params": {
+          "fast_reset": true,
+          "batched_muon": true
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w2_fast_reset_10",
+        "hypothesis": "Revisitcompatiblefive-matrixNSbucketonRC3afterprofiling; mathematicalalgebraequivalent,BF16roundingclose",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_firstshort_muon_control",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.3,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "hypothesis": "Matchedfirstshortcontrol",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_firstshort_batched_muon",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.3,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "batched_muon": true
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "hypothesis": "TestbatchedNSinteraction witheight-convfirst-depth model",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_muon_control_after",
+        "params": {
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w2_fast_reset_10",
+        "hypothesis": "AftercontrolforbatchedNSscreen",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "dbebc047a64ea505ef7df0ea9361a772c200d419",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w10-1900-sample-work",
+    "experiments": [
+      {
+        "id": "w10_c_control_before",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "Matchedfirst-depth163-updatecontrol",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_bs1900_6_1_aligned",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1900,
+          "epochs": 6.1,
+          "head_lr": 3.1578947368421053,
+          "bias_lr": 0.05578947368421053,
+          "lr_hold_frac": 0.44
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "159updates/302100samples; alignholdwith78-stepwhitenbiascutoff androughlypreserve integratedupdatearea",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_bs1900_6_2",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1900,
+          "epochs": 6.2,
+          "head_lr": 3.1578947368421053,
+          "bias_lr": 0.05578947368421053
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "162updates/307800samples: mildbatchdrop withsameupdatecount andSGD compensation",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w10_c_control_after",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1900,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "Matchedfirst-depth163-updatecontrol",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  }
+]
