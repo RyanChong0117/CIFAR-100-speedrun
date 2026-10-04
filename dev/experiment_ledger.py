@@ -40,7 +40,8 @@ ARCH_KEYS = ("architecture", "widths", "width", "depth", "stage_depths", "stage_
              "residual_blocks", "global_pool", "downsampling")
 OPT_KEYS = ("optimizer", "muon_lr", "muon_momentum", "bias_lr", "head_lr",
             "sgd_momentum", "weight_decay", "lr", "momentum", "ns_steps",
-            "ns_iterations", "lr_warmup_frac", "lr_hold_frac", "lr_schedule")
+            "ns_iterations", "lr_warmup_frac", "lr_hold_frac", "lr_schedule",
+            "compiled_muon", "batched_muon")
 # Upper 5% Student-t critical values. Larger df use a conservative lower-df row.
 T95 = (None, 6.3138, 2.9200, 2.3534, 2.1319, 2.0150, 1.9432, 1.8946,
        1.8595, 1.8331, 1.8125, 1.7959, 1.7823, 1.7709, 1.7613, 1.7531,

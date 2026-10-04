@@ -57,6 +57,38 @@ def zeropower_batched(gradients, steps=3, eps=1e-7):
     return x.transpose(-2, -1) if transpose else x
 
 
+def muon_pre_update(parameter, gradient, buffer, momentum, nesterov):
+    """Original pre-NS algebra; fusion can change low-precision rounding."""
+    buffer.mul_(momentum).add_(gradient)
+    update = gradient.add(buffer, alpha=momentum) if nesterov else buffer
+    parameter.mul_(len(parameter) ** 0.5 / parameter.norm())
+    return update
+
+
+class CompiledPreMuon(torch.optim.Optimizer):
+    """Fuse momentum and weight normalization; retain original NS and LR update."""
+
+    def __init__(self, params, lr, momentum, nesterov=True, *, zeropower, pre_update):
+        super().__init__(params, dict(lr=lr, momentum=momentum, nesterov=nesterov))
+        self.zeropower = zeropower
+        self.pre_update = pre_update
+
+    @torch.no_grad()
+    def step(self):
+        for group in self.param_groups:
+            for parameter in group['params']:
+                gradient = parameter.grad
+                if gradient is None:
+                    continue
+                state = self.state[parameter]
+                if 'momentum_buffer' not in state:
+                    state['momentum_buffer'] = torch.zeros_like(gradient)
+                update = self.pre_update(parameter, gradient, state['momentum_buffer'],
+                                         group['momentum'], group['nesterov'])
+                update = self.zeropower(update.reshape(len(update), -1))
+                parameter.add_(update.view(parameter.shape), alpha=-group['lr'])
+
+
 class BatchedMuon(torch.optim.Optimizer):
     """Group only equal matrix shapes; retain RC3 momentum and weight scaling."""
 
@@ -168,6 +200,16 @@ def install(namespace):
             fast_conv_reset if parameters.get("fast_reset", False) else original_reset
         )
         namespace["Muon"] = original_muon
+        if parameters.get('compiled_muon', False) and parameters.get('batched_muon', False):
+            raise ValueError('compiled_muon and batched_muon are separate experiments')
+        if parameters.get('compiled_muon', False):
+            pre_update = (torch.compile(muon_pre_update, fullgraph=True, dynamic=False)
+                          if compile_enabled else muon_pre_update)
+
+            def make_compiled_muon(*args, **kwargs):
+                return CompiledPreMuon(*args, **kwargs, pre_update=pre_update)
+
+            namespace['Muon'] = make_compiled_muon
         if parameters.get("batched_muon", False):
             def selected_batched(gradients):
                 return zeropower_batched(gradients, steps=ns_steps)

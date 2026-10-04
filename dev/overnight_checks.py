@@ -11,12 +11,46 @@ import torch
 from benchmark.api import BuildContext, TrainingData
 from benchmark.worker import load_submission, seed_everything
 from dev.overnight_variants import (
+    CompiledPreMuon,
     batch_crop_vectorized,
     crop_with_shifts,
     fast_conv_reset,
     install,
+    muon_pre_update,
     zeropower_batched,
 )
+
+
+def check_compiled_muon(recipe, device):
+    if device.type != 'cuda':
+        return dict(status='CUDA check deferred; CPU eager equivalence checked separately')
+    pre = torch.compile(muon_pre_update, fullgraph=True, dynamic=False)
+    ns = torch.compile(recipe.zeropower_via_newtonschulz5)
+    rows = []
+    for shape in ((128, 128, 3, 3), (512, 128, 3, 3), (512, 512, 3, 3)):
+        seed_everything(930)
+        initial = torch.randn(shape, device=device, dtype=torch.float16) * .05
+        p = torch.nn.Parameter(initial.contiguous(memory_format=torch.channels_last))
+        q = torch.nn.Parameter(p.detach().clone())
+        ref = recipe.Muon([p], lr=.24, momentum=.6, zeropower=ns)
+        actual = CompiledPreMuon([q], lr=.24, momentum=.6, zeropower=ns, pre_update=pre)
+        for lr in (.24, .2, .1):
+            gradient = torch.randn_like(p)
+            p.grad, q.grad = gradient, gradient.clone()
+            ref.param_groups[0]['lr'] = actual.param_groups[0]['lr'] = lr
+            ref.step()
+            actual.step()
+        delta = ((p-q).float().norm() / p.float().norm()).item()
+        b = ref.state[p]['momentum_buffer']
+        c = actual.state[q]['momentum_buffer']
+        buffer_delta = ((b-c).float().norm() / b.float().norm()).item()
+        assert delta < .02 and buffer_delta < .02, (shape, delta, buffer_delta)
+        assert torch.isfinite(q).all() and p.stride() == q.stride()
+        rows.append(dict(shape=shape, steps=3, parameter_relative_error=delta,
+                         momentum_relative_error=buffer_delta, finite=True,
+                         parameter_strides_equal=True))
+    return dict(rows=rows,
+                note='Approximate FP16 equivalence; CIFAR accuracy still requires validation')
 
 
 def rng_state(device):
@@ -157,7 +191,7 @@ def check_install_and_resets(submission):
                       dict(stage_depths=[3, 3, 2]),
                       dict(stage_residuals=[True, True, True]),
                       dict(stage_depths=[3, 2, 3], stage_residuals=[True, True, True]),
-                      dict(fast_reset=True),
+                      dict(fast_reset=True), dict(compiled_muon=True),
                       dict(crop_impl="vectorized"), dict(ns_steps=2), dict(ns_steps=1),
                       dict(batched_muon=True), dict(fast_reset=True, crop_impl="vectorized",
                                                    batched_muon=True, ns_steps=2)]
@@ -194,7 +228,7 @@ def check_install_and_resets(submission):
         exact_control = not extras or extras in (
             dict(ns_steps=3), dict(stage_depths=[3, 3, 3]),
             dict(stage_residuals=[True, True, True]),
-            dict(fast_reset=True), dict(crop_impl="vectorized"))
+            dict(fast_reset=True), dict(crop_impl="vectorized"), dict(compiled_muon=True))
         if exact_control:
             assert equal_states(first, baseline), extras
         rows.append(dict(parameters=extras, reset_exact=True, input_unchanged=True,
@@ -217,6 +251,7 @@ def main():
     result = dict(device=str(device), fast_reset=check_fast_reset(recipe, device),
                   crop=check_crop(recipe, device),
                   newton_schulz=check_newton_schulz(recipe, device),
+                  compiled_muon=check_compiled_muon(recipe, device),
                   install_and_reset=check_install_and_resets(args.submission))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n", encoding="utf-8")

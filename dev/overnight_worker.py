@@ -172,7 +172,7 @@ def run(request):
             recipe = root / "recipes" / name
             experimental = any(key in candidate.get("params", {}) for key in (
                 "ns_steps", "fast_reset", "crop_impl", "batched_muon", "stage_depths",
-                "stage_residuals"))
+                "stage_residuals", "compiled_muon"))
             hashes = freeze(recipe, experimental)
             params = {**candidate.get("params", {}), "experiment_name": name,
                       "hypothesis": candidate["hypothesis"]}
@@ -181,6 +181,7 @@ def run(request):
                         "fast_reset": params.get("fast_reset", False),
                         "crop_impl": params.get("crop_impl", "reference"),
                         "batched_muon": params.get("batched_muon", False),
+                        "compiled_muon": params.get("compiled_muon", False),
                         "stage_depths": params.get("stage_depths", [params.get(
                             "depth", source_defaults(base_path)["depth"])] * 3)}
             resolved["stage_residuals"] = params.get("stage_residuals", [
