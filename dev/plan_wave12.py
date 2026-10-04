@@ -71,7 +71,7 @@ def main():
                         n=10,
                         seed=7200,
                         stage=2,
-                        hypothesis="Fresh10 validate fast averaging screen; no lucky-seed promotion",
+                        hypothesis="Fresh10 validation of fast averaging; fresh seeds",
                     ),
                     experiment(
                         f"w12_bn{label}_control_after", small | dict(bn_momentum=0.6), parent
