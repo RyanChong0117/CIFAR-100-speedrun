@@ -119,7 +119,7 @@ def main():
     complete = [
         r
         for r in rows
-        if r.get("campaign") == "rc3-overnight" and r.get("complete") and not r.get("instrumented")
+        if r.get("campaign") == "rc3-20261004" and r.get("complete") and not r.get("instrumented")
     ]
     active = Path("results/overnight/rc3-20261004/active.json")
     state = json.loads(active.read_text())

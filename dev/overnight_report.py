@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from dev.experiment_ledger import RC3_RUN, Ledger, finite
+from dev.overnight_gate import evaluate
 
 
 def describe(r):
@@ -33,6 +34,9 @@ def write_report(reason, finished=False):
             and r['accuracy_lower_95_one_sided'] > .75]
     validated = [r for r in safe if r['trial_count'] >= 40
                  and r.get('fresh_seed_validation')]
+    finalists = [r for r in candidates if r['trial_count'] == 40
+                 and r.get('fresh_seed_validation')]
+    gates = [evaluate(r, records) for r in finalists]
     rc3 = next(r for r in records if r['run_id'] == RC3_RUN)
     def fastest(rows):
         return min(rows, key=lambda r: r['mean_prepare_train_time']) if rows else None
@@ -48,7 +52,10 @@ def write_report(reason, finished=False):
     payload = dict(reason=reason, finished=finished, default_promoted=False,
                    protected_control=rc3, fastest_tested=best,
                    fastest_appears_accuracy_safe=best_safe,
-                   fresh40=best40, leaderboard=reports,
+                   fresh40=best40, all_fresh40=finalists, replacement_gates=gates,
+                   strongest_accuracy20=max((r for r in candidates if r['trial_count'] >= 20),
+                                            key=lambda r: r['mean_accuracy'], default=None),
+                   leaderboard=reports,
                    complete_new_experiments=len(complete),
                    incomplete_new_experiments=len(new)-len(complete),
                    observed_new_trials=sum(r['trial_count'] for r in new),
@@ -68,6 +75,13 @@ def write_report(reason, finished=False):
     lines += ["", *[f"- {describe(fastest(rows))}" for rows in by_gpu.values()], "",
               "5. **Best fresh 40-seed candidate.** " + describe(best40)
               + (" RC3 retains the protected existing 40-seed result." if not best40 else ""), "",
+              "All fresh forty-seed replications and read-only replacement checks:", ""]
+    for r, gate in zip(finalists, gates, strict=True):
+        failures = [name for name, passed in gate['checks'].items() if not passed]
+        lines += [f"- {describe(r)} Replacement eligible: {gate['promotable']}; "
+                  f"failed checks: {', '.join(failures) or 'none'}."]
+    lines += ["", "All replications of a configuration must be reviewed together. "
+              "Neither a fast host nor a higher-accuracy replication can be selected alone.", "",
               f"6. **Complete Pareto frontier.** Immutable leaderboard `{reports['markdown']}` "
               f"and machine-readable report `{reports['json']}` contain every historical and "
               "new frontier point, separated by exact GPU. Axes: mean/minimum accuracy and "
@@ -85,7 +99,12 @@ def write_report(reason, finished=False):
               "stage depth lost substantial accuracy. Middle-stage depth needed extra epochs "
               "and LR compensation; retaining its skip gave weaker fresh 10-seed evidence. "
               "A lucky three-seed 6.3+reset result did not repeat over ten. PCIe warming and "
-              "clock reduction raised sustained runtime; every warm result was retained.", "",
+              "clock reduction raised sustained runtime; every warm result was retained. "
+              "Smaller batch1750 at6.1 epochs averaged74.811% over fresh10 despite a "
+              "promising screen. Compiled pre-Muon fusion saved only5ms in the shorter "
+              "model and gave weaker accuracy. Two identical first-stage6.3 frozen "
+              "forty-seed replications failed the combined accuracy/runtime replacement "
+              "gate. Later BN and batched-Muon decisions remain in the ledger.", "",
               "9. **RC3 profile.** Three synchronized CUDA-event diagnostic trials on SXM4. "
               "Instrumentation includes event/host dispatch overhead; these totals cannot "
               "establish a submission speedup. NS is nested in Muon and crop in augmentation.", "",
@@ -98,10 +117,11 @@ def write_report(reason, finished=False):
     lines += ["", f"10. **Largest bottleneck.** Forward/backward compute: {share:.2f}% of "
               "profiled training. Whitening is about 1.7 ms and crop about 27 ms, so reducing "
               "those offers little remaining benefit. Exact reset saves roughly 50–65 ms.", "",
-              "11. **Recommended next optimization.** Follow the strongest fresh smaller-stage "
-              "candidate through 20 then 40 seeds, combine validated exact reset where helpful, "
-              "and measure sustained PCIe conditions against a matched RC3 control. Avoid "
-              "further broad batch/NS search without new evidence.", "",
+              "11. **Recommended next optimization.** Keep RC3 as the submission. The "
+              "first-stage depth reduction has the strongest capacity evidence; further "
+              "shortening needs accuracy recovery as well as sustained PCIe speed. Advance "
+              "BN averaging or batched Muon only when their fresh-seed evidence warrants it. "
+              "Use matched sustained PCIe controls and avoid broad grids without new evidence.", "",
               "12. **Reproduction.** Complete parameter dictionaries, source hashes, commit, "
               "seeds, architecture/optimizer and raw result paths for the fastest screen and "
               "accuracy-safe candidate are embedded in the adjacent JSON report. Frozen source "
@@ -110,7 +130,12 @@ def write_report(reason, finished=False):
               "<frozen-recipe> --params <complete-parameter-json> --n <trial-count> --seed "
               "<first-seed>`. RC3 source/config is at the protected tag and "
               "`dev/controls/rc3.json`. Hardware, software and sustained thermal conditions "
-              "must match for small timing comparisons."]
+              "must match for small timing comparisons. The byte-exact frozen forty-seed "
+              "recipe is in `results/overnight/rc3-20261004/exports/firstshort40-exact/`; "
+              "`verification.json` checks both source hashes. Its parameters are embedded "
+              "in defaults, so reproduce that packaged artifact without training overrides. "
+              "Earlier historical source downloads may normalize newlines; benchmark hashes "
+              "refer to original remote bytes, and those historical copies were preserved."]
     json_path = output.parent / (output.name + '.json')
     md_path = output.parent / (output.name + '.md')
     with json_path.open('x', encoding='utf-8') as file:
