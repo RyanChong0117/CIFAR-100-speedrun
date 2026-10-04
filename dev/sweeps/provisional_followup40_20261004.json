@@ -1,0 +1,40 @@
+[
+  {
+    "session_id": "rc3-followup-20261004",
+    "deadline_unix": 1791110683,
+    "source_commit": "89975f7855aeeeccd7b473099854e9815cf90693",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "original-provisional-fresh40-10000",
+    "experiments": [
+      {
+        "id": "followup_original_provisional_40",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "epochs": 6.3,
+          "fast_reset": true,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "n": 40,
+        "seed": 10000,
+        "parent_experiment": "w6_firstdepth_6_3_tuned_10",
+        "hypothesis": "User-requested independent40 accuracy validation of exact archived fastest provisional source; all fresh seeds retained; no default promotion",
+        "stage": 4,
+        "fresh_seed_validation": true,
+        "materialize_defaults": false,
+        "verified_source": {
+          "path": "overnight/rc3-20261004/batches/w6-first-depth-validation/runs/w6_firstdepth_6_3_tuned_10/20261004T010416Z-30ec504b/source",
+          "sha256": {
+            "overnight_variants.py": "59b8da96268475fab3cb46e4e14d051e4df0249e28d49befe4e7bce1e33baa87",
+            "submission.py": "c03ce6844764f29c921f9b665104338bb185b9fa2f9dc06b46cf130003e27129"
+          }
+        }
+      }
+    ],
+    "source_provenance": "Exact benchmark archive from original provisional10, not current development helper"
+  }
+]

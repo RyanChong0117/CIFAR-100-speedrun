@@ -43,6 +43,32 @@ def freeze(directory, experimental, default_parameters=None):
     return {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in directory.glob("*.py")}
 
 
+def freeze_verified(directory, specification):
+    """Copy an archived recipe verbatim, checking its benchmark-recorded hashes."""
+    results = Path('results').resolve()
+    source = (results / specification['path']).resolve()
+    if not source.is_relative_to(results):
+        raise ValueError('Archived recipe must remain inside the results volume')
+    expected = specification['sha256']
+    if 'submission.py' not in expected:
+        raise ValueError('Archived recipe must include submission.py')
+    files = {}
+    for name, checksum in expected.items():
+        if Path(name).name != name or not name.endswith('.py'):
+            raise ValueError('Archived recipe manifest must contain Python basenames')
+        path = (source / name).resolve()
+        if not path.is_relative_to(source):
+            raise ValueError('Archived source file escapes its recipe directory')
+        data = path.read_bytes()
+        if hashlib.sha256(data).hexdigest() != checksum:
+            raise ValueError(f'Archived source hash mismatch: {name}')
+        files[name] = data
+    directory.mkdir(parents=True, exist_ok=False)
+    for name, data in files.items():
+        (directory / name).write_bytes(data)
+    return dict(expected)
+
+
 def stop_command_tree(process):
     """Stop this command's children, including the harness worker's own session.
 
@@ -178,9 +204,14 @@ def run(request):
             experimental = any(key in candidate.get("params", {}) for key in (
                 "ns_steps", "fast_reset", "crop_impl", "batched_muon", "stage_depths",
                 "stage_residuals", "compiled_muon"))
-            hashes = freeze(recipe, experimental,
-                            candidate.get('params') if candidate.get('materialize_defaults')
-                            else None)
+            if candidate.get('verified_source'):
+                if candidate.get('materialize_defaults'):
+                    raise ValueError('Archived source must remain byte-exact')
+                hashes = freeze_verified(recipe, candidate['verified_source'])
+            else:
+                hashes = freeze(recipe, experimental,
+                                candidate.get('params') if candidate.get('materialize_defaults')
+                                else None)
             overrides = candidate.get('params', {})
             params = {**({} if candidate.get('materialize_defaults') else overrides),
                       "experiment_name": name,
