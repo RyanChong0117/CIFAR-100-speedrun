@@ -38,6 +38,53 @@ def freeze(directory, experimental):
     return {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in directory.glob("*.py")}
 
 
+def stop_command_tree(process):
+    """Stop this command's children, including the harness worker's own session.
+
+    The harness deliberately calls setsid() in its worker. Killing just the
+    supervisor's process group would leave that worker and compiler children
+    alive. Freeze discovered descendants before the next scan so no child can
+    continue spawning work while the tree is being terminated.
+    """
+    import signal
+
+    if process.poll() is not None:
+        return
+    frozen = {process.pid}
+    try:
+        os.kill(process.pid, signal.SIGSTOP)
+    except ProcessLookupError:
+        return
+    while True:
+        discovered = set()
+        for status in Path("/proc").glob("[0-9]*/status"):
+            try:
+                pid = int(status.parent.name)
+                parent = next(int(line.split()[1]) for line in status.read_text().splitlines()
+                              if line.startswith("PPid:"))
+                if parent in frozen and pid not in frozen:
+                    discovered.add(pid)
+            except (OSError, StopIteration):
+                continue
+        if not discovered:
+            break
+        for pid in discovered:
+            try:
+                os.kill(pid, signal.SIGSTOP)
+                frozen.add(pid)
+            except ProcessLookupError:
+                continue
+    for pid in frozen - {process.pid}:
+        try:
+            os.kill(pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+    try:
+        os.kill(process.pid, signal.SIGKILL)
+    except ProcessLookupError:
+        pass
+
+
 def command_run(command, path, environment, timeout):
     """Keep all compiler diagnostics, stream only progress and benchmark output."""
     with path.open("w", encoding="utf-8") as log:
@@ -46,17 +93,13 @@ def command_run(command, path, environment, timeout):
         started = time.monotonic()
         # Harness deadlines bound normal runs. A watchdog also bounds compilation
         # and validation commands that do not use the harness.
-        import signal
         import threading
 
         expired = threading.Event()
 
         def terminate():
             expired.set()
-            try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
+            stop_command_tree(process)
 
         timer = threading.Timer(timeout, terminate)
         timer.start()

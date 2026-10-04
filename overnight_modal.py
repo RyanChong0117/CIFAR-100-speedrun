@@ -18,6 +18,23 @@ if modal.is_local():
 app = modal.App("cifar100-rc3-overnight")
 
 
+@app.function(image=image, cpu=1, timeout=60)
+def watchdog_probe() -> dict:
+    from dev.overnight_watchdog_check import run
+
+    return run()
+
+
+@app.local_entrypoint()
+def check_watchdog():
+    result = watchdog_probe.remote()
+    path = Path("results/overnight/rc3-20261004/watchdog-validation.json")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("x", encoding="utf-8") as output:
+        output.write(json.dumps(result, indent=2) + "\n")
+    print(json.dumps(result, indent=2))
+
+
 @app.function(image=image, gpu="A100-80GB", cpu=4, max_containers=4,
               volumes={"/app/data": data_volume, "/app/results": results_volume}, timeout=7200)
 def batch(request: dict) -> dict:
