@@ -231,9 +231,20 @@ def check_install_and_resets(submission):
             dict(fast_reset=True), dict(crop_impl="vectorized"), dict(compiled_muon=True))
         if exact_control:
             assert equal_states(first, baseline), extras
+        packaged_defaults_exact = None
+        if extras == dict(stage_depths=[2, 3, 3]):
+            recipe.DEFAULTS.update(parameters)
+            packaged = recipe.build(BuildContext(torch.device('cpu'), {}))
+            assert packaged.cfg == state.cfg
+            seed_everything(901)
+            recipe.prepare(packaged, data, 901)
+            recipe.train(packaged)
+            packaged_defaults_exact = equal_states(first, packaged.model.state_dict())
+            assert packaged_defaults_exact
         rows.append(dict(parameters=extras, reset_exact=True, input_unchanged=True,
                          steps=state.steps, stage_depths=actual_depths,
                          stage_residuals=actual_residuals,
+                         packaged_defaults_exact=packaged_defaults_exact,
                          identical_to_control=equal_states(first, baseline)))
     return rows
 
