@@ -1,0 +1,272 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "31c034cd49a90662f3cf1401328d1b0ff2adf15d",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w8-firstshort-pcie-final40",
+    "require_pcie": true,
+    "experiments": [
+      {
+        "id": "w8_final_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 5000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local hardware/thermal control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w8_firstdepth_6_3_tuned_40",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.3,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "n": 40,
+        "seed": 5000,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "hypothesis": "Fresh40 confirmation of thin but positive20-seed accuracy evidence and strong speed; frozen defaults on PCIe only",
+        "stage": 4,
+        "fresh_seed_validation": true,
+        "materialize_defaults": true
+      },
+      {
+        "id": "w8_final_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 5000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local hardware/thermal control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "31c034cd49a90662f3cf1401328d1b0ff2adf15d",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w8-first-budget-margin",
+    "experiments": [
+      {
+        "id": "w8_a_control_before",
+        "params": {},
+        "n": 3,
+        "seed": 2800,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local hardware/thermal control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w8_firstdepth_6_4_reset_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.4
+        },
+        "n": 10,
+        "seed": 2800,
+        "parent_experiment": "w7_firstdepth_6_4_reset",
+        "hypothesis": "One limited fresh10 validation near75 screen, justified by strong first-depth parent",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w8_firstdepth_6_3_base_reset",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.3
+        },
+        "n": 3,
+        "seed": 1700,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "hypothesis": "Check if original LR avoids lost margin after shorter first-stage training",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w8_firstdepth_6_3_midlr_reset",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.3,
+          "head_lr": 3.15,
+          "muon_lr": 0.245
+        },
+        "n": 3,
+        "seed": 1700,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "hypothesis": "Single intermediate LR point between original and retuned firstshort",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w8_a_control_after",
+        "params": {},
+        "n": 3,
+        "seed": 2800,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local hardware/thermal control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "31c034cd49a90662f3cf1401328d1b0ff2adf15d",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w8-middle-margin-stage3",
+    "experiments": [
+      {
+        "id": "w8_b_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 4000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local hardware/thermal control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w8_middle_7_1_reset_20",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 7.1,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "fast_reset": true
+        },
+        "n": 20,
+        "seed": 4000,
+        "parent_experiment": "w7_middle_7_1_reset_10",
+        "hypothesis": "Fresh20 promotion of accuracy-stronger178-step smaller-middle model",
+        "stage": 3,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w8_b_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 4000,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local hardware/thermal control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "31c034cd49a90662f3cf1401328d1b0ff2adf15d",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w8-smaller-batch-screen",
+    "experiments": [
+      {
+        "id": "w8_smaller_batch_control",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1700,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "Matched163-step first-depth architecture control for smaller-batch work hypothesis",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w8_firstdepth_bs1750",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575
+        },
+        "n": 3,
+        "seed": 1700,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "168 updates on294k samples: smaller batch may cut sample work while preserving update count; SGD rates compensated",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w8_firstdepth_bs1600",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1600,
+          "epochs": 5.5,
+          "head_lr": 3.75,
+          "bias_lr": 0.06625
+        },
+        "n": 3,
+        "seed": 1700,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "171 updates on273.6k samples with aligned1600 batch; test sample-work reduction and SGD rate compensation",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w8_smaller_batch_control_after",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1700,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "After-control for first-depth smaller-batch screen",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  }
+]
