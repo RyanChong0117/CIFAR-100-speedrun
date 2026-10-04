@@ -1,0 +1,294 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "c7e3516017c131ea903bdcdac6e5f592d3b84cab",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w11-1750-bn",
+    "experiments": [
+      {
+        "id": "w11_1750_bn_control",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.6
+        },
+        "n": 3,
+        "seed": 2000,
+        "parent_experiment": "w10_bs1750_6_0_scaled_muon",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired training-only BN running-statistics averaging; current-batch training unchanged, accuracy screened by unchanged harness"
+      },
+      {
+        "id": "w11_1750_bn_bn65",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.65
+        },
+        "n": 3,
+        "seed": 2000,
+        "parent_experiment": "w10_bs1750_6_0_scaled_muon",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired training-only BN running-statistics averaging; current-batch training unchanged, accuracy screened by unchanged harness"
+      },
+      {
+        "id": "w11_1750_bn_bn75",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "batch_size": 1750,
+          "epochs": 6.0,
+          "head_lr": 3.4285714285714284,
+          "bias_lr": 0.060571428571428575,
+          "muon_lr": 0.21,
+          "bn_momentum": 0.75
+        },
+        "n": 3,
+        "seed": 2000,
+        "parent_experiment": "w10_bs1750_6_0_scaled_muon",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired training-only BN running-statistics averaging; current-batch training unchanged, accuracy screened by unchanged harness"
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "c7e3516017c131ea903bdcdac6e5f592d3b84cab",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w11-first61-bn",
+    "experiments": [
+      {
+        "id": "w11_first61_bn_control",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.1,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "bn_momentum": 0.6
+        },
+        "n": 3,
+        "seed": 2000,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired training-only BN running-statistics averaging; current-batch training unchanged, accuracy screened by unchanged harness"
+      },
+      {
+        "id": "w11_first61_bn_bn65",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.1,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "bn_momentum": 0.65
+        },
+        "n": 3,
+        "seed": 2000,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired training-only BN running-statistics averaging; current-batch training unchanged, accuracy screened by unchanged harness"
+      },
+      {
+        "id": "w11_first61_bn_bn75",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.1,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "bn_momentum": 0.75
+        },
+        "n": 3,
+        "seed": 2000,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired training-only BN running-statistics averaging; current-batch training unchanged, accuracy screened by unchanged harness"
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "c7e3516017c131ea903bdcdac6e5f592d3b84cab",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w11-first62-bn",
+    "experiments": [
+      {
+        "id": "w11_first62_bn_control",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.2,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "bn_momentum": 0.6
+        },
+        "n": 3,
+        "seed": 2000,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired training-only BN running-statistics averaging; current-batch training unchanged, accuracy screened by unchanged harness"
+      },
+      {
+        "id": "w11_first62_bn_bn65",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.2,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "bn_momentum": 0.65
+        },
+        "n": 3,
+        "seed": 2000,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired training-only BN running-statistics averaging; current-batch training unchanged, accuracy screened by unchanged harness"
+      },
+      {
+        "id": "w11_first62_bn_bn75",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.2,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "bn_momentum": 0.75
+        },
+        "n": 3,
+        "seed": 2000,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Paired training-only BN running-statistics averaging; current-batch training unchanged, accuracy screened by unchanged harness"
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "c7e3516017c131ea903bdcdac6e5f592d3b84cab",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w11-batched-muon-validation",
+    "experiments": [
+      {
+        "id": "w11_muon_control_before",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.3,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "n": 3,
+        "seed": 7100,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Matched shorter-model NS control"
+      },
+      {
+        "id": "w11_firstshort_batched_muon_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.3,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "batched_muon": true
+        },
+        "n": 10,
+        "seed": 7100,
+        "parent_experiment": "w10_firstshort_batched_muon",
+        "stage": 2,
+        "fresh_seed_validation": true,
+        "hypothesis": "Fresh10 test of measured47ms batched-Muon gain"
+      },
+      {
+        "id": "w11_muon_control_after",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.3,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "n": 3,
+        "seed": 7100,
+        "parent_experiment": "w7_firstdepth_6_3_tuned_20",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "After control, all warming evidence retained"
+      }
+    ]
+  }
+]
