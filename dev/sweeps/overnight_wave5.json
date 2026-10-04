@@ -1,0 +1,325 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "27d76188714f1608182fc4951505701940c320e6",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w5-first-depth-finalists",
+    "experiments": [
+      {
+        "id": "w5_a_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 10,
+        "seed": 3400,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w5_depth_2_3_3_20",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ]
+        },
+        "hypothesis": "20 fresh seeds for reduced first-stage depth",
+        "n": 20,
+        "seed": 3400,
+        "parent_experiment": "w4_depth_2_3_3_10",
+        "stage": 3,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w5_firstdepth_6_3_tuned_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "epochs": 6.3,
+          "fast_reset": true,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "hypothesis": "10 fresh seeds for target-speed shorter first-depth combination",
+        "n": 10,
+        "seed": 2400,
+        "parent_experiment": "w4_firstdepth_6_3_tuned",
+        "stage": 2,
+        "fresh_seed_validation": true
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "27d76188714f1608182fc4951505701940c320e6",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w5-middle-validation",
+    "experiments": [
+      {
+        "id": "w5_b_control_before",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 5,
+        "seed": 2500,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w5_middle_7_lr_10",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 7.0,
+          "head_lr": 3.3,
+          "muon_lr": 0.255
+        },
+        "hypothesis": "10 fresh seeds for accuracy recovery without retained middle skip",
+        "n": 10,
+        "seed": 2500,
+        "parent_experiment": "w4_middle_7_lr",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w5_middle_6_8_reset",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 6.8,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "fast_reset": true
+        },
+        "hypothesis": "170 smaller-model updates plus exact reset for sustained runtime margin",
+        "n": 3,
+        "seed": 1400,
+        "parent_experiment": "w4_middle_7_lr",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w5_middle_6_9_reset",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 6.9,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "fast_reset": true
+        },
+        "hypothesis": "173 smaller-model updates plus exact reset with slightly more accuracy margin",
+        "n": 3,
+        "seed": 1400,
+        "parent_experiment": "w4_middle_7_lr",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w5_b_control_after",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 5,
+        "seed": 2500,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "27d76188714f1608182fc4951505701940c320e6",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w5-retained-middle-validation",
+    "experiments": [
+      {
+        "id": "w5_c_control_before",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 5,
+        "seed": 2500,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w5_middle_residual_7_lr_10",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 7.0,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "stage_residuals": [
+            true,
+            true,
+            true
+          ]
+        },
+        "hypothesis": "10 fresh seeds for PCIe target-speed retained middle residual",
+        "n": 10,
+        "seed": 2500,
+        "parent_experiment": "w4_middle_residual_7_lr",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w5_middle_residual_6_8_reset",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 6.8,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "stage_residuals": [
+            true,
+            true,
+            true
+          ],
+          "fast_reset": true
+        },
+        "hypothesis": "Retained skip: 170 updates plus exact reset",
+        "n": 3,
+        "seed": 1400,
+        "parent_experiment": "w4_middle_residual_7_lr",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w5_middle_residual_6_9_reset",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 6.9,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "stage_residuals": [
+            true,
+            true,
+            true
+          ],
+          "fast_reset": true
+        },
+        "hypothesis": "Retained skip: 173 updates plus exact reset",
+        "n": 3,
+        "seed": 1400,
+        "parent_experiment": "w4_middle_residual_7_lr",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w5_c_control_after",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 5,
+        "seed": 2500,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "27d76188714f1608182fc4951505701940c320e6",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w5-implementation-interactions",
+    "experiments": [
+      {
+        "id": "w5_d_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 3,
+        "seed": 1400,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w5_firstdepth_width480_reset",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "widths": [
+            128,
+            480,
+            512
+          ],
+          "fast_reset": true
+        },
+        "hypothesis": "Combine mild middle-width reduction and exact reset with supported first-depth architecture",
+        "n": 3,
+        "seed": 1400,
+        "parent_experiment": "w4_depth_2_3_3_10",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w5_firstdepth_width480_lr",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "widths": [
+            128,
+            480,
+            512
+          ],
+          "fast_reset": true,
+          "head_lr": 3.15,
+          "muon_lr": 0.25
+        },
+        "hypothesis": "Limited LR compensation for the width/depth interaction",
+        "n": 3,
+        "seed": 1400,
+        "parent_experiment": "w4_depth_2_3_3_10",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w5_translate0",
+        "params": {
+          "translate": 0
+        },
+        "hypothesis": "Separate augmentation-removal experiment after implementation crop optimizations failed",
+        "n": 3,
+        "seed": 1400,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  }
+]
