@@ -182,7 +182,12 @@ def normalize_run(run_dir: Path | str, metadata: dict | None = None) -> dict:
     run = Path(run_dir)
     config = read_json(run / "config.json", {})
     summary = read_json(run / "summary.json", {})
-    meta = read_json(run / "experiment.json", {}) | (metadata or {})
+    meta = read_json(run / "experiment.json", {})
+    if not meta and run.parent.parent.name == "runs":
+        # A container can be preempted before the worker writes experiment.json.
+        # Its pre-launch metadata was checkpointed outside the harness directory.
+        meta = read_json(run.parent.parent.parent / f"{run.parent.name}.json", {})
+    meta = meta | (metadata or {})
     if not isinstance(summary, dict):
         raise ValueError(f"Not an individual run: {run}")
     trials_path = run / "trials.jsonl"
@@ -216,6 +221,10 @@ def normalize_run(run_dir: Path | str, metadata: dict | None = None) -> dict:
     if summary.get("run_error") or summary.get("complete") is False:
         stats["complete"] = False
         stats["status"] = "incomplete_or_failed"
+    if not (run / "summary.json").exists():
+        stats["complete"] = False
+        stats["status"] = "incomplete_or_failed"
+        warnings.append("Harness summary missing; interrupted evidence cannot qualify")
     if not trials:
         # Saved aggregate metrics remain visible, but cannot satisfy raw-evidence gates.
         stats.update({"mean_accuracy": summary.get("mean_accuracy"),
@@ -401,9 +410,7 @@ class Ledger:
     def import_results(self, root: Path | str) -> dict:
         root = Path(root)
         found, by_identity, warnings = [], {}, []
-        for path in sorted(root.rglob("summary.json")):
-            if not (path.parent / "config.json").exists():
-                continue
+        for path in sorted(root.rglob("config.json")):
             try:
                 record = normalize_run(path.parent)
                 # Ignore location: copied downloads with the same run/source/seeds are one run.
