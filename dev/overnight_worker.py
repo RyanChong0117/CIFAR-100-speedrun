@@ -181,17 +181,20 @@ def run(request):
             hashes = freeze(recipe, experimental,
                             candidate.get('params') if candidate.get('materialize_defaults')
                             else None)
-            params = {**candidate.get("params", {}), "experiment_name": name,
+            overrides = candidate.get('params', {})
+            params = {**({} if candidate.get('materialize_defaults') else overrides),
+                      "experiment_name": name,
                       "hypothesis": candidate["hypothesis"]}
-            resolved = {**source_defaults(base_path), **params,
-                        "ns_steps": params.get("ns_steps", 3),
-                        "fast_reset": params.get("fast_reset", False),
-                        "crop_impl": params.get("crop_impl", "reference"),
-                        "batched_muon": params.get("batched_muon", False),
-                        "compiled_muon": params.get("compiled_muon", False),
-                        "stage_depths": params.get("stage_depths", [params.get(
+            effective = overrides | params
+            resolved = {**source_defaults(base_path), **effective,
+                        "ns_steps": effective.get("ns_steps", 3),
+                        "fast_reset": effective.get("fast_reset", False),
+                        "crop_impl": effective.get("crop_impl", "reference"),
+                        "batched_muon": effective.get("batched_muon", False),
+                        "compiled_muon": effective.get("compiled_muon", False),
+                        "stage_depths": effective.get("stage_depths", [effective.get(
                             "depth", source_defaults(base_path)["depth"])] * 3)}
-            resolved["stage_residuals"] = params.get("stage_residuals", [
+            resolved["stage_residuals"] = effective.get("stage_residuals", [
                 depth >= 3 for depth in resolved["stage_depths"]])
             metadata = {**candidate, "experiment_id": name, "parameters": resolved,
                         "complete_parameters": resolved,
