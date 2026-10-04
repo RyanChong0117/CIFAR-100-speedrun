@@ -151,7 +151,9 @@ def install(namespace):
     original_group = namespace["ConvGroup"]
 
     def build(context):
-        parameters = context.parameters
+        # Frozen finalists can make selected scalar hyperparameters their
+        # defaults. Explicit context overrides still take precedence.
+        parameters = namespace['DEFAULTS'] | context.parameters
         ns_steps = parameters.get("ns_steps", 3)
         if type(ns_steps) is not int or ns_steps not in (1, 2, 3):
             raise ValueError("ns_steps must be one of 1, 2, 3")

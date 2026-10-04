@@ -5,6 +5,7 @@ import ast
 import hashlib
 import json
 import os
+import pprint
 import shutil
 import subprocess
 import sys
@@ -25,10 +26,14 @@ def source_defaults(path):
     return ast.literal_eval(assignment.value)
 
 
-def freeze(directory, experimental):
+def freeze(directory, experimental, default_parameters=None):
     directory.mkdir(parents=True, exist_ok=False)
     source = Path("submissions/airbench_muon/submission.py").read_bytes()
     (directory / "submission.py").write_bytes(source)
+    if default_parameters:
+        with (directory / "submission.py").open("a", encoding="utf-8") as file:
+            file.write("\nDEFAULTS.update(" + pprint.pformat(default_parameters,
+                                                             sort_dicts=True) + ")\n")
     if experimental:
         for name in ("overnight_variants.py",):
             shutil.copyfile(Path("dev") / name, directory / name)
@@ -173,7 +178,9 @@ def run(request):
             experimental = any(key in candidate.get("params", {}) for key in (
                 "ns_steps", "fast_reset", "crop_impl", "batched_muon", "stage_depths",
                 "stage_residuals", "compiled_muon"))
-            hashes = freeze(recipe, experimental)
+            hashes = freeze(recipe, experimental,
+                            candidate.get('params') if candidate.get('materialize_defaults')
+                            else None)
             params = {**candidate.get("params", {}), "experiment_name": name,
                       "hypothesis": candidate["hypothesis"]}
             resolved = {**source_defaults(base_path), **params,
