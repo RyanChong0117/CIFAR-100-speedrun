@@ -64,13 +64,14 @@ def write_report(reason, finished=False):
     stamp = datetime.now(UTC).strftime('%Y%m%dT%H%M%S.%fZ')
     output = session / 'reports' / (stamp + ("-closeout" if finished else "-checkpoint"))
     output.parent.mkdir(parents=True, exist_ok=True)
+    strongest20 = max((r for r in candidates if r['trial_count'] >= 20),
+                      key=lambda r: r['mean_accuracy'], default=None)
     payload = dict(reason=reason, finished=finished, default_promoted=False,
                    protected_control=rc3, fastest_tested=best,
                    fastest_appears_accuracy_safe=best_safe,
                    fresh40=best40, all_fresh40=finalists, replacement_gates=gates,
                    all_replication_cohorts=pooled,
-                   strongest_accuracy20=max((r for r in candidates if r['trial_count'] >= 20),
-                                            key=lambda r: r['mean_accuracy'], default=None),
+                   strongest_accuracy20=strongest20,
                    leaderboard=reports,
                    complete_new_experiments=len(complete),
                    incomplete_new_experiments=len(new)-len(complete),
@@ -89,6 +90,8 @@ def write_report(reason, finished=False):
              + " Fresh 40-seed PCIe validation remains required unless separately recorded.", ""]
     lines += ["4. **Best 10+ seed evidence by exact hardware.**"]
     lines += ["", *[f"- {describe(fastest(rows))}" for rows in by_gpu.values()], "",
+              "Strongest mean-accuracy result with at least20 fresh candidate trials: "
+              + describe(strongest20) + " This is not a forty-seed replacement.", "",
               "5. **Best fresh 40-seed candidate.** " + describe(best40)
               + (" RC3 retains the protected existing 40-seed result." if not best40 else ""), "",
               "All fresh forty-seed replications and read-only replacement checks:", ""]
@@ -133,7 +136,9 @@ def write_report(reason, finished=False):
               "75.087% with an accuracy bound below75%; stronger LR/hold retuning lost "
               "accuracy. Batched Muon fresh10 averaged75.182% with its lower bound "
               "essentially75%, without a clear sustained PCIe win. Later structural "
-              "decisions remain in the ledger.", "",
+              "screens retaining the first-stage skip did not recover sufficient "
+              "accuracy at6.1/6.2 epochs;6.3 remained marginal. Full decisions remain "
+              "in the ledger.", "",
               "9. **RC3 profile.** Three synchronized CUDA-event diagnostic trials on SXM4. "
               "Instrumentation includes event/host dispatch overhead; these totals cannot "
               "establish a submission speedup. NS is nested in Muon and crop in augmentation.", "",
@@ -146,11 +151,14 @@ def write_report(reason, finished=False):
     lines += ["", f"10. **Largest bottleneck.** Forward/backward compute: {share:.2f}% of "
               "profiled training. Whitening is about 1.7 ms and crop about 27 ms, so reducing "
               "those offers little remaining benefit. Exact reset saves roughly 50–65 ms.", "",
-              "11. **Recommended next optimization.** Keep RC3 as the submission. The "
-              "first-stage depth reduction has the strongest capacity evidence; further "
-              "shortening needs accuracy recovery as well as sustained PCIe speed. Advance "
-              "BN averaging or batched Muon only when their fresh-seed evidence warrants it. "
-              "Use matched sustained PCIe controls and avoid broad grids without new evidence.", "",
+              "11. **Recommended next optimization.** Keep RC3 as the submission. Obtain "
+              "a development-only kernel/shape trace of forward and backward on PCIe, "
+              "then target the largest convolution or layout-copy cost with a change "
+              "that preserves learning behavior. The6.5-epoch first-stage depth reduction "
+              "has the strongest accuracy evidence as a development reference. Further "
+              "shortening and scalar retuning have plateaued; do not expand a blind grid. "
+              "Use matched sustained PCIe controls for runtime and the full fresh-seed "
+              "funnel for any candidate.", "",
               "12. **Reproduction.** Complete parameter dictionaries, source hashes, commit, "
               "seeds, architecture/optimizer and raw result paths for the fastest screen and "
               "accuracy-safe candidate are embedded in the adjacent JSON report. Frozen source "
