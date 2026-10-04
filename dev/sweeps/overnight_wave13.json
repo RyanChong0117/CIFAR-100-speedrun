@@ -1,0 +1,246 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "d6101b0dacc4bdb18acac5dbe6e0d727d2a5dd92",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w13-bn80-validation",
+    "experiments": [
+      {
+        "id": "w13_bn80_10",
+        "params": {
+          "batch_size": 1750,
+          "batched_muon": false,
+          "bias_lr": 0.060571428571428575,
+          "bn_momentum": 0.8,
+          "compile": true,
+          "compile_mode": "max-autotune",
+          "compiled_muon": false,
+          "crop_impl": "reference",
+          "depth": 3,
+          "epochs": 6.0,
+          "fast_reset": true,
+          "flip": true,
+          "head_lr": 3.4285714285714284,
+          "label_smoothing": 0.3,
+          "lr_hold_frac": 0.4,
+          "lr_warmup_frac": 0.05,
+          "muon_lr": 0.21,
+          "muon_momentum": 0.6,
+          "ns_steps": 3,
+          "sgd_momentum": 0.85,
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "stage_residuals": [
+            false,
+            true,
+            true
+          ],
+          "translate": 1,
+          "weight_decay": 2e-06,
+          "whiten_bias_epochs": 3,
+          "widths": [
+            128,
+            512,
+            512
+          ]
+        },
+        "n": 10,
+        "seed": 7300,
+        "parent_experiment": "w12_1750_bn80",
+        "stage": 2,
+        "fresh_seed_validation": true,
+        "hypothesis": "Fresh10 of selected fast screen; all seeds retained"
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "d6101b0dacc4bdb18acac5dbe6e0d727d2a5dd92",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w13-smooth35-validation",
+    "experiments": [
+      {
+        "id": "w13_smooth35_10",
+        "params": {
+          "batch_size": 1750,
+          "batched_muon": false,
+          "bias_lr": 0.060571428571428575,
+          "bn_momentum": 0.65,
+          "compile": true,
+          "compile_mode": "max-autotune",
+          "compiled_muon": false,
+          "crop_impl": "reference",
+          "depth": 3,
+          "epochs": 6.0,
+          "fast_reset": true,
+          "flip": true,
+          "head_lr": 3.4285714285714284,
+          "label_smoothing": 0.35,
+          "lr_hold_frac": 0.4,
+          "lr_warmup_frac": 0.05,
+          "muon_lr": 0.21,
+          "muon_momentum": 0.6,
+          "ns_steps": 3,
+          "sgd_momentum": 0.85,
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "stage_residuals": [
+            false,
+            true,
+            true
+          ],
+          "translate": 1,
+          "weight_decay": 2e-06,
+          "whiten_bias_epochs": 3,
+          "widths": [
+            128,
+            512,
+            512
+          ]
+        },
+        "n": 10,
+        "seed": 7300,
+        "parent_experiment": "w12_1750_bn65_smooth35",
+        "stage": 2,
+        "fresh_seed_validation": true,
+        "hypothesis": "Fresh10 of selected fast screen; all seeds retained"
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "d6101b0dacc4bdb18acac5dbe6e0d727d2a5dd92",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w13-first62-validation",
+    "experiments": [
+      {
+        "id": "w13_first62_10",
+        "params": {
+          "batch_size": 2000,
+          "batched_muon": false,
+          "bias_lr": 0.053,
+          "bn_momentum": 0.6,
+          "compile": true,
+          "compile_mode": "max-autotune",
+          "compiled_muon": false,
+          "crop_impl": "reference",
+          "depth": 3,
+          "epochs": 6.2,
+          "fast_reset": true,
+          "flip": true,
+          "head_lr": 3.25,
+          "label_smoothing": 0.3,
+          "lr_hold_frac": 0.4,
+          "lr_warmup_frac": 0.05,
+          "muon_lr": 0.25,
+          "muon_momentum": 0.6,
+          "ns_steps": 3,
+          "sgd_momentum": 0.85,
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "stage_residuals": [
+            false,
+            true,
+            true
+          ],
+          "translate": 1,
+          "weight_decay": 2e-06,
+          "whiten_bias_epochs": 3,
+          "widths": [
+            128,
+            512,
+            512
+          ]
+        },
+        "n": 10,
+        "seed": 7300,
+        "parent_experiment": "w11_first62_bn_control",
+        "stage": 2,
+        "fresh_seed_validation": true,
+        "hypothesis": "Fresh10 of selected fast screen; all seeds retained"
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "d6101b0dacc4bdb18acac5dbe6e0d727d2a5dd92",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w13-first62-local",
+    "experiments": [
+      {
+        "id": "w13_first62_control",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.2,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "n": 3,
+        "seed": 2300,
+        "parent_experiment": "w11_first62_bn_control",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Small LR/schedule compensation for three removed steps"
+      },
+      {
+        "id": "w13_first62_lr",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.2,
+          "head_lr": 3.5,
+          "muon_lr": 0.26
+        },
+        "n": 3,
+        "seed": 2300,
+        "parent_experiment": "w11_first62_bn_control",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Small LR/schedule compensation for three removed steps"
+      },
+      {
+        "id": "w13_first62_lr_hold",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "epochs": 6.2,
+          "head_lr": 3.5,
+          "muon_lr": 0.26,
+          "lr_hold_frac": 0.45
+        },
+        "n": 3,
+        "seed": 2300,
+        "parent_experiment": "w11_first62_bn_control",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "Small LR/schedule compensation for three removed steps"
+      }
+    ]
+  }
+]
