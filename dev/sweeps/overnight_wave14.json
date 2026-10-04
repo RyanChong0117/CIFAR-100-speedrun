@@ -1,0 +1,138 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "8b3005f219c414c3e16414e1d52619fa7a03db3f",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w14-first-residual-61",
+    "experiments": [
+      {
+        "id": "w14_first_residual_61",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "epochs": 6.1,
+          "stage_residuals": [
+            true,
+            true,
+            true
+          ]
+        },
+        "n": 3,
+        "seed": 2400,
+        "parent_experiment": "w13_first62_10",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "First-depth2 formerly disabled its skip. Retain original stage skip with only tensor-add cost; screen accuracy recovery under shorter budgets. Reference separately allocated; no small cross-host timing claim."
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "8b3005f219c414c3e16414e1d52619fa7a03db3f",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w14-first-residual-62",
+    "experiments": [
+      {
+        "id": "w14_first_residual_62",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "epochs": 6.2,
+          "stage_residuals": [
+            true,
+            true,
+            true
+          ]
+        },
+        "n": 3,
+        "seed": 2400,
+        "parent_experiment": "w13_first62_10",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "First-depth2 formerly disabled its skip. Retain original stage skip with only tensor-add cost; screen accuracy recovery under shorter budgets. Reference separately allocated; no small cross-host timing claim."
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "8b3005f219c414c3e16414e1d52619fa7a03db3f",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w14-first-residual-63",
+    "experiments": [
+      {
+        "id": "w14_first_residual_63",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "epochs": 6.3,
+          "stage_residuals": [
+            true,
+            true,
+            true
+          ]
+        },
+        "n": 3,
+        "seed": 2400,
+        "parent_experiment": "w13_first62_10",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "First-depth2 formerly disabled its skip. Retain original stage skip with only tensor-add cost; screen accuracy recovery under shorter budgets. Reference separately allocated; no small cross-host timing claim."
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "8b3005f219c414c3e16414e1d52619fa7a03db3f",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w14-first-residual-control",
+    "experiments": [
+      {
+        "id": "w14_first_residual_control",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "fast_reset": true,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "epochs": 6.2,
+          "stage_residuals": [
+            false,
+            true,
+            true
+          ]
+        },
+        "n": 3,
+        "seed": 2400,
+        "parent_experiment": "w13_first62_10",
+        "stage": 1,
+        "fresh_seed_validation": false,
+        "hypothesis": "First-depth2 formerly disabled its skip. Retain original stage skip with only tensor-add cost; screen accuracy recovery under shorter budgets. Reference separately allocated; no small cross-host timing claim."
+      }
+    ]
+  }
+]
