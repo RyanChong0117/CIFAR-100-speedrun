@@ -1,0 +1,258 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "3a7488444737f7e4a358c6078ab57dfd25b001e9",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w4-first-depth-validation",
+    "experiments": [
+      {
+        "id": "w4_a_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 10,
+        "seed": 2300,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w4_depth_2_3_3_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ]
+        },
+        "hypothesis": "10 fresh seeds for faster first-stage depth",
+        "n": 10,
+        "seed": 2300,
+        "parent_experiment": "w3_depth_2_3_3",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w4_firstdepth_6_3_tuned",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "epochs": 6.3,
+          "fast_reset": true,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "hypothesis": "Combine supported first-depth and shorter budget with small LR compensation",
+        "n": 3,
+        "seed": 1300,
+        "parent_experiment": "w3_depth_2_3_3",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "3a7488444737f7e4a358c6078ab57dfd25b001e9",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w4-short-combination-finalists",
+    "experiments": [
+      {
+        "id": "w4_b_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 10,
+        "seed": 3300,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w4_epochs_6_2_reset_20",
+        "params": {
+          "epochs": 6.2,
+          "fast_reset": true
+        },
+        "hypothesis": "20 fresh seeds for faster exact-reset combination",
+        "n": 20,
+        "seed": 3300,
+        "parent_experiment": "w3_epochs_6_2_reset_10",
+        "stage": 3,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w4_epochs_6_1_lr_20",
+        "params": {
+          "epochs": 6.1,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "hypothesis": "Limited 20 fresh seeds for borderline retuned 153 updates",
+        "n": 20,
+        "seed": 3300,
+        "parent_experiment": "w3_epochs_6_1_lr_10",
+        "stage": 3,
+        "fresh_seed_validation": true
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "3a7488444737f7e4a358c6078ab57dfd25b001e9",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w4-residual-compensation",
+    "validate": true,
+    "experiments": [
+      {
+        "id": "w4_c_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 3,
+        "seed": 1300,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w4_middle_residual",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "stage_residuals": [
+            true,
+            true,
+            true
+          ]
+        },
+        "hypothesis": "Retain RC3 skip paths while removing middle convolution",
+        "n": 3,
+        "seed": 1300,
+        "parent_experiment": "w3_depth_3_2_3",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w4_middle_residual_7_lr",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "stage_residuals": [
+            true,
+            true,
+            true
+          ],
+          "epochs": 7.0,
+          "head_lr": 3.3,
+          "muon_lr": 0.255
+        },
+        "hypothesis": "Limited budget/LR recovery for smaller residual model",
+        "n": 3,
+        "seed": 1300,
+        "parent_experiment": "w3_depth_3_2_3",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w4_first_residual",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "stage_residuals": [
+            true,
+            true,
+            true
+          ]
+        },
+        "hypothesis": "Retain first-stage identity path in the screened faster architecture",
+        "n": 3,
+        "seed": 1300,
+        "parent_experiment": "w3_depth_2_3_3",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "3a7488444737f7e4a358c6078ab57dfd25b001e9",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w4-schedule-compensation",
+    "experiments": [
+      {
+        "id": "w4_d_control",
+        "params": {},
+        "hypothesis": "Matched RC3 control",
+        "n": 3,
+        "seed": 1300,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w4_epochs_6_2_lr",
+        "params": {
+          "epochs": 6.2,
+          "head_lr": 3.15,
+          "muon_lr": 0.25,
+          "fast_reset": true
+        },
+        "hypothesis": "Small local LR compensation plus exact reset for 155 updates",
+        "n": 3,
+        "seed": 1300,
+        "parent_experiment": "w3_epochs_6_2_reset_10",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w4_epochs_6_1_smooth",
+        "params": {
+          "epochs": 6.1,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "label_smoothing": 0.28,
+          "fast_reset": true
+        },
+        "hypothesis": "Modest smoothing reduction for shorter validated schedule",
+        "n": 3,
+        "seed": 1300,
+        "parent_experiment": "w3_epochs_6_1_lr_10",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w4_middle_7_lr",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 7.0,
+          "head_lr": 3.3,
+          "muon_lr": 0.255
+        },
+        "hypothesis": "Recover middle-depth accuracy via modest extra training and LR, isolating retained skip experiment",
+        "n": 3,
+        "seed": 1300,
+        "parent_experiment": "w3_depth_3_2_3",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  }
+]
