@@ -127,7 +127,13 @@ def write_report(reason, finished=False):
               "promising screen. Compiled pre-Muon fusion saved only5ms in the shorter "
               "model and gave weaker accuracy. Two identical first-stage6.3 frozen "
               "forty-seed replications failed the combined accuracy/runtime replacement "
-              "gate. Later BN and batched-Muon decisions remain in the ledger.", "",
+              "gate. Longer BN windows and smoothing screens produced encouraging "
+              "three-seed means but failed fresh10: BN0.65=74.925%, BN0.75=75.041%, "
+              "BN0.80=74.986%, smoothing0.35=75.000%. First-stage6.2 fresh10 averaged "
+              "75.087% with an accuracy bound below75%; stronger LR/hold retuning lost "
+              "accuracy. Batched Muon fresh10 averaged75.182% with its lower bound "
+              "essentially75%, without a clear sustained PCIe win. Later structural "
+              "decisions remain in the ledger.", "",
               "9. **RC3 profile.** Three synchronized CUDA-event diagnostic trials on SXM4. "
               "Instrumentation includes event/host dispatch overhead; these totals cannot "
               "establish a submission speedup. NS is nested in Muon and crop in augmentation.", "",
@@ -158,7 +164,12 @@ def write_report(reason, finished=False):
               "`verification.json` checks both source hashes. Its parameters are embedded "
               "in defaults, so reproduce that packaged artifact without training overrides. "
               "Earlier historical source downloads may normalize newlines; benchmark hashes "
-              "refer to original remote bytes, and those historical copies were preserved."]
+              "refer to original remote bytes, and those historical copies were preserved. "
+              "The earlier fastest10-seed recipe is byte-exact in "
+              "`results/overnight/rc3-20261004/exports/firstshort10-exact/`, with its full "
+              "`parameters.json` and original seeds2600-2609. Optimizer step counts are "
+              "source-derived deterministic counts where labelled inferred; the diagnostic "
+              "control separately observed163 updates."]
     json_path = output.parent / (output.name + '.json')
     md_path = output.parent / (output.name + '.md')
     with json_path.open('x', encoding='utf-8') as file:
