@@ -65,7 +65,7 @@ def command_run(command, path, environment, timeout):
                 log.write(line)
                 log.flush()
                 if line.startswith(("trial ", "Results: ", "Profile", "error:", "Traceback")):
-                    print(line, end="", flush=True)
+                    print(f"[{path.stem}] {line}", end="", flush=True)
             status = process.wait()
         finally:
             timer.cancel()
@@ -128,7 +128,8 @@ def run(request):
             name = candidate["id"]
             recipe = root / "recipes" / name
             experimental = any(key in candidate.get("params", {}) for key in (
-                "ns_steps", "fast_reset", "crop_impl", "batched_muon", "stage_depths"))
+                "ns_steps", "fast_reset", "crop_impl", "batched_muon", "stage_depths",
+                "stage_residuals"))
             hashes = freeze(recipe, experimental)
             params = {**candidate.get("params", {}), "experiment_name": name,
                       "hypothesis": candidate["hypothesis"]}
@@ -139,6 +140,8 @@ def run(request):
                         "batched_muon": params.get("batched_muon", False),
                         "stage_depths": params.get("stage_depths", [params.get(
                             "depth", source_defaults(base_path)["depth"])] * 3)}
+            resolved["stage_residuals"] = params.get("stage_residuals", [
+                depth >= 3 for depth in resolved["stage_depths"]])
             metadata = {**candidate, "experiment_id": name, "parameters": resolved,
                         "complete_parameters": resolved,
                         "parameters_complete": True, "campaign": request["session_id"],

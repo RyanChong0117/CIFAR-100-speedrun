@@ -128,7 +128,14 @@ def install(namespace):
             raise ValueError("crop_impl must be reference, vectorized, or compiled")
         compile_enabled = context.device.type == "cuda" and parameters.get("compile", True)
         stage_depths = parameters.get("stage_depths")
+        stage_residuals = parameters.get("stage_residuals")
         namespace["ConvGroup"] = original_group
+        if stage_residuals is not None:
+            if (not isinstance(stage_residuals, list) or len(stage_residuals) != 3
+                    or any(type(value) is not bool for value in stage_residuals)):
+                raise ValueError("stage_residuals must contain three booleans")
+            if stage_depths is None:
+                stage_depths = [parameters.get("depth", namespace["DEFAULTS"]["depth"])] * 3
         if stage_depths is not None:
             if (not isinstance(stage_depths, list) or len(stage_depths) != 3
                     or any(type(depth) is not int or depth not in (2, 3)
@@ -142,6 +149,10 @@ def install(namespace):
                     raise RuntimeError("Unexpected extra convolution group during construction")
                 group = original_group(channels_in, channels_out, bn_momentum,
                                        depth=stage_depths[stage_index])
+                if stage_residuals is not None:
+                    # Set architecture before synthetic warmup so both training
+                    # and inference graphs include the intended residual path.
+                    group.residual = stage_residuals[stage_index]
                 stage_index += 1
                 return group
 

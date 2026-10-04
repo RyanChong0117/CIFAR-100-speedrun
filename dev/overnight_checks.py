@@ -154,7 +154,10 @@ def check_install_and_resets(submission):
     baseline = None
     configurations = [dict(), dict(ns_steps=3), dict(stage_depths=[3, 3, 3]),
                       dict(stage_depths=[3, 2, 3]), dict(stage_depths=[2, 3, 3]),
-                      dict(stage_depths=[3, 3, 2]), dict(fast_reset=True),
+                      dict(stage_depths=[3, 3, 2]),
+                      dict(stage_residuals=[True, True, True]),
+                      dict(stage_depths=[3, 2, 3], stage_residuals=[True, True, True]),
+                      dict(fast_reset=True),
                       dict(crop_impl="vectorized"), dict(ns_steps=2), dict(ns_steps=1),
                       dict(batched_muon=True), dict(fast_reset=True, crop_impl="vectorized",
                                                    batched_muon=True, ns_steps=2)]
@@ -167,6 +170,9 @@ def check_install_and_resets(submission):
         state = recipe.build(BuildContext(torch.device("cpu"), parameters))
         actual_depths = [1 + len(state.model.layers[i].convs) for i in (1, 2, 3)]
         assert actual_depths == extras.get("stage_depths", [3, 3, 3])
+        actual_residuals = [state.model.layers[i].residual for i in (1, 2, 3)]
+        assert actual_residuals == extras.get("stage_residuals",
+                                             [depth >= 3 for depth in actual_depths])
         gradient = torch.randn(8, 72)
         assert torch.equal(state.zeropower(gradient),
                            original_ns(gradient, steps=extras.get("ns_steps", 3)))
@@ -187,11 +193,13 @@ def check_install_and_resets(submission):
             baseline = first
         exact_control = not extras or extras in (
             dict(ns_steps=3), dict(stage_depths=[3, 3, 3]),
+            dict(stage_residuals=[True, True, True]),
             dict(fast_reset=True), dict(crop_impl="vectorized"))
         if exact_control:
             assert equal_states(first, baseline), extras
         rows.append(dict(parameters=extras, reset_exact=True, input_unchanged=True,
                          steps=state.steps, stage_depths=actual_depths,
+                         stage_residuals=actual_residuals,
                          identical_to_control=equal_states(first, baseline)))
     return rows
 

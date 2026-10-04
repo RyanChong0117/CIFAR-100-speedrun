@@ -35,7 +35,8 @@ RC3_RUN = "20261003T223840Z-034593f6"
 RC3_COMMIT = "edca55e"
 SCHEMA_VERSION = 1
 META_KEYS = {"experiment_name", "hypothesis", "parent_experiment", "stage"}
-ARCH_KEYS = ("architecture", "widths", "width", "depth", "stage_depths", "stage_widths",
+ARCH_KEYS = ("architecture", "widths", "width", "depth", "stage_depths", "stage_residuals",
+             "stage_widths",
              "residual_blocks", "global_pool", "downsampling")
 OPT_KEYS = ("optimizer", "muon_lr", "muon_momentum", "bias_lr", "head_lr",
             "sgd_momentum", "weight_decay", "lr", "momentum", "ns_steps",

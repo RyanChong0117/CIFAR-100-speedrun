@@ -1,4 +1,9 @@
-# RC3 session closeout — 2026-10-04
+# Initial RC3 session checkpoint — 2026-10-04
+
+This is the preserved checkpoint from the earlier usage-limit stop. Execution
+resumed at 2026-10-03 23:20:56 UTC within the original deadline. Subsequent runs
+are recorded in `results/overnight/rc3-20261004/` and the append-only ledger.
+The zero-experiment statements below describe that checkpoint, not current totals.
 
 The session stopped because Codex reported that the usage limit was exhausted,
 matching the user's explicit stopping condition. There was no separate Modal
