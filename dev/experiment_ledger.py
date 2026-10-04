@@ -305,6 +305,47 @@ def normalize_run(run_dir: Path | str, metadata: dict | None = None) -> dict:
     return clean(record)
 
 
+def hardware_gate_records(batch: Path) -> list[dict]:
+    """Audit requested experiments skipped before build on incompatible hardware."""
+    mismatch = read_json(batch / 'hardware_mismatch.json')
+    request = read_json(batch / 'request.json')
+    base = read_json(Path(__file__).parent / 'controls' / 'rc3.json')['parameters']
+    records = []
+    for planned in request['experiments']:
+        params = dict(base, ns_steps=3, fast_reset=False, crop_impl='reference',
+                      batched_muon=False, compiled_muon=False) | planned['params']
+        params.setdefault('stage_depths', [params['depth']] * 3)
+        params.setdefault('stage_residuals', [depth >= 3 for depth in params['stage_depths']])
+        key = planned['id'] + '_hardware_mismatch'
+        records.append(dict(
+            schema_version=SCHEMA_VERSION, experiment_id=key,
+            run_id=f"hardware-gate/{request['batch_id']}/{planned['id']}",
+            parent_experiment=planned.get('parent_experiment'), hypothesis=planned['hypothesis'],
+            experiment_name=planned['id'], parameters=params,
+            parameter_resolution='planned_complete',
+            architecture={k: params[k] for k in ARCH_KEYS if k in params},
+            optimizer={k: params[k] for k in OPT_KEYS if k in params},
+            source_hash=None, source_file_hashes={}, git_commit=request['source_commit'],
+            planned_protected_source_sha256=request['protected_source_sha256'],
+            total_epochs=params['epochs'], total_optimizer_steps=0,
+            planned_optimizer_steps=math.ceil(params['epochs']*(50000//params['batch_size'])),
+            step_count_basis='No training started; planned count inferred from protected loop',
+            seeds=[], requested_seeds=list(range(planned['seed'], planned['seed']+planned['n'])),
+            trials=[], **summarize_trials([], planned['n']),
+            gpu_model=mismatch['actual'], gpu_models=[mismatch['actual']],
+            nvidia_smi=mismatch['actual'],
+            nvidia_smi_command='nvidia-smi --query-gpu=name --format=csv,noheader',
+            hardware_target=mismatch['required'], record_kind='hardware_gate',
+            campaign='hardware_allocation', stage=planned.get('stage'),
+            fresh_seed_validation=False, planned_fresh_seed_validation=planned.get(
+                'fresh_seed_validation'), protected_control=False, instrumented=False,
+            promotion_status='not_started_hardware_mismatch', conclusion=mismatch['conclusion'],
+            result_paths=[batch.as_posix()], raw_request=planned, raw_hardware=mismatch,
+            warnings=['No submission build or training ran; metrics are unknown, not zero.'],
+        ))
+    return records
+
+
 def pareto_frontier(records: list[dict], min_trials: int = 2) -> list[dict]:
     """No cross-hardware dominance; keep reliability, component time, and sample count.
 
@@ -485,6 +526,8 @@ class Ledger:
                 record["status"] = "incomplete_or_failed"
             found.append(record)
             known_runs.add(key)
+        for path in sorted(root.rglob('hardware_mismatch.json')):
+            found.extend(hardware_gate_records(path.parent))
         added = sum(self.record(record) for record in found)
         return {"discovered_runs": len(found), "appended_snapshots": added,
                 "total_experiments": len(self.records()), "import_warnings": warnings}
