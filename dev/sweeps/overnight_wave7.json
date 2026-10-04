@@ -1,0 +1,310 @@
+[
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "3f5c1315bd115c0433de03eb258583958c55971f",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w7-muon-fusion",
+    "validate": true,
+    "experiments": [
+      {
+        "id": "w7_muon_control",
+        "params": {},
+        "n": 3,
+        "seed": 1600,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w7_compiled_muon",
+        "params": {
+          "compiled_muon": true
+        },
+        "n": 3,
+        "seed": 1600,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Fuse pre-NS momentum and weight normalization; unchanged NS and final LR arithmetic",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w7_firstshort_muon_control",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "epochs": 6.3,
+          "fast_reset": true,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "n": 3,
+        "seed": 1600,
+        "parent_experiment": "w6_firstdepth_6_3_tuned_10",
+        "hypothesis": "Matched faster-architecture control before compiled pre-update",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w7_firstshort_compiled_muon",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "epochs": 6.3,
+          "fast_reset": true,
+          "head_lr": 3.25,
+          "muon_lr": 0.25,
+          "compiled_muon": true
+        },
+        "n": 3,
+        "seed": 1600,
+        "parent_experiment": "w6_firstdepth_6_3_tuned_10",
+        "hypothesis": "Combine pre-NS fusion with supported first-depth shorter model",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "3f5c1315bd115c0433de03eb258583958c55971f",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w7-first-short-finalist",
+    "experiments": [
+      {
+        "id": "w7_a_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 3700,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w7_firstdepth_6_3_tuned_20",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "epochs": 6.3,
+          "fast_reset": true,
+          "head_lr": 3.25,
+          "muon_lr": 0.25
+        },
+        "n": 20,
+        "seed": 3700,
+        "parent_experiment": "w6_firstdepth_6_3_tuned_10",
+        "hypothesis": "Fresh 20 seeds for plausible target-speed 158-step first-depth candidate",
+        "stage": 3,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w7_firstdepth_width480_6_6_reset_10",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "widths": [
+            128,
+            480,
+            512
+          ],
+          "fast_reset": true,
+          "epochs": 6.6
+        },
+        "n": 10,
+        "seed": 2700,
+        "parent_experiment": "w6_firstdepth_width480_6_6_reset",
+        "hypothesis": "Fresh 10 seeds to assess accuracy margin from two extra updates",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w7_a_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 3700,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "3f5c1315bd115c0433de03eb258583958c55971f",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w7-first-width-finalist",
+    "experiments": [
+      {
+        "id": "w7_b_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 3800,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w7_firstdepth_width480_reset_20",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "widths": [
+            128,
+            480,
+            512
+          ],
+          "fast_reset": true
+        },
+        "n": 20,
+        "seed": 3800,
+        "parent_experiment": "w6_firstdepth_width480_reset_10",
+        "hypothesis": "Fresh 20 seeds for 75.214% 10-seed width/depth candidate",
+        "stage": 3,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w7_firstdepth_6_4_reset",
+        "params": {
+          "stage_depths": [
+            2,
+            3,
+            3
+          ],
+          "epochs": 6.4,
+          "fast_reset": true
+        },
+        "n": 3,
+        "seed": 1600,
+        "parent_experiment": "w6_depth_2_3_3_20",
+        "hypothesis": "Remove only three updates from accuracy-strong first-depth model with exact reset",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w7_b_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 3800,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  },
+  {
+    "session_id": "rc3-20261004",
+    "deadline_unix": 1791086518,
+    "source_commit": "3f5c1315bd115c0433de03eb258583958c55971f",
+    "protected_source_sha256": "9ecb6c57cab5f8a63e0edc51ff8970dd858f6d12406099e6c42b10953a810ec2",
+    "batch_id": "w7-middle-margin-finalist",
+    "experiments": [
+      {
+        "id": "w7_c_control_before",
+        "params": {},
+        "n": 5,
+        "seed": 3900,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w7_middle_7_reset_20",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 7.0,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "fast_reset": true
+        },
+        "n": 20,
+        "seed": 3900,
+        "parent_experiment": "w6_middle_7_reset_10",
+        "hypothesis": "Fresh 20 seeds for exact-reset middle-depth candidate",
+        "stage": 3,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w7_middle_7_1_reset_10",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 7.1,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "fast_reset": true
+        },
+        "n": 10,
+        "seed": 2700,
+        "parent_experiment": "w6_middle_7_1_reset",
+        "hypothesis": "Fresh 10 seeds for small accuracy-margin increase",
+        "stage": 2,
+        "fresh_seed_validation": true
+      },
+      {
+        "id": "w7_middle_width480_7_2",
+        "params": {
+          "stage_depths": [
+            3,
+            2,
+            3
+          ],
+          "epochs": 7.2,
+          "head_lr": 3.3,
+          "muon_lr": 0.255,
+          "fast_reset": true,
+          "widths": [
+            128,
+            480,
+            512
+          ]
+        },
+        "n": 3,
+        "seed": 1600,
+        "parent_experiment": "w6_middle_7_lr_20",
+        "hypothesis": "One targeted capacity/budget interaction: further middle-width reduction plus five extra updates",
+        "stage": 1,
+        "fresh_seed_validation": false
+      },
+      {
+        "id": "w7_c_control_after",
+        "params": {},
+        "n": 5,
+        "seed": 3900,
+        "parent_experiment": "20261003T223840Z-034593f6",
+        "hypothesis": "Matched RC3 local control",
+        "stage": 1,
+        "fresh_seed_validation": false
+      }
+    ]
+  }
+]
